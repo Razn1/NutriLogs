@@ -1,0 +1,79 @@
+@startuml Class_Diagram_Sistem_Distribusi_MBG
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+class Account {
+    +id : int
+    +role : Role
+    +nama : String
+    +email : String
+    -password : String
+}
+
+enum Role {
+    admin_dapur
+    petugas_sekolah
+    admin_audit
+}
+
+class School {
+    +id : int
+    +nama : String
+    +alamat : String
+    +jumlahSiswa : int
+}
+
+class Kitchen {
+    +id : int
+    +nama : String
+    +alamat : String
+    +kapasitas : int
+    +jumlahKaryawan : int
+}
+
+class Vehicle {
+    +id : int
+    +namaKendaraan : String
+    +jenisKendaraan : String
+    +platNomor : String
+    +kapasitas : int
+}
+
+class DeliveryHistory {
+    +id : int
+    +tanggal : Date
+    +waktuKirim : DateTime
+    +jumlahKirim : int
+    +statusPengiriman : StatusPengiriman
+
+    +waktuTerima : DateTime
+    +jumlahTerima : int
+    +kualitasMakanan : KualitasMakanan
+    +catatanKualitas : String
+    +fotoBuktiPath : String
+}
+
+enum StatusPengiriman {
+    pending
+    dikirim
+    diterima
+    bermasalah
+}
+
+enum KualitasMakanan {
+    sangat_baik
+    baik
+    cukup
+    buruk
+}
+
+Account "1" --> "0..*" DeliveryHistory : menginput
+Kitchen "1" --> "0..*" DeliveryHistory : mengirim
+School "1" --> "0..*" DeliveryHistory : menerima
+Vehicle "1" --> "0..*" DeliveryHistory : digunakan
+
+DeliveryHistory --> StatusPengiriman
+DeliveryHistory --> KualitasMakanan
+Account --> Role
+
+@enduml

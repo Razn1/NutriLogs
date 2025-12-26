@@ -1,0 +1,67 @@
+@startuml ERD_Sistem_Distribusi_MBG
+hide circle
+skinparam linetype ortho
+skinparam entity {
+    BackgroundColor #F9F9F9
+    BorderColor #333
+}
+skinparam arrow {
+    Color #555
+}
+
+entity "accounts\n(Master User)" as accounts {
+    + id : INT <<PK>>
+    --
+    role : ENUM
+    nama : VARCHAR
+    email : VARCHAR <<UNIQUE>>
+    password : VARCHAR
+}
+
+entity "schools\n(Master Sekolah)" as schools {
+    + id : INT <<PK>>
+    --
+    nama : VARCHAR
+    alamat : TEXT
+    jumlah_siswa : INT
+}
+
+entity "kitchens\n(Master Dapur)" as kitchens {
+    + id : INT <<PK>>
+    --
+    nama : VARCHAR
+    alamat : TEXT
+    kapasitas : INT
+    jumlah_karyawan : INT
+}
+
+entity "vehicles\n(Master Kendaraan)" as vehicles {
+    + id : INT <<PK>>
+    --
+    nama_kendaraan : VARCHAR
+    jenis_kendaraan : VARCHAR
+    plat_nomor : VARCHAR <<UNIQUE>>
+    kapasitas : INT
+}
+
+entity "delivery_history\n(Transaksi & Audit)" as delivery {
+    + id : INT <<PK>>
+    --
+    tanggal : DATE
+    waktu_kirim : TIMESTAMP
+    jumlah_kirim : INT
+    status_pengiriman : ENUM
+    --
+    waktu_terima : TIMESTAMP
+    jumlah_terima : INT
+    kualitas_makanan : ENUM
+    catatan_kualitas : TEXT
+    foto_bukti_path : VARCHAR
+}
+
+accounts  ||--o{ delivery : "input oleh"
+schools   ||--o{ delivery : "tujuan"
+kitchens  ||--o{ delivery : "asal"
+vehicles  ||--o{ delivery : "menggunakan"
+
+@enduml
