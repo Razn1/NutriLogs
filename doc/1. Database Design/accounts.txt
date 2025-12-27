@@ -1,0 +1,4 @@
+INSERT INTO accounts (role, nama, email, password) VALUES 
+('admin_dapur', 'Farel Dapur', 'fareldapur@mbg.id', 'password'),
+('petugas_sekolah', 'Azam Sekolah', 'azamsekolah@mbg.id', 'password'),
+('admin_audit', 'Tri Audit', 'triaudit@mbg.id', 'password');
