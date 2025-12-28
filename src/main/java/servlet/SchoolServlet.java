@@ -1,7 +1,7 @@
 package servlet;
 
-import com.sttnfti.mbglog.dao.DeliveryDAO;
-import com.sttnfti.mbglog.model.User;
+import dao.DeliveryDAO;
+import model.User;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
