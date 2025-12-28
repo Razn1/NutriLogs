@@ -1,6 +1,17 @@
--- Buat Database baru
-CREATE DATABASE dbnutrilog;
-\c dbnutrilog;
+# 🏗️ Software Design Document (SDD): NutriLog System
+
+**Teknologi:** Java Enterprise (JSP/Servlet), JDBC, PostgreSQL 15+
+
+---
+
+## 1. Arsitektur Sistem & Database
+
+Sistem tetap menggunakan pola **MVC**, namun dengan optimasi pada layer data untuk memanfaatkan fitur-fitur PostgreSQL seperti tipe data `TIMESTAMPTZ` (Timezone aware) untuk akurasi audit lintas wilayah.
+
+## 2. Desain Database (PostgreSQL Schema)
+
+
+```sql
 
 -- 1. Membuat Tipe Data ENUM (Di PostgreSQL ENUM harus didefinisikan sebagai tipe data)
 CREATE TYPE user_role AS ENUM ('admin_dapur', 'petugas_sekolah', 'admin_audit');
@@ -67,3 +78,41 @@ CREATE TABLE delivery_history (
     is_late_arrival BOOLEAN GENERATED ALWAYS AS ((waktu_terima::time > '11:00:00'::time)) STORED,
     selisih_porsi INT GENERATED ALWAYS AS (jumlah_kirim - jumlah_terima) STORED
 );
+```
+
+---
+
+## 3. Komponen Backend (Java & JDBC)
+
+### 3.1 Driver & Koneksi
+
+Aplikasi akan menggunakan driver `org.postgresql.Driver`.
+
+* **Connection String:** `jdbc:postgresql://localhost:5432/dbnutrilog`
+* **Keunggulan:** PostgreSQL menangani `TIMESTAMPTZ` dengan sangat baik, sehingga selisih waktu antara server dan database tidak akan menjadi masalah hukum saat audit.
+
+### 3.2 Implementasi Logika Server-Side
+
+Pengecekan SLA kini dilakukan secara otomatis di level database menggunakan **Generated Columns** (fitur unggul PostgreSQL), sehingga Controller di Java hanya perlu melakukan *query* sederhana.
+
+---
+
+## 4. Desain Penyimpanan Foto (Object Storage Friendly)
+
+Mengingat PostgreSQL sangat handal dalam menangani data besar, kita akan menyimpan **URL/Path** foto saja di database.
+
+* Foto disimpan di `/var/www/nutrilog/uploads/`
+* Nama file di-hash menggunakan **SHA-256** untuk keamanan integritas bukti audit.
+
+## 5. Keamanan Data (PostgreSQL Specific)
+
+1. **Constraint Check:** Memastikan `qty_received` tidak mungkin negatif langsung di level database.
+
+---
+
+### 🏁 Final Tech Stack Summary
+
+* **Language:** Java 11+ (JSP/Servlet)
+* **Database:** PostgreSQL 15
+* **Server:** Apache Tomcat 9
+* **Lib:** PostgreSQL JDBC Driver, Apache POI (Excel), iText (PDF)

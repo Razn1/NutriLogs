@@ -1,41 +1,41 @@
 NutriLog/
-├── src/main/java/                 # Source code Java (Backend)
-│   ├── com.nutrilog.config/       # Konfigurasi Database (JDBC)
-│   ├── com.nutrilog.controller/   # Servlet (Logika navigasi & request)
-│   │   ├── LoginServlet.java
-│   │   ├── DeliveryServlet.java   # Handle input dapur
-│   │   ├── ConfirmServlet.java    # Handle konfirmasi sekolah
-│   │   └── AuditServlet.java      # Handle dashboard & export
-│   ├── com.nutrilog.dao/          # Data Access Object (Query SQL)
-│   │   ├── UserDAO.java
-│   │   ├── DeliveryDAO.java
-│   │   └── ReportDAO.java
-│   └── com.nutrilog.model/        # Data Models (POJO/Entities)
-│       ├── User.java
-│       ├── Delivery.java
-│       └── School.java
-├── src/main/webapp/               # Frontend & Web Resources
-│   ├── assets/                    # Static Files
-│   │   ├── css/                   # Stylesheet files
-│   │   ├── js/                    # Client-side validation & upload
-│   │   └── img/                   # Logo & Icons
-│   ├── views/                     # JSP Files (Tampilan)
-│   │   ├── auth/                  # Login pages
-│   │   ├── dapur/                 # Dashboard Dapur (Input pengiriman)
-│   │   ├── sekolah/               # Interface Mobile (Konfirmasi & Kamera)
-│   │   └── audit/                 # Dashboard Auditor (Tabel & Export)
-│   ├── WEB-INF/                   # Konfigurasi internal (Secure)
-│   │   ├── web.xml                # Servlet Mapping
-│   │   └── lib/                   # External Library (.jar)
+├── src/main/java/                  # Source code Java (Backend)
+│   ├── com.nutrilog.config/        # Konfigurasi Database (JDBC)
+│   ├── com.nutrilog.controller/    # Servlet (Logika navigasi & request)
+│   │   ├── AuthServlet.java
+│   │   ├── KitchenServlet.java     # Handle input dapur
+│   │   ├── SchoolServlet.java      # Handle konfirmasi sekolah
+│   │   └── AuditServlet.java       # Handle dashboard & export
+│   ├── com.nutrilog.dao/           # Data Access Object (Query SQL)
+│   │   ├── UserDAO.java            # Handle query untuk autentikasi user
+│   │   ├── DeliveryDAO.java        # Handle query untuk data pengiriman & konfirmasi
+│   │   └── DataDAO.java            # Handle query untuk data master
+│   └── com.nutrilog.model/         # Data Models (POJO/Entities)
+│       ├── User.java               # Representasi object user dalam Java
+│       ├── Delivery.java           # Representasi object pengiriman dalam Java
+│       └── School.java             # Representasi object sekolah dalam Java
+├── src/main/webapp/                # Frontend & Web Resources
+│   ├── assets/                     # Static Files
+│   │   ├── css/                    # Stylesheet files
+│   │   ├── js/                     # Client-side validation & upload
+│   │   └── img/                    # Logo & Icons
+│   ├── views/                      # JSP Files (Tampilan)
+│   │   ├── auth/                   # Login pages
+│   │   ├── dapur/                  # Dashboard Dapur (Input pengiriman)
+│   │   ├── sekolah/                # Interface Mobile (Konfirmasi & Kamera)
+│   │   └── audit/                  # Dashboard Auditor (Tabel & Export)
+│   ├── WEB-INF/                    # Konfigurasi internal (Secure)
+│   │   ├── web.xml                 # Servlet Mapping
+│   │   └── lib/                    # External Library (.jar)
 │   │       ├── mysql-connector.jar
-│   │       ├── poi-excel.jar      # Untuk export excel
+│   │       ├── poi-excel.jar       # Untuk export excel
 │   │       └── itext-pdf.jar       # Untuk export PDF
-│   └── index.jsp                  # Landing page
-├── uploads/                       # Folder penyimpanan foto bukti (Luar webapp)
-├── sql/                           # Script Database
-│   └── nutrilog_schema.sql        # Rancangan tabel
-├── pom.xml                        # Maven Dependencies
-└── README.md                      # Dokumentasi Proyek
+│   └── index.jsp                   # Landing page
+├── uploads/                        # Folder penyimpanan foto bukti (Luar webapp)
+├── sql/                            # Script Database
+│   └── nutrilog_schema.sql         # Rancangan tabel
+├── pom.xml                         # Maven Dependencies
+└── README.md                       # Dokumentasi Proyek
 
 --- 
 Penjelasan Komponen Utama:

@@ -10,10 +10,10 @@ Sistem Manajemen Distribusi MBG adalah platform logistik dan pemantauan kualitas
 ## Visi Proyek 
 Menciptakan transparansi dan akuntabilitas penuh dalam distribusi makan bergizi gratis, memastikan setiap anak menerima haknya dengan standar kualitas yang terjaga melalui validasi data yang ketat.
 
-## Target Pengguna & Peran (User Personas)
+## Target Pengguna & Peran (User Roles)
 - Admin Dapur (Web/Desktop): Mengelola jadwal, input data pengiriman, dan memantau distribusi harian.
-- Petugas Sekolah (Mobile Web): Konfirmasi penerimaan real-time, penilaian kualitas (suhu, rasa, kebersihan), dan unggah foto bukti.
-- Admin Audit (Web/Desktop): Hak akses penuh untuk mengawasi seluruh aliran data, melakukan rekonsiliasi jika ada ketidaksamaan data, dan menarik laporan performa (KPI) dapur serta vendor kendaraan secara periodik.
+- Petugas Sekolah (Mobile Web): Konfirmasi penerimaan real-time, penilaian kualitas (buruk, kurang, baik, sangat baik), dan unggah foto bukti.
+- Admin Audit (Web/Desktop): Hak akses penuh untuk mengawasi seluruh aliran data, melakukan rekonsiliasi jika ada ketidaksamaan data, dan menarik laporan performa (KPI) dapur serta vendor kendaraan secara periodik. mampu membuat user baru untuk setiap role dan mengelola hak akses.
 
 ## Fitur Utama (MVP Scope)
 A. Modul Logistik & Distribusi
