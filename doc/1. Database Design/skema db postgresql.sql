@@ -52,13 +52,13 @@ CREATE TABLE delivery_history (
     account_id_pengirim INT REFERENCES accounts(id),
     
     -- Pengiriman 
-    waktu_kirim TIMESTAMPTZ DEFAULT NOW(),
+    waktu_kirim TIMESTAMP DEFAULT NOW(),
     jumlah_kirim INT NOT NULL CHECK (jumlah_kirim > 0),
     status_pengiriman delivery_status DEFAULT 'pending',
     is_late_departure BOOLEAN GENERATED ALWAYS AS ((waktu_kirim::time > '09:00:00'::time)) STORED,
     
     -- Konfirmasi 
-    waktu_terima TIMESTAMPTZ,
+    waktu_terima TIMESTAMP,
     jumlah_terima INT,
     kualitas_makanan food_quality DEFAULT NULL,
     foto_bukti_path VARCHAR(255),
