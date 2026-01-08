@@ -9,7 +9,7 @@
 <%
     } else { // tidak ada request di url
 %>    
-    <%@include file="dashboard-skolah.jsp" %>
+    <%@include file="DashboardSekolah.jsp" %>
 <%
     }
 %>

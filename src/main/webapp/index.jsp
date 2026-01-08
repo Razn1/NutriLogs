@@ -11,7 +11,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>MBG Monitor | Real-Time Nutritious Meal Distribution</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
         <script src="https://unpkg.com/lucide@latest"></script>
         <style>
@@ -119,7 +119,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="#">
-                    <i data-lucide="shield-check" class="me-2"></i> MBG MONITOR
+                    <i data-lucide="shield-check" class="me-2"></i> NutriLogs
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -144,11 +144,11 @@
                         <span class="badge bg-success mb-3" style="background-color: var(--primary-green) !important;">
                             Real-Time Monitoring System
                         </span>
-                        <h1 class="display-4 fw-bold mb-4">Ensuring Quality & Punctuality for Every Student.</h1>
+                        <h1 class="display-4 fw-bold text-black mb-4">Ensuring Quality & Punctuality for Every Student.</h1>
                         <p class="lead mb-5 text-muted">A digital ecosystem connecting central kitchens, logistics, and schools to guarantee the transparent distribution of free nutritious meals (MBG).</p>
                         <div class="d-flex gap-3">
                             <a href="#" class="btn btn-primary btn-lg">Access Dashboard</a>
-                            <a href="#features" class="btn btn-outline-dark btn-lg">Learn More</a>
+                            <a href="#features" class="btn btn-outline-dark btn-lg d-inline-flex align-items-center justify-content-center">Learn More</a>
                         </div>
                     </div>
                     <div class="col-lg-6 mt-5 mt-lg-0">
@@ -166,24 +166,24 @@
                 </div>
                 <div class="row g-4">
                     <div class="col-md-4">
-                        <div class="card feature-card p-4 shadow-sm">
+                        <div class="card bg-white feature-card p-4 shadow-sm">
                             <div class="icon-box"><i data-lucide="map-pin"></i></div>
-                            <h4>Real-Time Tracking</h4>
-                            <p class="text-muted">Monitor delivery vehicles from central kitchens to 1,200+ schools in real-time with GPS integration.</p>
+                            <h4 class="text-black">Real-Time Tracking</h4>
+                            <p class="text-dark">Monitor delivery vehicles from central kitchens to 1,200+ schools in real-time with GPS integration.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card feature-card p-4 shadow-sm">
+                        <div class="card bg-white feature-card p-4 shadow-sm">
                             <div class="icon-box"><i data-lucide="check-circle"></i></div>
-                            <h4>Dual Confirmation</h4>
-                            <p class="text-muted">Standardized workflow: Admin morning dispatch confirmation and School midday receipt logs.</p>
+                            <h4 class="text-black">Dual Confirmation</h4>
+                            <p class="text-dark">Standardized workflow: Admin morning dispatch confirmation and School midday receipt logs.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card feature-card p-4 shadow-sm">
+                        <div class="card bg-white feature-card p-4 shadow-sm">
                             <div class="icon-box" style="background: #fff7ed; color: var(--accent-orange);"><i data-lucide="bar-chart-3"></i></div>
-                            <h4>Data Transparency</h4>
-                            <p class="text-muted">Instant access to distribution history, kitchen capacity, and student coverage data.</p>
+                            <h4 class="text-black">Data Transparency</h4>
+                            <p class="text-dark">Instant access to distribution history, kitchen capacity, and student coverage data.</p>
                         </div>
                     </div>
                 </div>
@@ -259,7 +259,7 @@
             </div>
         </footer>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             // Initialize Lucide Icons
