@@ -6,289 +6,421 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MBG Monitor | Real-Time Nutritious Meal Distribution</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-        <script src="https://unpkg.com/lucide@latest"></script>
-        <style>
-            :root {
-                --primary-green: #2D6A4F;
-                --accent-orange: #F97316;
-                --soft-bg: #F8FAFC;
-                --text-dark: #1E293B;
-            }
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriLog | MBG Distribution Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #10B981;
+            --primary-hover: #059669;
+            --surface: #F9FAFB;
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+        }
 
-            body {
-                font-family: 'Inter', sans-serif;
-                color: var(--text-dark);
-                background-color: #fff;
-            }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--surface);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
 
-            .navbar-brand {
-                font-weight: 700;
-                color: var(--primary-green) !important;
-            }
+        /* Updated Animated Mesh Gradient Background to Emerald Tones */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: #f9fafb;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(161, 68%, 91%, 1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(161, 68%, 95%, 1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(161, 68%, 91%, 1) 0, transparent 50%);
+            filter: blur(80px);
+            animation: meshMove 20s ease infinite alternate;
+        }
 
-            /* Hero Section */
-            .hero-section {
-                padding: 100px 0;
-                background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
-            }
+        @keyframes meshMove {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
 
-            .btn-primary {
-                background-color: var(--primary-green);
-                border: none;
-                padding: 12px 24px;
-                font-weight: 600;
-            }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
 
-            .btn-outline-primary {
-                border-color: var(--primary-green);
-                color: var(--primary-green);
-            }
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+        }
 
-            /* Features */
-            .feature-card {
-                border: none;
-                transition: transform 0.3s ease;
-                height: 100%;
-            }
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
 
-            .feature-card:hover {
-                transform: translateY(-5px);
-            }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            transition: transform 0.3s ease;
+        }
 
-            .icon-box {
-                width: 60px;
-                height: 60px;
-                background: #dcfce7;
-                color: var(--primary-green);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 12px;
-                margin-bottom: 20px;
-            }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-            /* Workflow */
-            .workflow-step {
-                position: relative;
-                text-align: center;
-            }
+        .step-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 40px;
+            height: 2px;
+            background: #E5E7EB;
+        }
 
-            .step-number {
-                width: 40px;
-                height: 40px;
-                background: var(--accent-orange);
-                color: white;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto 15px;
-                font-weight: bold;
-            }
+        @media (max-width: 768px) {
+            .step-line::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-mesh"></div>
 
-            /* Dashboard Preview */
-            .dashboard-preview {
-                background: white;
-                border-radius: 20px;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-                padding: 30px;
-            }
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-[#10B981] rounded-lg flex items-center justify-center text-white shrink-0">
+                    <i data-lucide="truck"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold tracking-tight leading-none">Nutri<span class="text-[#10B981]">Log</span></span>
+                    <span class="text-[10px] text-gray-500 font-medium uppercase tracking-wider mt-0.5">MBG Distribution Management System</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+                <a href="#dashboard" class="hover:text-emerald-600 transition">Dashboard</a>
+                <a href="#workflow" class="hover:text-emerald-600 transition">Alur Kerja</a>
+                <a href="#features" class="hover:text-emerald-600 transition">Fitur Utama</a>
+                <a href="#roles" class="hover:text-emerald-600 transition">Peran User</a>
+                <a href="#" class="btn-primary text-white px-6 py-2.5 rounded-lg">Masuk Sistem</a>
+            </div>
 
-            .status-badge {
-                padding: 5px 12px;
-                border-radius: 20px;
-                font-size: 0.85rem;
-                font-weight: 600;
-            }
+            <button class="md:hidden text-gray-600">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
 
-            .bg-success-light {
-                background: #dcfce7;
-                color: #166534;
-            }
-        </style>
-    </head>
-    <body>
+    <!-- Hero Section -->
+    <section id="dashboard" class="pt-40 pb-20 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="inline-block py-1 px-3 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold mb-4">LOGISTIK TERUKUR & TRANSPARAN</span>
+                <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-[1.1] mb-6">
+                    Setiap Porsi, <br>
+                    <span class="text-[#10B981]">Tepat Waktu,</span> <br>
+                    Tepat Kualitas.
+                </h1>
+                <p class="text-lg text-gray-600 mb-8 max-w-lg leading-relaxed">
+                    Sistem Manajemen Distribusi MBG memastikan program makanan bergizi tepat jumlah dan memenuhi standar kesehatan melalui validasi data real-time.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#dashboard" class="btn-primary text-white px-8 py-4 rounded-lg font-bold">Pantau Distribusi</a>
+                    <a href="#" class="glass px-8 py-4 rounded-lg font-bold border border-gray-200 hover:bg-white transition">Pelajari Alur</a>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="glass p-6 rounded-2xl shadow-2xl relative z-10">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold">Live Status Delivery</h3>
+                        <span class="flex items-center gap-2 text-xs text-emerald-600 font-bold">
+                            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                            Updating Live
+                        </span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <div class="flex gap-3 items-center">
+                                <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center text-emerald-600">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold">SDN 01 Menteng</p>
+                                    <p class="text-xs text-gray-500">Armada B-2930-XYZ</p>
+                                </div>
+                            </div>
+                            <span class="status-badge bg-emerald-100 text-emerald-700">En Route</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <div class="flex gap-3 items-center">
+                                <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center text-emerald-600">
+                                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold">SMPN 04 Jakarta</p>
+                                    <p class="text-xs text-gray-500">240 Porsi Terverifikasi</p>
+                                </div>
+                            </div>
+                            <span class="status-badge bg-emerald-100 text-emerald-700">Delivered</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute -top-4 -right-4 w-32 h-32 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
+                <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-emerald-100 rounded-full mix-blend-multiply filter blur-2xl opacity-50"></div>
+            </div>
+        </div>
+    </section>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="#">
-                    <i data-lucide="shield-check" class="me-2"></i> NutriLogs
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item"><a class="nav-link mx-2" href="#features">Features</a></li>
-                        <li class="nav-item"><a class="nav-link mx-2" href="#workflow">Workflow</a></li>
-                        <li class="nav-item"><a class="nav-link mx-2" href="#monitoring">Live Dashboard</a></li>
-                        <li class="nav-item ms-lg-3">
-                            <a class="btn btn-outline-primary" href="#">Login</a>
-                        </li>
+    <!-- Stats Section -->
+    <section class="py-12 bg-white/40 backdrop-blur-sm border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <p class="text-3xl font-extrabold text-[#10B981]">12.4K+</p>
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Porsi Terdistribusi</p>
+                </div>
+                <div class="text-center border-l border-gray-100">
+                    <p class="text-3xl font-extrabold text-gray-900">98.2%</p>
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">On-Time Delivery</p>
+                </div>
+                <div class="text-center border-l border-gray-100">
+                    <p class="text-3xl font-extrabold text-emerald-500">4.9/5</p>
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Rating Kualitas</p>
+                </div>
+                <div class="text-center border-l border-gray-100">
+                    <p class="text-3xl font-extrabold text-gray-900">42</p>
+                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Dapur Terintegrasi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alur Kerja -->
+    <section id="workflow" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Satu Ekosistem, Transparansi Penuh</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Menghubungkan Dapur Pusat, Armada, dan Sekolah dalam satu aliran data yang dapat diaudit setiap saat.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-12 text-center">
+                <div class="relative flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white shadow-xl rounded-2xl flex items-center justify-center text-[#10B981] mb-6 step-line">
+                        <i data-lucide="chef-hat" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">1. Dapur Pusat</h4>
+                    <p class="text-sm text-gray-500">Pencatatan produksi harian dan log keberangkatan armada secara digital.</p>
+                </div>
+                <div class="relative flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white shadow-xl rounded-2xl flex items-center justify-center text-[#10B981] mb-6 step-line">
+                        <i data-lucide="truck" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">2. Distribusi Real-time</h4>
+                    <p class="text-sm text-gray-500">Pemantauan armada menuju titik sekolah dengan estimasi kedatangan akurat.</p>
+                </div>
+                <div class="relative flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white shadow-xl rounded-2xl flex items-center justify-center text-emerald-600 mb-6">
+                        <i data-lucide="school" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">3. Validasi Sekolah</h4>
+                    <p class="text-sm text-gray-500">Konfirmasi penerimaan via mobile dengan bukti foto dan penilaian kualitas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Confirmation Spotlight -->
+    <section id="features" class="py-24 px-6 bg-[#111827] text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div class="order-2 md:order-1 relative">
+                <!-- Mockup Smartphone -->
+                <div class="w-[280px] h-[560px] bg-gray-800 rounded-[40px] border-8 border-gray-700 mx-auto overflow-hidden relative shadow-2xl">
+                    <div class="bg-white h-full p-4 flex flex-col">
+                        <div class="flex justify-between items-center mb-4 mt-2">
+                            <span class="text-xs font-bold text-gray-400">09:41</span>
+                            <div class="w-16 h-4 bg-gray-100 rounded-full"></div>
+                        </div>
+                        <h5 class="text-gray-900 font-bold text-sm mb-4">Konfirmasi Penerimaan</h5>
+                        <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100 mb-4">
+                            <p class="text-[10px] text-emerald-600 font-bold uppercase mb-1">DATA PENGIRIMAN</p>
+                            <p class="text-xs text-gray-900 font-bold">240 Porsi - Nasi Ayam Suwir</p>
+                        </div>
+                        <div class="flex-1 border-2 border-dashed border-gray-200 rounded-lg flex flex-col items-center justify-center mb-4">
+                            <i data-lucide="camera" class="text-gray-300 mb-2"></i>
+                            <p class="text-[10px] text-gray-400">Klik untuk Ambil Foto</p>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <div class="text-center p-2 rounded bg-emerald-100 border border-emerald-200">
+                                <p class="text-[8px] font-bold text-emerald-700">LAYAK</p>
+                            </div>
+                            <div class="text-center p-2 rounded bg-gray-50 border border-gray-100">
+                                <p class="text-[8px] font-bold text-gray-400">KURANG</p>
+                            </div>
+                            <div class="text-center p-2 rounded bg-gray-50 border border-gray-100">
+                                <p class="text-[8px] font-bold text-gray-400">TIDAK</p>
+                            </div>
+                        </div>
+                        <button class="w-full bg-emerald-600 text-white py-3 rounded-lg text-xs font-bold">Konfirmasi Sekarang</button>
+                    </div>
+                </div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[100px] -z-10"></div>
+            </div>
+            <div class="order-1 md:order-2">
+                <h2 class="text-4xl font-bold mb-6">Validasi Lapangan <br><span class="text-[#10B981]">Tanpa Celah.</span></h2>
+                <div class="space-y-8">
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-[#10B981] shrink-0">
+                            <i data-lucide="camera"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-2">Validasi Kamera</h4>
+                            <p class="text-gray-400">Setiap penerimaan wajib menyertakan foto bukti porsi makanan langsung dari lokasi.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
+                            <i data-lucide="clipboard-check"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-2">Penilaian Kualitas Instan</h4>
+                            <p class="text-gray-400">Input kategori kelayakan untuk memastikan gizi yang diterima siswa sesuai standar.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-500 shrink-0">
+                            <i data-lucide="alert-triangle"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-2">Sistem Alert Otomatis</h4>
+                            <p class="text-gray-400">Notifikasi langsung ke Admin Audit jika terdapat temuan porsi "Tidak Layak".</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roles Section -->
+    <section id="roles" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Siapa yang Menggunakan Sistem?</h2>
+                <p class="text-gray-600">Hak akses yang dirancang khusus untuk setiap tanggung jawab.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-2xl border border-gray-100 card-hover">
+                    <div class="w-14 h-14 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 mb-6">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Admin Dapur</h4>
+                    <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Kelola Jadwal Harian</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Input Data Armada</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Monitor Status Delivery</li>
+                    </ul>
+                    <a href="#" class="text-[#10B981] font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Lihat Dashboard <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>
+                
+                <div class="glass p-8 rounded-2xl border-2 border-emerald-500/20 shadow-xl card-hover relative">
+                    <span class="absolute top-0 right-8 -translate-y-1/2 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Priority</span>
+                    <div class="w-14 h-14 bg-emerald-600 rounded-xl flex items-center justify-center text-white mb-6">
+                        <i data-lucide="user-check"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Petugas Sekolah</h4>
+                    <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Konfirmasi Real-time</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Upload Bukti Foto</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Feedback Kualitas</li>
+                    </ul>
+                    <a href="#" class="text-[#10B981] font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Login Mobile Web <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>
+
+                <div class="glass p-8 rounded-2xl border border-gray-100 card-hover">
+                    <div class="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-gray-900 mb-6">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Admin Audit</h4>
+                    <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Laporan KPI Bulanan</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Rekonsiliasi Data</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Manajemen Hak Akses</li>
+                    </ul>
+                    <a href="#" class="text-[#10B981] font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Portal Laporan <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-16 px-6 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-8 h-8 bg-emerald-600 rounded flex items-center justify-center text-white">
+                        <i data-lucide="truck" class="w-4 h-4"></i>
+                    </div>
+                    <span class="text-lg font-bold">NutriLog</span>
+                </div>
+                <p class="text-sm text-gray-500 max-w-xs">Solusi digital untuk akuntabilitas program makanan bergizi di seluruh Indonesia.</p>
+            </div>
+            
+            <div class="flex gap-12">
+                <div>
+                    <h5 class="font-bold text-sm mb-4 uppercase text-gray-400">Legal</h5>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li><a href="#" class="hover:text-emerald-600">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-emerald-600">Terms of Service</a></li>
                     </ul>
                 </div>
-            </div>
-        </nav>
-
-        <header class="hero-section">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6">
-                        <span class="badge bg-success mb-3" style="background-color: var(--primary-green) !important;">
-                            Real-Time Monitoring System
-                        </span>
-                        <h1 class="display-4 fw-bold text-black mb-4">Ensuring Quality & Punctuality for Every Student.</h1>
-                        <p class="lead mb-5 text-muted">A digital ecosystem connecting central kitchens, logistics, and schools to guarantee the transparent distribution of free nutritious meals (MBG).</p>
-                        <div class="d-flex gap-3">
-                            <a href="#" class="btn btn-primary btn-lg">Access Dashboard</a>
-                            <a href="#features" class="btn btn-outline-dark btn-lg d-inline-flex align-items-center justify-content-center">Learn More</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mt-5 mt-lg-0">
-                        <img src="https://images.unsplash.com/photo-1590604511246-0b168965076a?auto=format&fit=crop&q=80&w=800" alt="Logistics Tracking" class="img-fluid rounded-4 shadow-lg">
-                    </div>
+                <div>
+                    <h5 class="font-bold text-sm mb-4 uppercase text-gray-400">Kontak</h5>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>support@nutrilog.id</li>
+                        <li>(+62) 882-0025-19272</li>
                 </div>
             </div>
-        </header>
+        </div>
+        <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-gray-50 text-center text-xs text-gray-400">
+            &copy; 2025 NutriLog Distribution Management System. All Rights Reserved.
+        </div>
+    </footer>
 
-        <section id="features" class="py-5">
-            <div class="container py-5">
-                <div class="text-center mb-5">
-                    <h2 class="fw-bold">Operational Excellence</h2>
-                    <p class="text-muted">Designed for efficiency, transparency, and accountability.</p>
-                </div>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="card bg-white feature-card p-4 shadow-sm">
-                            <div class="icon-box"><i data-lucide="map-pin"></i></div>
-                            <h4 class="text-black">Real-Time Tracking</h4>
-                            <p class="text-dark">Monitor delivery vehicles from central kitchens to 1,200+ schools in real-time with GPS integration.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card bg-white feature-card p-4 shadow-sm">
-                            <div class="icon-box"><i data-lucide="check-circle"></i></div>
-                            <h4 class="text-black">Dual Confirmation</h4>
-                            <p class="text-dark">Standardized workflow: Admin morning dispatch confirmation and School midday receipt logs.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card bg-white feature-card p-4 shadow-sm">
-                            <div class="icon-box" style="background: #fff7ed; color: var(--accent-orange);"><i data-lucide="bar-chart-3"></i></div>
-                            <h4 class="text-black">Data Transparency</h4>
-                            <p class="text-dark">Instant access to distribution history, kitchen capacity, and student coverage data.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-        <section id="workflow" class="py-5 bg-light">
-            <div class="container py-5">
-                <div class="text-center mb-5">
-                    <h2 class="fw-bold">Distribution Workflow</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 workflow-step">
-                        <div class="step-number">1</div>
-                        <h5>Central Kitchen</h5>
-                        <p class="small text-muted">Meals prepared & quantity confirmed by Admin.</p>
-                    </div>
-                    <div class="col-md-3 workflow-step">
-                        <div class="step-number">2</div>
-                        <h5>Logistics</h5>
-                        <p class="small text-muted">Assigned to vehicle (Truck/Van) for delivery.</p>
-                    </div>
-                    <div class="col-md-3 workflow-step">
-                        <div class="step-number">3</div>
-                        <h5>In-Transit</h5>
-                        <p class="small text-muted">Real-time ETA tracking for school operators.</p>
-                    </div>
-                    <div class="col-md-3 workflow-step">
-                        <div class="step-number">4</div>
-                        <h5>School Receipt</h5>
-                        <p class="small text-muted">Quality check & midday receipt confirmation.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="monitoring" class="py-5">
-            <div class="container py-5">
-                <div class="row align-items-center">
-                    <div class="col-lg-5 mb-5 mb-lg-0">
-                        <h2 class="fw-bold mb-4">Live Insights for Better Decisions</h2>
-                        <p class="mb-4">Our monitoring dashboard provides a granular view of daily operations, ensuring no school is left behind.</p>
-                        <ul class="list-unstyled">
-                            <li class="mb-3 d-flex align-items-center"><i data-lucide="users" class="me-2 text-success"></i> <strong>School Data:</strong> Student count & address verified.</li>
-                            <li class="mb-3 d-flex align-items-center"><i data-lucide="truck" class="me-2 text-success"></i> <strong>Fleet Management:</strong> Type, Plate No, & Capacity.</li>
-                            <li class="mb-3 d-flex align-items-center"><i data-lucide="utensils" class="me-2 text-success"></i> <strong>Kitchen Capacity:</strong> Staffing & production monitoring.</li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="dashboard-preview border shadow-sm">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="m-0 fw-bold">Daily Distribution Progress</h5>
-                                <span class="status-badge bg-success-light">Live Update</span>
-                            </div>
-                            <canvas id="deliveryChart" height="250"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-5" style="background: var(--primary-green);">
-            <div class="container py-5 text-center text-white">
-                <h2 class="fw-bold mb-4">Ready to optimize MBG operations?</h2>
-                <p class="lead mb-5 opacity-75">Join our platform to ensure accountability in nutrition distribution.</p>
-                <button class="btn btn-warning btn-lg px-5 fw-bold" style="background-color: var(--accent-orange); border: none; color: white;">Access Admin Portal</button>
-            </div>
-        </section>
-
-        <footer class="py-4 border-top">
-            <div class="container text-center">
-                <p class="text-muted small m-0">&copy; 2026 MBG Monitoring System. Ensuring a healthier future for all students.</p>
-            </div>
-        </footer>
-
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            // Initialize Lucide Icons
-            lucide.createIcons();
-
-            // Chart.js implementation
-            const ctx = document.getElementById('deliveryChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00'],
-                    datasets: [{
-                            label: 'Meals Delivered',
-                            data: [0, 2500, 8000, 15000, 14800, 15000],
-                            borderColor: '#2D6A4F',
-                            backgroundColor: 'rgba(45, 106, 79, 0.1)',
-                            fill: true,
-                            tension: 0.4
-                        }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {legend: {display: false}},
-                    scales: {
-                        y: {beginAtZero: true, grid: {display: false}},
-                        x: {grid: {display: false}}
-                    }
-                }
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
-        </script>
-    </body>
+        });
+    </script>
+</body>
 </html>

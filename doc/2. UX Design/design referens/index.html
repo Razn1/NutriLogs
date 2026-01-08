@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MBG | Sistem Manajemen Distribusi Terpadu</title>
+    <title>NutriLog | MBG Distribution Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
     <style>
         :root {
             --primary: #10B981;
-            --primary-hover: #2563EB;
+            --primary-hover: #059669;
             --surface: #F9FAFB;
             --text-primary: #111827;
             --text-secondary: #4B5563;
@@ -28,7 +28,7 @@
             overflow-x: hidden;
         }
 
-        /* Animated Mesh Gradient Background */
+        /* Updated Animated Mesh Gradient Background to Emerald Tones */
         .bg-mesh {
             position: fixed;
             top: 0;
@@ -38,9 +38,9 @@
             z-index: -1;
             background-color: #f9fafb;
             background-image: 
-                radial-gradient(at 0% 0%, hsla(217, 91%, 91%, 1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(217, 91%, 95%, 1) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(217, 91%, 91%, 1) 0, transparent 50%);
+                radial-gradient(at 0% 0%, hsla(161, 68%, 91%, 1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(161, 68%, 95%, 1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(161, 68%, 91%, 1) 0, transparent 50%);
             filter: blur(80px);
             animation: meshMove 20s ease infinite alternate;
         }
@@ -60,13 +60,13 @@
         .btn-primary {
             background-color: var(--primary);
             transition: all 0.2s ease;
-            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
         }
 
         .btn-primary:hover {
             background-color: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
         }
 
         .card-hover:hover {
@@ -102,17 +102,21 @@
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-[#3B82F6] rounded-lg flex items-center justify-center text-white">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-[#10B981] rounded-lg flex items-center justify-center text-white shrink-0">
                     <i data-lucide="truck"></i>
                 </div>
-                <span class="text-xl font-bold tracking-tight">MBG <span class="text-blue-500">Distribusi</span></span>
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold tracking-tight leading-none">Nutri<span class="text-[#10B981]">Log</span></span>
+                    <span class="text-[10px] text-gray-500 font-medium uppercase tracking-wider mt-0.5">MBG Distribution Management System</span>
+                </div>
             </div>
             
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-                <a href="#dashboard" class="hover:text-blue-600 transition">Dashboard</a>
-                <a href="#features" class="hover:text-blue-600 transition">Fitur Utama</a>
-                <a href="#roles" class="hover:text-blue-600 transition">Peran User</a>
+                <a href="#dashboard" class="hover:text-emerald-600 transition">Dashboard</a>
+                <a href="#workflow" class="hover:text-emerald-600 transition">Alur Kerja</a>
+                <a href="#features" class="hover:text-emerald-600 transition">Fitur Utama</a>
+                <a href="#roles" class="hover:text-emerald-600 transition">Peran User</a>
                 <a href="#" class="btn-primary text-white px-6 py-2.5 rounded-lg">Masuk Sistem</a>
             </div>
 
@@ -123,13 +127,13 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-40 pb-20 px-6">
+    <section id="dashboard" class="pt-40 pb-20 px-6">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
             <div>
-                <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-700 text-xs font-bold mb-4">LOGISTIK TERUKUR & TRANSPARAN</span>
+                <span class="inline-block py-1 px-3 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold mb-4">LOGISTIK TERUKUR & TRANSPARAN</span>
                 <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-[1.1] mb-6">
                     Setiap Porsi, <br>
-                    <span class="text-blue-600">Tepat Waktu,</span> <br>
+                    <span class="text-[#10B981]">Tepat Waktu,</span> <br>
                     Tepat Kualitas.
                 </h1>
                 <p class="text-lg text-gray-600 mb-8 max-w-lg leading-relaxed">
@@ -152,7 +156,7 @@
                     <div class="space-y-4">
                         <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
                             <div class="flex gap-3 items-center">
-                                <div class="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-600">
+                                <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center text-emerald-600">
                                     <i data-lucide="map-pin" class="w-5 h-5"></i>
                                 </div>
                                 <div>
@@ -160,7 +164,7 @@
                                     <p class="text-xs text-gray-500">Armada B-2930-XYZ</p>
                                 </div>
                             </div>
-                            <span class="status-badge bg-blue-100 text-blue-700">En Route</span>
+                            <span class="status-badge bg-emerald-100 text-emerald-700">En Route</span>
                         </div>
                         <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
                             <div class="flex gap-3 items-center">
@@ -176,18 +180,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="absolute -top-4 -right-4 w-32 h-32 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
-                <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-emerald-200 rounded-full mix-blend-multiply filter blur-2xl opacity-50"></div>
+                <div class="absolute -top-4 -right-4 w-32 h-32 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
+                <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-emerald-100 rounded-full mix-blend-multiply filter blur-2xl opacity-50"></div>
             </div>
         </div>
     </section>
 
     <!-- Stats Section -->
-    <section id="dashboard" class="py-12 bg-white/40 backdrop-blur-sm border-y border-gray-100">
+    <section class="py-12 bg-white/40 backdrop-blur-sm border-y border-gray-100">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="text-center">
-                    <p class="text-3xl font-extrabold text-blue-600">12.4K+</p>
+                    <p class="text-3xl font-extrabold text-[#10B981]">12.4K+</p>
                     <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Porsi Terdistribusi</p>
                 </div>
                 <div class="text-center border-l border-gray-100">
@@ -207,7 +211,7 @@
     </section>
 
     <!-- Alur Kerja -->
-    <section class="py-24 px-6">
+    <section id="workflow" class="py-24 px-6">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl font-bold mb-4">Satu Ekosistem, Transparansi Penuh</h2>
@@ -216,14 +220,14 @@
             
             <div class="grid md:grid-cols-3 gap-12 text-center">
                 <div class="relative flex flex-col items-center">
-                    <div class="w-16 h-16 bg-white shadow-xl rounded-2xl flex items-center justify-center text-blue-600 mb-6 step-line">
+                    <div class="w-16 h-16 bg-white shadow-xl rounded-2xl flex items-center justify-center text-[#10B981] mb-6 step-line">
                         <i data-lucide="chef-hat" class="w-8 h-8"></i>
                     </div>
                     <h4 class="font-bold mb-2">1. Dapur Pusat</h4>
                     <p class="text-sm text-gray-500">Pencatatan produksi harian dan log keberangkatan armada secara digital.</p>
                 </div>
                 <div class="relative flex flex-col items-center">
-                    <div class="w-16 h-16 bg-white shadow-xl rounded-2xl flex items-center justify-center text-blue-600 mb-6 step-line">
+                    <div class="w-16 h-16 bg-white shadow-xl rounded-2xl flex items-center justify-center text-[#10B981] mb-6 step-line">
                         <i data-lucide="truck" class="w-8 h-8"></i>
                     </div>
                     <h4 class="font-bold mb-2">2. Distribusi Real-time</h4>
@@ -252,8 +256,8 @@
                             <div class="w-16 h-4 bg-gray-100 rounded-full"></div>
                         </div>
                         <h5 class="text-gray-900 font-bold text-sm mb-4">Konfirmasi Penerimaan</h5>
-                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100 mb-4">
-                            <p class="text-[10px] text-blue-600 font-bold uppercase mb-1">DATA PENGIRIMAN</p>
+                        <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100 mb-4">
+                            <p class="text-[10px] text-emerald-600 font-bold uppercase mb-1">DATA PENGIRIMAN</p>
                             <p class="text-xs text-gray-900 font-bold">240 Porsi - Nasi Ayam Suwir</p>
                         </div>
                         <div class="flex-1 border-2 border-dashed border-gray-200 rounded-lg flex flex-col items-center justify-center mb-4">
@@ -261,7 +265,7 @@
                             <p class="text-[10px] text-gray-400">Klik untuk Ambil Foto</p>
                         </div>
                         <div class="grid grid-cols-3 gap-2 mb-4">
-                            <div class="text-center p-2 rounded bg-emerald-50 border border-emerald-100">
+                            <div class="text-center p-2 rounded bg-emerald-100 border border-emerald-200">
                                 <p class="text-[8px] font-bold text-emerald-700">LAYAK</p>
                             </div>
                             <div class="text-center p-2 rounded bg-gray-50 border border-gray-100">
@@ -271,16 +275,16 @@
                                 <p class="text-[8px] font-bold text-gray-400">TIDAK</p>
                             </div>
                         </div>
-                        <button class="w-full bg-blue-600 text-white py-3 rounded-lg text-xs font-bold">Konfirmasi Sekarang</button>
+                        <button class="w-full bg-emerald-600 text-white py-3 rounded-lg text-xs font-bold">Konfirmasi Sekarang</button>
                     </div>
                 </div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[100px] -z-10"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[100px] -z-10"></div>
             </div>
             <div class="order-1 md:order-2">
-                <h2 class="text-4xl font-bold mb-6">Validasi Lapangan <br><span class="text-blue-500">Tanpa Celah.</span></h2>
+                <h2 class="text-4xl font-bold mb-6">Validasi Lapangan <br><span class="text-[#10B981]">Tanpa Celah.</span></h2>
                 <div class="space-y-8">
                     <div class="flex gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-[#10B981] shrink-0">
                             <i data-lucide="camera"></i>
                         </div>
                         <div>
@@ -321,7 +325,7 @@
             
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="glass p-8 rounded-2xl border border-gray-100 card-hover">
-                    <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 mb-6">
+                    <div class="w-14 h-14 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 mb-6">
                         <i data-lucide="users"></i>
                     </div>
                     <h4 class="text-xl font-bold mb-4">Admin Dapur</h4>
@@ -330,12 +334,12 @@
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Input Data Armada</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Monitor Status Delivery</li>
                     </ul>
-                    <a href="#" class="text-blue-600 font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Lihat Dashboard <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                    <a href="#" class="text-[#10B981] font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Lihat Dashboard <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
                 </div>
                 
-                <div class="glass p-8 rounded-2xl border-2 border-blue-500/20 shadow-xl card-hover relative">
-                    <span class="absolute top-0 right-8 -translate-y-1/2 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Priority</span>
-                    <div class="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center text-white mb-6">
+                <div class="glass p-8 rounded-2xl border-2 border-emerald-500/20 shadow-xl card-hover relative">
+                    <span class="absolute top-0 right-8 -translate-y-1/2 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Priority</span>
+                    <div class="w-14 h-14 bg-emerald-600 rounded-xl flex items-center justify-center text-white mb-6">
                         <i data-lucide="user-check"></i>
                     </div>
                     <h4 class="text-xl font-bold mb-4">Petugas Sekolah</h4>
@@ -344,7 +348,7 @@
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Upload Bukti Foto</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Feedback Kualitas</li>
                     </ul>
-                    <a href="#" class="text-blue-600 font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Login Mobile Web <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                    <a href="#" class="text-[#10B981] font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Login Mobile Web <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
                 </div>
 
                 <div class="glass p-8 rounded-2xl border border-gray-100 card-hover">
@@ -357,7 +361,7 @@
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Rekonsiliasi Data</li>
                         <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Manajemen Hak Akses</li>
                     </ul>
-                    <a href="#" class="text-blue-600 font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Portal Laporan < i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                    <a href="#" class="text-[#10B981] font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Portal Laporan <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
                 </div>
             </div>
         </div>
@@ -368,10 +372,10 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
             <div>
                 <div class="flex items-center gap-2 mb-4">
-                    <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white">
+                    <div class="w-8 h-8 bg-emerald-600 rounded flex items-center justify-center text-white">
                         <i data-lucide="truck" class="w-4 h-4"></i>
                     </div>
-                    <span class="text-lg font-bold">MBG Distribusi</span>
+                    <span class="text-lg font-bold">NutriLog</span>
                 </div>
                 <p class="text-sm text-gray-500 max-w-xs">Solusi digital untuk akuntabilitas program makanan bergizi di seluruh Indonesia.</p>
             </div>
@@ -380,21 +384,20 @@
                 <div>
                     <h5 class="font-bold text-sm mb-4 uppercase text-gray-400">Legal</h5>
                     <ul class="text-sm text-gray-600 space-y-2">
-                        <li><a href="#" class="hover:text-blue-600">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-blue-600">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-emerald-600">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-emerald-600">Terms of Service</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5 class="font-bold text-sm mb-4 uppercase text-gray-400">Kontak</h5>
                     <ul class="text-sm text-gray-600 space-y-2">
-                        <li>support@mbg-logistik.id</li>
-                        <li>(021) 1234-5678</li>
-                    </ul>
+                        <li>support@nutrilog.id</li>
+                        <li>(+62) 882-0025-19272</li>
                 </div>
             </div>
         </div>
         <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-gray-50 text-center text-xs text-gray-400">
-            &copy; 2025 MBG Distribution Management System. All Rights Reserved.
+            &copy; 2025 NutriLog Distribution Management System. All Rights Reserved.
         </div>
     </footer>
 
