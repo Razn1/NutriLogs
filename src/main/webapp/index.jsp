@@ -359,7 +359,7 @@
                 </div>
 
                 <div class="glass p-8 rounded-2xl border border-gray-100 card-hover">
-                    <div class="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-gray-900 mb-6">
+                    <div class="w-14 h-14 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 mb-6">
                         <i data-lucide="shield-check"></i>
                     </div>
                     <h4 class="text-xl font-bold mb-4">Admin Audit</h4>
@@ -373,7 +373,84 @@
             </div>
         </div>
     </section>
+<!-- Developers Section -->
+    <section id="developers" class="py-24 px-6 bg-emerald-50/30">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-[#10B981] font-bold text-sm uppercase tracking-widest">The Brains Behind NutriLog</span>
+                <h2 class="text-3xl font-bold mt-2">Anggota Pengembang</h2>
+                <div class="w-20 h-1 bg-[#10B981] mx-auto mt-4 rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <!-- Developer 1 -->
+                <div class="text-center group">
+                    <div class="relative w-32 h-32 mx-auto mb-4">
+                        <div class="absolute inset-0 bg-emerald-200 rounded-full scale-0 group-hover:scale-110 transition duration-300"></div>
+                        <div class="relative w-full h-full bg-white rounded-full border-2 border-emerald-500 flex items-center justify-center overflow-hidden">
+                            <i data-lucide="user" class="w-16 h-16 text-emerald-600 opacity-20"></i>
+                            <!-- Placeholder for Image -->
+                        </div>
+                    </div>
+                    <h5 class="font-bold text-gray-900">Faisa Al Farrel</h5>
+                    <p class="text-xs font-medium uppercase">0110224149</p>
+                    <p class="text-xs text-emerald-600 font-medium uppercase tracking-tighter">BackEnd</p>
+                </div>
+                
+                <!-- Developer 2 -->
+                <div class="text-center group">
+                    <div class="relative w-32 h-32 mx-auto mb-4">
+                        <div class="absolute inset-0 bg-emerald-200 rounded-full scale-0 group-hover:scale-110 transition duration-300"></div>
+                        <div class="relative w-full h-full bg-white rounded-full border-2 border-emerald-500 flex items-center justify-center overflow-hidden">
+                            <i data-lucide="user" class="w-16 h-16 text-emerald-600 opacity-20"></i>
+                        </div>
+                    </div>
+                    <h5 class="font-bold text-gray-900">Muhammad Jibril Ibrahim</h5>
+                    <p class="text-xs font-medium uppercase">0110224002</p>
+                    <p class="text-xs text-emerald-600 font-medium uppercase tracking-tighter">BackEnd</p>
+                </div>
 
+                <!-- Developer 3 -->
+                <div class="text-center group">
+                    <div class="relative w-32 h-32 mx-auto mb-4">
+                        <div class="absolute inset-0 bg-emerald-200 rounded-full scale-0 group-hover:scale-110 transition duration-300"></div>
+                        <div class="relative w-full h-full bg-white rounded-full border-2 border-emerald-500 flex items-center justify-center overflow-hidden">
+                            <i data-lucide="user" class="w-16 h-16 text-emerald-600 opacity-20"></i>
+                        </div>
+                    </div>
+                    <h5 class="font-bold text-gray-900">Tri Nurjulyanti</h5>
+                    <p class="text-xs font-medium uppercase">0110224194</p>
+                    <p class="text-xs text-emerald-600 font-medium uppercase tracking-tighter">Documentation </p>
+                </div>
+
+                <!-- Developer 4 -->
+                <div class="text-center group">
+                    <div class="relative w-32 h-32 mx-auto mb-4">
+                        <div class="absolute inset-0 bg-emerald-200 rounded-full scale-0 group-hover:scale-110 transition duration-300"></div>
+                        <div class="relative w-full h-full bg-white rounded-full border-2 border-emerald-500 flex items-center justify-center overflow-hidden">
+                            <i data-lucide="user" class="w-16 h-16 text-emerald-600 opacity-20"></i>
+                        </div>
+                    </div>
+                    <h5 class="font-bold text-gray-900">Fi'Adn Fauzul Azzim</h5>
+                    <p class="text-xs font-medium uppercase">0110224121</p>
+                    <p class="text-xs text-emerald-600 font-medium uppercase tracking-tighter">FrontEnd</p>
+                </div>
+
+                <!-- Developer 5 -->
+                <div class="text-center group">
+                    <div class="relative w-32 h-32 mx-auto mb-4">
+                        <div class="absolute inset-0 bg-emerald-200 rounded-full scale-0 group-hover:scale-110 transition duration-300"></div>
+                        <div class="relative w-full h-full bg-white rounded-full border-2 border-emerald-500 flex items-center justify-center overflow-hidden">
+                            <i data-lucide="user" class="w-16 h-16 text-emerald-600 opacity-20"></i>
+                        </div>
+                    </div>
+                    <h5 class="font-bold text-gray-900">Azzam Firdaus</h5>
+                    <p class="text-xs font-medium uppercase">0110224121</p>
+                    <p class="text-xs text-emerald-600 font-medium uppercase tracking-tighter">FrontEnd</p>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Footer -->
     <footer class="bg-white py-16 px-6 border-t border-gray-100">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
@@ -404,7 +481,7 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-gray-50 text-center text-xs text-gray-400">
-            &copy; 2025 NutriLog Distribution Management System. All Rights Reserved.
+            &copy; 2026 NutriLog | MBG Distribution Management System. All Rights Reserved.
         </div>
     </footer>
 
