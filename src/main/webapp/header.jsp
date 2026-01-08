@@ -1,65 +1,156 @@
 <style>
-    .text {
-        color: #000;
-        font-size: 1.5rem;
-        font-weight: bold;
+    :root {
+        --accent-green: #2ecc71;
+        --dark-text: #1f2937;
     }
 
-    .nav-link {
-        transition: background-color 0.3s ease;
-        border-radius: 0.25rem;
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        font-weight: bold;
+    .brand-text {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 22px;
+        color: var(--dark-text);
     }
 
-    .nav-link.active {
+    .logo-icon {
+        background-color: var(--accent-green);
+        padding: 8px;
+        border-radius: 12px;
+        width: 42px;
+        height: 42px;
+    }
+
+    .menu-toggle-btn {
+        background: white;
+        border: 2px solid var(--accent-green);
+        color: var(--dark-text);
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1050; 
+        height: 70px; 
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    body {
+        padding-top: 75px !important; 
+    }
+
+    .menu-dropdown {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: white;
+        z-index: 1040;
+        padding: 15px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.4s ease-in-out;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .menu-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .menu-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .menu-item {
+        text-decoration: none;
+        color: var(--dark-text);
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transition: 0.2s;
+    }
+
+    .menu-item.active {
+        background-color: var(--accent-green);
         color: white;
-        background-color: #115e59; /* teal-800 */
     }
 
-    .nav-link:hover {
-        background-color: #148f87; /* lebih terang */
-        color: white;
+    .menu-item:hover:not(.active) {
+        background-color: #f8f9fa;
     }
 </style>
 
-<nav class="navbar bg-body-tertiary">
-    <div class="container-fluid my-5">
-        <div class="container-fluid d-flex justify-content-start mx-3 gap-5">
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand headline" href="">NutriLog</a>
-        </div>
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header bg-body-tertiary">
-                <h5 class="offcanvas-title headline" id="offcanvasNavbarLabel">NutriLog</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<nav class="navbar navbar-light bg-light border-bottom">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <a class="navbar-brand d-inline-flex align-items-center ms-2 gap-2" href="#">
+            <div class="logo-icon text-white d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-truck"></i>
             </div>
-            <div class="offcanvas-body">
-                <ul class="navbar-nav flex-column gap-2">
+            <span class="brand-text">NutriLogs</span>
+        </a>
 
-                    <!-- Admin Sekolah -->
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="index.jsp?halaman=dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.jsp?halaman=konfirmasiPengiriman">Konfirmasi</a>
-                    </li>
-
-                    <!-- Admin Dapur -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Dashboard</a>
-                    </li>
-
-                    <!-- Admin Audit -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
+        <button class="menu-toggle-btn me-2" id="menuBtn">
+            <i class="fa-solid fa-bars" id="menuIcon"></i>
+        </button>
     </div>
 </nav>
+
+<div class="menu-dropdown" id="menuDropdown">
+    <div class="menu-content">
+        <a href="#" class="menu-item active">
+            <i class="fa-solid fa-table-columns"></i> Dashboard
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-box-archive"></i> Konfirmasi
+        </a>
+        <a href="#" class="menu-item text-danger">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+        </a>
+    </div>
+</div>
+
+<script>
+    const menuBtn = document.getElementById('menuBtn');
+    const menuDropdown = document.getElementById('menuDropdown');
+    const menuIcon = document.getElementById('menuIcon');
+
+    menuBtn.addEventListener('click', (e) => {
+        // Mencegah event bubbling agar tidak langsung terpicu window click
+        e.stopPropagation(); 
+        
+        const isShowing = menuDropdown.classList.toggle('show');
+        
+        // Animasi icon berganti
+        if (isShowing) {
+            menuIcon.classList.replace('fa-bars', 'fa-xmark');
+        } else {
+            menuIcon.classList.replace('fa-xmark', 'fa-bars');
+        }
+    });
+
+    // Menutup menu jika user mengklik area di luar menu atau di dashboard
+    window.addEventListener('click', (e) => {
+        if (!menuDropdown.contains(e.target) && menuDropdown.classList.contains('show')) {
+            menuDropdown.classList.remove('show');
+            menuIcon.classList.replace('fa-xmark', 'fa-bars');
+        }
+    });
+</script>

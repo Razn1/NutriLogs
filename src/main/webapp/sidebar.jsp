@@ -22,7 +22,6 @@
         flex-direction: column;
     }
 
-    /* Logo Section */
     .logo-container {
         display: flex;
         align-items: center;
@@ -39,7 +38,6 @@
         justify-content: center;
     }
 
-    /* Admin Info Card */
     .admin-card {
         background-color: var(--card-dark);
         border-radius: 16px;
@@ -61,7 +59,6 @@
         border: 1px solid rgba(255,255,255,0.2);
     }
 
-    /* Menu Navigation */
     .nav-link {
         color: #94a3b8; /* Abu-abu muted */
         font-weight: 500;
@@ -75,7 +72,6 @@
         text-decoration: none;
     }
 
-    /* Menu Dashboard (Active) */
     .nav-link.active {
         background-color: var(--accent-green);
         color: white !important;
