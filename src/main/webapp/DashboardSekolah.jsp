@@ -28,44 +28,87 @@
                 margin: 40px auto;
                 padding: 0 20px;
             }
-            .card-stat {
-                border: none;
-                border-radius: 16px;
-                background: #ffffff;
-                box-shadow: 0 8px 24px rgba(31,41,55,0.08);
+            .card-stat-new {
+                border: 2px solid #e5e7eb;
+                border-radius: 12px;
+                background: #fdfcf7; 
+                padding: 20px;
+                position: relative;
+                border-left: 6px solid #fbbf24;
+                min-height: 120px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
-            .card-stat .card-title {
-                font-weight: 600;
-                color: #374151;
+
+            .card-stat-new.diterima {
+                border-left: 6px solid #22c55e; 
+                background: #f7fdfa; 
             }
-            .card-stat .card-value {
-                font-size: 36px;
-                font-weight: 700;
+
+            .card-stat-new .stat-label {
+                font-size: 14px;
+                color: #6b7280;
+                margin-bottom: 8px;
+                font-weight: 500;
+            }
+
+            .card-stat-new .stat-value {
+                font-size: 32px;
+                font-weight: 800;
                 color: #111827;
             }
-            .headline {
-                font-weight: 800;
-                letter-spacing: -0.5px;
+
+            .card-stat-new .stat-icon {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                font-size: 20px;
             }
-            .subheadline {
-                color: #6b7280;
+
+            .icon-yellow {
+                color: #fbbf24;
             }
-            .alert-custom {
-                border-radius: 14px;
-                background: #eff6ff;
-                border: 1px solid #bfdbfe;
-                color: #1e3a8a;
+            .icon-green {
+                color: #22c55e;
             }
-            .confirm-section {
-                border-radius: 16px;
-                background: #ffffff;
-                box-shadow: 0 8px 24px rgba(31,41,55,0.08);
-                padding: 24px;
+
+            .alert-travel {
+                background: #fff;
+                border: 2px solid #fbbf24;
+                border-radius: 12px;
+                padding: 15px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
             }
-            .btn-confirm {
-                border-radius: 10px;
-                padding: 10px 18px;
-                font-weight: 600;
+
+            .icon-bell-wrapper {
+                background: #fef3c7;
+                color: #d97706;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                margin-right: 15px;
+            }
+
+            .btn-konfirmasi-travel {
+                background-color: #2ecc71;
+                color: white;
+                border: none;
+                border-radius: 12px;
+                padding: 12px 30px;
+                font-weight: 700;
+                transition: 0.3s;
+            }
+
+            .btn-konfirmasi-travel:hover {
+                background-color: #27ae60;
+                transform: scale(1.02);
             }
             .badge-soft {
                 background: #f3f4f6;
@@ -75,32 +118,69 @@
                 padding: 6px 12px;
                 font-weight: 600;
             }
-            .card-delivery {
-                border: none;
-                border-radius: 16px;
+            .delivery-container {
                 background: #ffffff;
-                box-shadow: 0 6px 18px rgba(31,41,55,0.08);
-                margin-bottom: 16px;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 20px;
             }
-            .card-delivery .card-body {
-                padding: 16px 20px;
+
+            .inner-delivery-card {
+                border: 2px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 16px;
+                margin-bottom: 20px;
+                background: #fff;
             }
-            .card-delivery h6 {
+
+            .icon-box {
+                background-color: #ecfdf5;
+                color: #10b981;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+                font-size: 20px;
+            }
+
+            .badge-dikirim {
+                color: #000;
+                border-radius: 20px;
+                padding: 4px 12px;
+                font-size: 12px;
                 font-weight: 600;
-                margin-bottom: 4px;
             }
-            .card-delivery small {
-                color: #6b7280;
+
+            .info-text {
+                color: #4b5563;
+                font-size: 14px;
             }
-            .badge-status {
-                border-radius: 999px;
-                padding: 6px 12px;
-                font-weight: 600;
-            }
-            .btn-confirm {
+
+            .btn-confirm-wide {
+                background-color: #22c55e;
+                color: white;
+                border: none;
                 border-radius: 10px;
-                padding: 10px 18px;
+                width: 100%;
+                padding: 12px;
                 font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                transition: background 0.2s;
+            }
+
+            .btn-confirm-wide:hover {
+                background-color: #16a34a;
+                color: white;
+            }
+
+            .delivery-header-icon {
+                color: #22c55e;
+                margin-right: 8px;
             }
         </style>
     </head>
@@ -109,116 +189,85 @@
             <%@include file="header.jsp"%>
         </header>
         <div class="page-wrap">
-            <div class="text-text-align: left;
-                 mb-4">
+            <div class="mb-4">
                 <h1 class="headline mb-1">Selamat Datang</h1>
                 <p class="subheadline"><%= tanggal%></p>
             </div>
 
             <div class="row g-4 mb-4">
                 <div class="col-12 col-md-6">
-                    <div class="card card-stat">
-                        <div class="card-body text-center">
-                            <div class="card-title mb-1">Menunggu</div>
-                            <div class="card-value"><%= menunggu%></div>
-                            <div class="mt-2">
-                                <span class="badge-soft">Status: Menunggu konfirmasi</span>
-                            </div>
+                    <div class="card-stat-new">
+                        <div class="stat-label">Menunggu</div>
+                        <div class="stat-value"><%= menunggu%></div>
+                        <div class="stat-icon icon-yellow">
+                            <i class="fa-solid fa-truck-fast"></i>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
-                    <div class="card card-stat">
-                        <div class="card-body text-center">
-                            <div class="card-title mb-1">Diterima</div>
-                            <div class="card-value"><%= diterima%></div>
-                            <div class="mt-2">
-                                <span class="badge-soft">Status: Sudah di sekolah</span>
-                            </div>
+                    <div class="card-stat-new diterima">
+                        <div class="stat-label">Diterima</div>
+                        <div class="stat-value"><%= diterima%></div>
+                        <div class="stat-icon icon-green">
+                            <i class="fa-regular fa-circle-check"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="alert alert-custom d-flex align-items-center justify-content-between mb-3" role="alert">
-                <div>
-                    <strong>Pengiriman Dalam Perjalanan!</strong>
-                    <div class="small mt-1"><%= dalamPerjalanan%> pengiriman sedang menuju sekolah Anda</div>
-                </div>
-                <div>
-                    <span class="badge-soft">Realtime update</span>
-                </div>
-            </div>
-
-            <div class="confirm-section mt-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div class="mb-3 mb-md-0">
-                        <h5 class="mb-1">Konfirmasi</h5>
-                        <p class="text-muted mb-0">Silakan konfirmasi pengiriman yang sudah diterima untuk pembaruan status.</p>
+            <div class="alert-travel mb-4">
+                <div class="d-flex align-items-center">
+                    <div class="icon-bell-wrapper">
+                        <i class="fa-solid fa-bell"></i>
                     </div>
-                    <form method="post" action="konfirmasi">
-                        <!-- Contoh: kirim nilai konfirmasi (dummy). Ganti dengan id pengiriman nyata. -->
-                        <input type="hidden" name="aksi" value="konfirmasi-semua"/>
-                        <button type="submit" class="btn btn-success btn-confirm">
-                            Konfirmasi
-                        </button>
-                    </form>
+                    <div>
+                        <div class="fw-bold" style="color: #111827;">Pengiriman Dalam Perjalanan!</div>
+                        <div class="small text-muted"><%= dalamPerjalanan%> pengiriman sedang menuju sekolah Anda</div>
+                    </div>
                 </div>
+                <form action="konfirmasi" method="POST" class="m-0">
+                    <button type="submit" class="btn-konfirmasi-travel">
+                        Konfirmasi
+                    </button>
+                </form>
             </div>
         </div>
 
         <div class="page-wrap">
-            <h4 class="fw-bold mb-3">Pengiriman Hari Ini</h4>
-            <p class="text-muted mb-4">Daftar pengiriman untuk sekolah Anda</p>
 
-            <div class="card card-delivery">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <h6>Dapur Pusat Jakarta Selatan</h6>
-                            <small>Box Truck 03</small>
-                        </div>
-                        <span class="badge bg-success badge-status">Diterima</span>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6">
-                            <strong>500 porsi</strong>
-                        </div>
-                        <div class="col-6 text-end">
-                            <small>Kirim: 23.30</small><br>
-                            <small>Diterima: 23.32</small>
-                        </div>
-                    </div>
-                    <span class="text-success fw-semibold">Sangat baik</span>
+
+            <div class="delivery-container">
+                <div class="mb-4">
+                    <h5 class="fw-bold mb-1 d-flex align-items-center">
+                        <i class="fa-solid fa-box-open delivery-header-icon"></i> Pengiriman Hari Ini
+                    </h5>
+                    <p class="text-muted small">Daftar pengiriman untuk sekolah Anda</p>
                 </div>
-            </div>
-
-            <div class="card card-delivery">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <h6>Dapur Pusat Jakarta Selatan</h6>
-                            <small>Box Truck 03</small>
+                <div class="inner-delivery-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-box me-3">
+                                <i class="fa-solid fa-truck"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0">Dapur Pusat Jakarta Selatan</h6>
+                                <small class="text-muted">Box Truck 03</small>
+                            </div>
                         </div>
-                        <span class="badge bg-warning text-dark badge-status">Dikirim</span>
+                        <span class="badge-dikirim">
+                            <i class="fa-solid fa-box small me-1"></i> Dikirim
+                        </span>
                     </div>
-                    <div class="row mb-2">
-                        <div class="col-6">
-                            <strong>500 porsi</strong>
-                        </div>
-                        <div class="col-6 text-end">
-                            <small>Kirim: 21.33</small>
-                        </div>
+                    <div class="d-flex justify-content-between info-text mb-3">
+                        <span><i class="fa-solid fa-boxes-stacked me-1"></i> 390 porsi</span>
+                        <span><i class="fa-regular fa-clock me-1"></i> Kirim: 14.31</span>
                     </div>
+                    <form action="konfirmasi-penerimaan" method="POST">
+                        <button type="submit" class="btn-confirm-wide">
+                            <i class="fa-regular fa-circle-check"></i> Konfirmasi Penerimaan
+                        </button>
+                    </form>
                 </div>
-            </div>
-
-            <div class="text-end mt-4">
-                <form method="post" action="konfirmasi-penerimaan">
-                    <button type="submit" class="btn btn-success btn-confirm">
-                        Konfirmasi Penerimaan
-                    </button>
-                </form>
             </div>
         </div>
     </body>

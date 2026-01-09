@@ -21,7 +21,7 @@
 
     .menu-toggle-btn {
         background: white;
-        border: 2px solid var(--accent-green);
+        /*border: 2px solid var(--accent-green);*/
         color: var(--dark-text);
         width: 40px;
         height: 40px;
