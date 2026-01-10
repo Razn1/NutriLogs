@@ -19,6 +19,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+        <!--Font Awesome-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
         <style>
             body {
                 background: #f7f7fb;
@@ -122,23 +125,34 @@
                     <h1 class="headline mb-1">Dashboard Dapur</h1>
                     <p class="subheadline"><%= tanggal%></p>
                 </div>
-                <form method="post" action="konfirmasi">
-                    <input type="hidden" name="aksi" value="konfirmasi-semua"/>
-                    <button type="submit" class="btn btn-success btn-confirm">
-                        input pengiriman baru
+                <div>
+                    <button class="btn btn-success btn-confirm" data-bs-toggle="modal" data-bs-target="#pengirimanModal">
+                        <i class="fa-solid fa-truck me-2"></i>Input Pengiriman
                     </button>
-                </form>
+                </div>
+
+                <!-- Include file modal -->
+                <%@ include file="inputPengiriman.jsp" %>
+
             </div>
 
             <!-- Section konfirmasi -->
-            <div class="confirm-section mt-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-
-                    <form method="post" action="konfirmasi">
-                        <input type="hidden" name="aksi" value="konfirmasi-semua"/>
-                        <strong>Peringatan : sudah lewat jam pengantaran!</strong>
-                        <div class="small mt-1">pengiriman setelah jam 12:00 akan ditandai sebagai keterlambatan</div>
-                    </form>
+            <!-- Peringatan -->
+            <div class="alert alert-warning confirm-section mt-4">
+                <div id="late-alert-page" class="d-flex align-items-center justify-content-between mb-0 py-2 px-3" style="display:none;">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-triangle-exclamation me-3"></i>
+                        <div>
+                            <div class="fw-semibold">Peringatan: Terlambat Kirim</div>
+                            <small class="text-muted">
+                                Pengiriman ini akan ditandai sebagai terlambat (setelah 09:00)
+                            </small>
+                        </div>
+                    </div>
+                    <span id="late-time-page"
+                          class="badge rounded-pill bg-warning text-dark px-3 py-2">
+                        00.00
+                    </span>
                 </div>
             </div>
 
@@ -243,9 +257,39 @@
 
     <!-- Optional: interaksi ringan -->
     <script>
-        // Placeholder untuk simulasi update (opsional)
-        // Misal: fetch ke endpoint untuk update jumlah pengiriman realtime.
-        // fetch('/api/pengiriman/status').then(...);
+        function updateLateAlerts() {
+            const now = new Date();
+            const h = now.getHours();
+            const m = now.getMinutes();
+
+            const hh = String(h).padStart(2, '0');
+            const mm = String(m).padStart(2, '0');
+            const formatted = hh + '.' + mm;
+
+            // helper untuk show/hide + isi waktu
+            function applyAlert(alertId, timeId) {
+                const alertEl = document.getElementById(alertId);
+                const timeEl = document.getElementById(timeId);
+                if (!alertEl || !timeEl)
+                    return; // kalau elemen tidak ada (misal di halaman lain)
+
+                if (h > 9 || (h === 9 && m > 0)) {
+                    alertEl.style.display = 'flex';
+                    timeEl.textContent = formatted;
+                } else {
+                    alertEl.style.display = 'none';
+                }
+            }
+
+            // alert di halaman utama
+            applyAlert('late-alert-page', 'late-time-page');
+            // alert di dalam modal
+            applyAlert('late-alert', 'late-time');
+        }
+
+        updateLateAlerts();
+        setInterval(updateLateAlerts, 1000);
     </script>
+
 </body>
 </html>
