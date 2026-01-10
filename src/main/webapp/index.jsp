@@ -431,8 +431,8 @@
                             <i data-lucide="user" class="w-16 h-16 text-emerald-600 opacity-20"></i>
                         </div>
                     </div>
-                    <h5 class="font-bold text-gray-900">Fi'Adn Fauzul Azzim</h5>
-                    <p class="text-xs font-medium uppercase">0110224121</p>
+                    <h5 class="font-bold text-gray-900">Fi'adn Fawzul Adzhim</h5>
+                    <p class="text-xs font-medium uppercase">0110224103</p>
                     <p class="text-xs text-emerald-600 font-medium uppercase tracking-tighter">FrontEnd</p>
                 </div>
 
