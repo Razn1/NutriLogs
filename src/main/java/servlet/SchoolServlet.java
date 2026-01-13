@@ -24,6 +24,7 @@ import java.util.UUID;
         maxRequestSize = 1024 * 1024 * 15 // 15 MB
 )
 public class SchoolServlet extends HttpServlet {
+
     private DeliveryDAO deliveryDAO = new DeliveryDAO();
 
     @Override
@@ -31,7 +32,7 @@ public class SchoolServlet extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null || !"petugas_sekolah".equals(user.getRole())) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect("Login.jsp");
             return;
         }
 
@@ -47,17 +48,15 @@ public class SchoolServlet extends HttpServlet {
         // as updating the DB schema is out of scope for "building website base on
         // plan".
         // A safer bet is passing ?school_id=X for testing if not present in user.
-
         // Fix: To make it realistic, I will fetch deliveries for ALL schools for now
         // (as if they can see all options),
         // OR better, we just show a list of PENDING deliveries for specific school ID 1
         // (Standard Demo).
-
         int schoolId = 1; // Default for MVP Demo
 
         req.setAttribute("pendingDeliveries",
                 deliveryDAO.getPendingDeliveriesForSchool(schoolId, Date.valueOf(LocalDate.now())));
-        req.getRequestDispatcher("dashboard_school.jsp").forward(req, resp);
+        req.getRequestDispatcher("DashboardSekolah.jsp").forward(req, resp);
     }
 
     @Override
@@ -65,7 +64,7 @@ public class SchoolServlet extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null || !"petugas_sekolah".equals(user.getRole())) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect("Login.jsp");
             return;
         }
 
@@ -87,16 +86,25 @@ public class SchoolServlet extends HttpServlet {
 
             String uploadDir = getServletContext().getRealPath("") + File.separator + "uploads";
             File uploadDirFile = new File(uploadDir);
-            if (!uploadDirFile.exists())
+            if (!uploadDirFile.exists()) {
                 uploadDirFile.mkdir();
+            }
 
             String fullPath = uploadDir + File.separator + fileName;
             filePart.write(fullPath);
             photoPath = "uploads/" + fileName;
         }
 
+        boolean success = deliveryDAO.confirmDelivery(deliveryId, qtyReceived, quality, notes, photoPath);
+
+        if (success) {
+            resp.sendRedirect("school?status=success");
+        } else {
+            resp.sendRedirect("school?status=error");
+        }
+
         deliveryDAO.confirmDelivery(deliveryId, qtyReceived, quality, notes, photoPath);
-        resp.sendRedirect("school");
+        resp.sendRedirect("DashboardSekolah.jsp");
     }
 
     private String getFileName(Part part) {

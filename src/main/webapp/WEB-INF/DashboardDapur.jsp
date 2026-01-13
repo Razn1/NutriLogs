@@ -4,15 +4,15 @@
 
     if (user == null) {
         response.sendRedirect("Login.jsp");
-        return; 
+        return;
     }
 
     if (!"admin_dapur".equals(user.getRole())) {
-        session.invalidate(); 
- 
+        session.invalidate();
+
         HttpSession newSession = request.getSession(true);
         newSession.setAttribute("errorMessage", "Akses Ilegal! Anda telah dikeluarkan dari sistem.");
-        
+
         response.sendRedirect("Login.jsp");
         return;
     }
@@ -26,11 +26,9 @@
         <title>Dashboard Pengiriman Sekolah</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Bootstrap CSS & JS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-        <!--Font Awesome-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
         <style>
@@ -84,7 +82,7 @@
                 color: #111827;
             }
             .school-card {
-                background: #f8f9fa; /* Background abu-abu sangat muda */
+                background: #f8f9fa;
                 border: none;
                 border-radius: 12px;
                 padding: 16px 20px;
@@ -123,7 +121,7 @@
             }
 
             .header-icon {
-                color: #2ecc71; /* Warna hijau ikon gedung */
+                color: #2ecc71;
                 font-size: 1.5rem;
                 margin-right: 12px;
             }
@@ -142,8 +140,8 @@
             }
 
             .icon-box {
-                background-color: #f0fff4; /* Hijau sangat muda */
-                color: #2ecc71; /* Hijau ikon */
+                background-color: #f0fff4;
+                color: #2ecc71;
                 width: 45px;
                 height: 45px;
                 border-radius: 12px;
@@ -167,7 +165,7 @@
             }
 
             .badge-sent {
-                background-color: #fcc419; /* Kuning sesuai gambar */
+                background-color: #fcc419;
                 color: #453000;
                 border-radius: 20px;
                 padding: 4px 12px;
@@ -188,7 +186,7 @@
             }
 
             .header-icon-blue {
-                color: #2ecc71; /* Bisa diganti biru jika ingin beda, gambar pakai hijau */
+                color: #2ecc71;
                 font-size: 1.5rem;
                 margin-right: 12px;
             }
@@ -216,16 +214,27 @@
                 display: flex;
                 gap: 16px;
                 padding-bottom: 10px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                flex-wrap: nowrap;
             }
 
             .vehicle-card {
-                width: 220px;
+                min-width: 220px;
                 background: #f0fff4;
                 border: 2px solid #dcfce7;
                 border-radius: 16px;
                 padding: 16px;
                 transition: all 0.2s ease;
-                flex: none;
+                flex-shrink: 0;
+            }
+            .vehicle-list::-webkit-scrollbar {
+                height: 6px;
+            }
+
+            .vehicle-list::-webkit-scrollbar-thumb {
+                background-color: #000;
+                border-radius: 10px;
             }
 
             badge-pending {
@@ -266,7 +275,6 @@
                 border: 1px solid #d1fae5;
             }
 
-            /* Informasi Teks */
             .vehicle-name {
                 font-weight: 700;
                 font-size: 1rem;
@@ -285,7 +293,24 @@
                 font-size: 0.85rem;
                 color: #64748b;
             }
+            .btn-logout {
+                color: #ff4d4f;
+                background: transparent;
+                border: none;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 15px;
+                text-decoration: none;
+                transition: all 0.2s;
+            }
 
+            .btn-logout:hover {
+                color: #d32f2f;
+                background: rgba(255, 77, 79, 0.05);
+                border-radius: 10px;
+            }
         </style>
     </head>
     <body>
@@ -295,12 +320,20 @@
                     <h1 class="headline mb-1">Dashboard Dapur</h1>
                     <p class="subheadline">tanggal</p>
                 </div>
-                <div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <form action="auth" method="POST" class="m-0 p-0"> <input type="hidden" name="action" value="logout">
+                        <button type="submit" class="btn-logout">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> 
+                            Logout
+                        </button>
+                    </form>
+
                     <button class="btn btn-success btn-confirm" data-bs-toggle="modal" data-bs-target="#pengirimanModal">
                         <i class="fa-solid fa-truck me-2"></i>Input Pengiriman
                     </button>
                 </div>
-                <%@ include file="inputPengiriman.jsp" %>
+                <%@ include file="../inputPengiriman.jsp" %>
             </div>
 
             <div class="alert alert-warning confirm-section mt-4">
@@ -365,16 +398,17 @@
                                 <h4 class="fw-bold m-0" style="color: #1e293b;">Daftar Sekolah</h4>
                             </div>
                             <p class="text-muted mb-4" style="font-size: 0.95rem;">Sekolah yang dilayani hari ini</p>
-
-                            <div class="school-list">
-                                <div class="school-card">
-                                    <div class="school-info">
-                                        <h6>SDN 01 Cakung</h6>
-                                        <span>450 siswa</span>
+                            <c:forEach var="s" items="${schools}">
+                                <div class="school-list">
+                                    <div class="school-card">
+                                        <div class="school-info">
+                                            <h6>${s.nama}</h6>
+                                            <span>${s.jumlahSiswa} siswa</span>
+                                        </div>
+                                        <span class="badge badge-pending ">Belum Dikirim</span>
                                     </div>
-                                    <span class="badge badge-pending ">Belum Dikirim</span>
                                 </div>
-                            </div>
+                            </c:forEach>                            
                         </div>
                     </div>
                 </div>
@@ -420,15 +454,17 @@
                     <p class="text-muted mb-4" style="font-size: 0.95rem;">Daftar kendaraan yang tersedia</p>
 
                     <div class="vehicle-list">
-                        <div class="vehicle-card">
-                            <div class="vehicle-header d-inline-flex">
-                                <i class="fa-solid fa-truck vehicle-icon"></i>
-                                <span class="badge-available">Tersedia</span>
+                        <c:forEach var="v" items="${vehicles}">
+                            <div class="vehicle-card">
+                                <div class="vehicle-header d-inline-flex">
+                                    <i class="fa-solid fa-truck vehicle-icon"></i>
+                                    <span class="badge-available">Tersedia</span>
+                                </div>
+                                <div>${v.namaKendaraan}</div>
+                                <span>${v.platNomor}</span>
+                                <div class="vehicle-capacity">${v.kapasitas}</div>
                             </div>
-                            <div class="vehicle-name">Box Truck 01</div>
-                            <span class="vehicle-plate">B 1234 NLG</span>
-                            <div class="vehicle-capacity">Kapasitas: 500 porsi</div>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>

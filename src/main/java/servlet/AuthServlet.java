@@ -34,13 +34,13 @@ public class AuthServlet extends HttpServlet {
                 // Redirect berdasarkan role
                 switch (user.getRole()) {
                     case "admin_dapur":
-                        resp.sendRedirect("DashboardDapur.jsp");
+                        resp.sendRedirect("kitchen");
                         break;
                     case "petugas_sekolah":
-                        resp.sendRedirect("DashboardSekolah.jsp");
+                        resp.sendRedirect("school");
                         break;
                     case "admin_audit":
-                        resp.sendRedirect("DashboardAudit.jsp");
+                        resp.sendRedirect("audit");
                         break;
                     default:
                         resp.sendRedirect("Login.jsp?status=error");

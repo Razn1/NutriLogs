@@ -38,15 +38,15 @@
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 1050; 
-        height: 70px; 
+        z-index: 1050;
+        height: 70px;
         display: flex;
         align-items: center;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     body {
-        padding-top: 75px !important; 
+        padding-top: 75px !important;
     }
 
     .menu-dropdown {
@@ -87,7 +87,19 @@
         gap: 15px;
         transition: 0.2s;
     }
+    .menu-content button.menu-item {
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        outline: none;
+    }
 
+    .menu-item.text-danger:hover {
+        background-color: #fff5f5;
+        color: #dc3545 !important;
+    }
     .menu-item.active {
         background-color: var(--accent-green);
         color: white;
@@ -121,9 +133,12 @@
         <a href="#" class="menu-item">
             <i class="fa-solid fa-box-archive"></i> Konfirmasi
         </a>
-        <a href="#" class="menu-item text-danger">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
-        </a>
+        <form action="auth" method="POST" class="m-0 p-0"> <input type="hidden" name="action" value="logout">
+            <button type="submit" class="menu-item text-danger">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> 
+                Logout
+            </button>
+        </form>
     </div>
 </div>
 
@@ -134,10 +149,10 @@
 
     menuBtn.addEventListener('click', (e) => {
         // Mencegah event bubbling agar tidak langsung terpicu window click
-        e.stopPropagation(); 
-        
+        e.stopPropagation();
+
         const isShowing = menuDropdown.classList.toggle('show');
-        
+
         // Animasi icon berganti
         if (isShowing) {
             menuIcon.classList.replace('fa-bars', 'fa-xmark');
