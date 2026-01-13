@@ -124,7 +124,7 @@
                 <a href="#workflow" class="hover:text-emerald-600 transition">Alur Kerja</a>
                 <a href="#features" class="hover:text-emerald-600 transition">Fitur Utama</a>
                 <a href="#roles" class="hover:text-emerald-600 transition">Peran User</a>
-                <a href="#" class="btn-primary text-white px-6 py-2.5 rounded-lg">Masuk Sistem</a>
+                <a href="Login.jsp" class="btn-primary text-white px-6 py-2.5 rounded-lg">Masuk Sistem</a>
             </div>
 
             <button class="md:hidden text-gray-600">
@@ -148,7 +148,7 @@
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="#dashboard" class="btn-primary text-white px-8 py-4 rounded-lg font-bold">Pantau Distribusi</a>
-                    <a href="#" class="glass px-8 py-4 rounded-lg font-bold border border-gray-200 hover:bg-white transition">Pelajari Alur</a>
+                    <a href="#workflow" class="glass px-8 py-4 rounded-lg font-bold border border-gray-200 hover:bg-white transition">Pelajari Alur</a>
                 </div>
             </div>
             <div class="relative">

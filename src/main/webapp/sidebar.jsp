@@ -126,9 +126,12 @@
     </nav>
 
     <div class="logout-container">
-        <a href="#" class="nav-link p-2">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            Keluar
-        </a>
+        <form action="auth" method="POST" class="nav-link p-2">
+            <input type="hidden" name="action" value="logout">
+            <button type="submit" class="btn text-white">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                Logout
+            </button>
+        </form>
     </div>
 </div>

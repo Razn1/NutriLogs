@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO {
-    public User login(String email, String password) {
+    public User Login(String email, String password) {
         User user = null;
         String sql = "SELECT * FROM accounts WHERE email = ? AND password = ?";
 

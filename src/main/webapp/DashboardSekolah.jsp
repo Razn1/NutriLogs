@@ -1,13 +1,24 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="model.User" %>
 <%
-    // Data dummy (bisa nanti diisi dari servlet/database)
-    int menunggu = 2;
-    int diterima = 2;
-    int dalamPerjalanan = 2;
+    User user = (User) session.getAttribute("user");
 
-    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("EEEE, d MMMM yyyy", new java.util.Locale("id", "ID"));
-    String tanggal = sdf.format(new java.util.Date());
+    if (user == null) {
+        response.sendRedirect("Login.jsp");
+        return; 
+    }
+
+    if (!"petugas_sekolah".equals(user.getRole())) {
+        session.invalidate(); 
+ 
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute("errorMessage", "Akses Ilegal! Anda telah dikeluarkan dari sistem.");
+        
+        response.sendRedirect("Login.jsp");
+        return;
+    }
 %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
 <!doctype html>
 <html lang="id">
     <head>
@@ -188,17 +199,17 @@
         <header>
             <%@include file="header.jsp"%>
         </header>
-        <div class="page-wrap">
+        <div class="page-wrap mb-2">
             <div class="mb-4">
                 <h1 class="headline mb-1">Selamat Datang</h1>
-                <p class="subheadline"><%= tanggal%></p>
+                <p class="subheadline"> tanggal</p>
             </div>
 
             <div class="row g-4 mb-4">
                 <div class="col-12 col-md-6">
                     <div class="card-stat-new">
                         <div class="stat-label">Menunggu</div>
-                        <div class="stat-value"><%= menunggu%></div>
+                        <div class="stat-value"> menunggu</div>
                         <div class="stat-icon icon-yellow">
                             <i class="fa-solid fa-truck-fast"></i>
                         </div>
@@ -207,7 +218,7 @@
                 <div class="col-12 col-md-6">
                     <div class="card-stat-new diterima">
                         <div class="stat-label">Diterima</div>
-                        <div class="stat-value"><%= diterima%></div>
+                        <div class="stat-value">diterima</div>
                         <div class="stat-icon icon-green">
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
@@ -222,20 +233,13 @@
                     </div>
                     <div>
                         <div class="fw-bold" style="color: #111827;">Pengiriman Dalam Perjalanan!</div>
-                        <div class="small text-muted"><%= dalamPerjalanan%> pengiriman sedang menuju sekolah Anda</div>
+                        <div class="small text-muted">dalamPerjalanan pengiriman sedang menuju sekolah Anda</div>
                     </div>
                 </div>
-                <form action="konfirmasi" method="POST" class="m-0">
-                    <button type="submit" class="btn-konfirmasi-travel">
-                        Konfirmasi
-                    </button>
-                </form>
             </div>
         </div>
 
         <div class="page-wrap">
-
-
             <div class="delivery-container">
                 <div class="mb-4">
                     <h5 class="fw-bold mb-1 d-flex align-items-center">

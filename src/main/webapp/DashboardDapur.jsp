@@ -1,13 +1,24 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="model.User" %>
 <%
-    // Data dummy (bisa nanti diisi dari servlet/database)
-    int menunggu = 2;
-    int diterima = 2;
-    int dalamPerjalanan = 2;
+    User user = (User) session.getAttribute("user");
 
-    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("EEEE, d MMMM yyyy", new java.util.Locale("id", "ID"));
-    String tanggal = sdf.format(new java.util.Date());
+    if (user == null) {
+        response.sendRedirect("Login.jsp");
+        return; 
+    }
+
+    if (!"admin_dapur".equals(user.getRole())) {
+        session.invalidate(); 
+ 
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute("errorMessage", "Akses Ilegal! Anda telah dikeluarkan dari sistem.");
+        
+        response.sendRedirect("Login.jsp");
+        return;
+    }
 %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
 <!doctype html>
 <html lang="id">
     <head>
@@ -72,27 +83,114 @@
                 font-weight: 700;
                 color: #111827;
             }
-            .card-delivery {
+            .school-card {
+                background: #f8f9fa; /* Background abu-abu sangat muda */
                 border: none;
-                border-radius: 16px;
-                background: #ffffff;
-                box-shadow: 0 6px 18px rgba(31,41,55,0.08);
-                margin-bottom: 16px;
-            }
-            .card-delivery .card-body {
+                border-radius: 12px;
                 padding: 16px 20px;
+                margin-bottom: 12px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: transform 0.2s;
             }
-            .card-delivery h6 {
+
+            .school-card:hover {
+                transform: translateY(-2px);
+                background: #f1f3f5;
+            }
+
+            .school-info h6 {
+                margin: 0;
+                font-weight: 700;
+                color: #334155;
+                font-size: 1.05rem;
+            }
+
+            .school-info span {
+                color: #94a3b8;
+                font-size: 0.9rem;
+            }
+
+            .badge-pending {
+                background-color: #e2e8f0;
+                color: #64748b;
+                border-radius: 20px;
+                padding: 6px 16px;
+                font-size: 0.85rem;
                 font-weight: 600;
-                margin-bottom: 4px;
+                border: none;
             }
-            .card-delivery small {
-                color: #6b7280;
+
+            .header-icon {
+                color: #2ecc71; /* Warna hijau ikon gedung */
+                font-size: 1.5rem;
+                margin-right: 12px;
             }
-            .badge-status {
-                border-radius: 999px;
-                padding: 6px 12px;
+            .delivery-card {
+                background: #f8f9fa;
+                border-radius: 16px;
+                padding: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                transition: all 0.3s ease;
+            }
+
+            .delivery-card:hover {
+                background: #f1f3f5;
+            }
+
+            .icon-box {
+                background-color: #f0fff4; /* Hijau sangat muda */
+                color: #2ecc71; /* Hijau ikon */
+                width: 45px;
+                height: 45px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                margin-right: 15px;
+            }
+
+            .delivery-info h6 {
+                margin: 0;
+                font-weight: 700;
+                color: #1e293b;
+                font-size: 1rem;
+            }
+
+            .delivery-info span {
+                color: #94a3b8;
+                font-size: 0.9rem;
+            }
+
+            .badge-sent {
+                background-color: #fcc419; /* Kuning sesuai gambar */
+                color: #453000;
+                border-radius: 20px;
+                padding: 4px 12px;
+                font-size: 0.8rem;
                 font-weight: 600;
+                border: none;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .time-text {
+                display: block;
+                text-align: right;
+                color: #94a3b8;
+                font-size: 0.85rem;
+                margin-top: 4px;
+            }
+
+            .header-icon-blue {
+                color: #2ecc71; /* Bisa diganti biru jika ingin beda, gambar pakai hijau */
+                font-size: 1.5rem;
+                margin-right: 12px;
             }
             .btn-confirm {
                 background-color: #2ecc70;
@@ -114,30 +212,97 @@
                 font-size: 14px;
             }
 
+            .vehicle-list {
+                display: flex;
+                gap: 16px;
+                padding-bottom: 10px;
+            }
+
+            .vehicle-card {
+                width: 220px;
+                background: #f0fff4;
+                border: 2px solid #dcfce7;
+                border-radius: 16px;
+                padding: 16px;
+                transition: all 0.2s ease;
+                flex: none;
+            }
+
+            badge-pending {
+                background-color: #f1f5f9;
+                color: #64748b;
+                border: none;
+            }
+
+            .badge-shipping {
+                background-color: #fef9c3;
+                color: #a16207;
+            }
+
+            .badge-received {
+                background-color: #dcfce7;
+                color: #15803d;
+            }
+
+            .vehicle-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 12px;
+            }
+
+            .vehicle-icon {
+                color: #2ecc71;
+                font-size: 1.2rem;
+            }
+
+            .badge-available {
+                background-color: #f0fff4;
+                color: #2ecc71;
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 4px 10px;
+                border-radius: 20px;
+                border: 1px solid #d1fae5;
+            }
+
+            /* Informasi Teks */
+            .vehicle-name {
+                font-weight: 700;
+                font-size: 1rem;
+                color: #1e293b;
+                margin-bottom: 2px;
+            }
+
+            .vehicle-plate {
+                font-size: 0.85rem;
+                color: #94a3b8;
+                margin-bottom: 8px;
+                display: block;
+            }
+
+            .vehicle-capacity {
+                font-size: 0.85rem;
+                color: #64748b;
+            }
+
         </style>
     </head>
     <body>
         <div class="page-wrap">
-
-            <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h1 class="headline mb-1">Dashboard Dapur</h1>
-                    <p class="subheadline"><%= tanggal%></p>
+                    <p class="subheadline">tanggal</p>
                 </div>
                 <div>
                     <button class="btn btn-success btn-confirm" data-bs-toggle="modal" data-bs-target="#pengirimanModal">
                         <i class="fa-solid fa-truck me-2"></i>Input Pengiriman
                     </button>
                 </div>
-
-                <!-- Include file modal -->
                 <%@ include file="inputPengiriman.jsp" %>
-
             </div>
 
-            <!-- Section konfirmasi -->
-            <!-- Peringatan -->
             <div class="alert alert-warning confirm-section mt-4">
                 <div id="late-alert-page" class="d-flex align-items-center justify-content-between mb-0 py-2 px-3" style="display:none;">
                     <div class="d-flex align-items-center">
@@ -156,7 +321,6 @@
                 </div>
             </div>
 
-            <!-- Status Ringkas 4 Container -->
             <div class="row g-4 text-center mt-4">
                 <div class="col-6 col-md-3">
                     <div class="card card-stat h-100">
@@ -191,105 +355,119 @@
                     </div>
                 </div>
             </div>
-            <div class="row gx-4 gy-4 mt-4">
-                <!-- Container Kiri -->
-                <div class="col-12 col-md-6">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="fw-bold mb-3">Daftar Sekolah</h5>
-                            <!-- isi daftar -->
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    SDN 01 Cakung <span class="badge bg-secondary">Belum Dikirim</span>
-                                </li>
-                            </ul>
 
+            <div class="row gx-4 gy-4 mt-4">
+                <div class="col-12 col-md-6">
+                    <div class="card h-100 shadow-sm border-0" style="border-radius: 20px;">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="fa-solid fa-city header-icon"></i>
+                                <h4 class="fw-bold m-0" style="color: #1e293b;">Daftar Sekolah</h4>
+                            </div>
+                            <p class="text-muted mb-4" style="font-size: 0.95rem;">Sekolah yang dilayani hari ini</p>
+
+                            <div class="school-list">
+                                <div class="school-card">
+                                    <div class="school-info">
+                                        <h6>SDN 01 Cakung</h6>
+                                        <span>450 siswa</span>
+                                    </div>
+                                    <span class="badge badge-pending ">Belum Dikirim</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Container Kanan -->
                 <div class="col-12 col-md-6">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="fw-bold mb-3">Pengiriman Terbaru</h5>
-                            <!-- isi pengiriman -->
-                            <div class="confirm-section mt-4">
-                                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                                    <div class="mb-3 mb-md-0">
-                                        <h5 class="mb-1">SDN 08 Cengkareng</h5>
-                                        <div class="small mt-1"><%= dalamPerjalanan%> pengiriman sedang menuju sekolah Anda</div>
+                    <div class="card h-100 shadow-sm border-0" style="border-radius: 20px;">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="fa-regular fa-clock header-icon-blue"></i>
+                                <h4 class="fw-bold m-0" style="color: #1e293b;">Pengiriman Terbaru</h4>
+                            </div>
+                            <p class="text-muted mb-4" style="font-size: 0.95rem;">5 pengiriman terakhir hari ini</p>
+
+                            <div class="delivery-list">
+                                <div class="delivery-card">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-box">
+                                            <i class="fa-solid fa-truck-fast"></i>
+                                        </div>
+                                        <div class="delivery-info">
+                                            <h6>SDN 12 Kebayoran</h6>
+                                            <span>300 porsi</span>
+                                        </div>
                                     </div>
-                                    <form method="post" action="konfirmasi">
-                                        <!-- Contoh: kirim nilai konfirmasi (dummy). Ganti dengan id pengiriman nyata. -->
-                                        <input type="hidden" name="aksi" value="konfirmasi-semua"/>
-                                        <button type="submit" class="btn btn-success btn-confirm">
-                                            Dikirim
-                                        </button>
-                                    </form>
+                                    <div class="delivery-status">
+                                        <span class="badge badge-sent">
+                                            <i class="fa-solid fa-box-open" style="font-size: 0.7rem;"></i> Dikirim
+                                        </span>
+                                        <span class="time-text">Kirim: 20.56</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Status kendaraan -->
             <div class="confirm-section mt-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                <div class="vehicle-section mt-2">
+                    <div class="d-flex align-items-center mb-1">
+                        <i class="fa-solid fa-truck-moving header-icon" style="color: #2ecc71;"></i>
+                        <h4 class="fw-bold m-0" style="color: #1e293b;">Status Kendaraan</h4>
+                    </div>
+                    <p class="text-muted mb-4" style="font-size: 0.95rem;">Daftar kendaraan yang tersedia</p>
 
-                    <form method="post" action="konfirmasi">
-                        <input type="hidden" name="aksi" value="konfirmasi-semua"/>
-                        <strong>Status kendaraan</strong>
-                        <div class="small mt-1">Daftar kendaraan yang tersedia</div>
-                </div>
-                <div class="card card-stat col-3 p-10 shadow">
-                    <div class="card-body">
-                        <h6 class="card-title">Selesai</h6>
-                        <h2 class="card-value">0</h2>
+                    <div class="vehicle-list">
+                        <div class="vehicle-card">
+                            <div class="vehicle-header d-inline-flex">
+                                <i class="fa-solid fa-truck vehicle-icon"></i>
+                                <span class="badge-available">Tersedia</span>
+                            </div>
+                            <div class="vehicle-name">Box Truck 01</div>
+                            <span class="vehicle-plate">B 1234 NLG</span>
+                            <div class="vehicle-capacity">Kapasitas: 500 porsi</div>
+                        </div>
                     </div>
                 </div>
-
-                </form>
             </div>
         </div>
-    </div>
 
+        <script>
+            function updateLateAlerts() {
+                const now = new Date();
+                const h = now.getHours();
+                const m = now.getMinutes();
 
-    <!-- Optional: interaksi ringan -->
-    <script>
-        function updateLateAlerts() {
-            const now = new Date();
-            const h = now.getHours();
-            const m = now.getMinutes();
+                const hh = String(h).padStart(2, '0');
+                const mm = String(m).padStart(2, '0');
+                const formatted = hh + '.' + mm;
 
-            const hh = String(h).padStart(2, '0');
-            const mm = String(m).padStart(2, '0');
-            const formatted = hh + '.' + mm;
+                // helper untuk show/hide + isi waktu
+                function applyAlert(alertId, timeId) {
+                    const alertEl = document.getElementById(alertId);
+                    const timeEl = document.getElementById(timeId);
+                    if (!alertEl || !timeEl)
+                        return; // kalau elemen tidak ada (misal di halaman lain)
 
-            // helper untuk show/hide + isi waktu
-            function applyAlert(alertId, timeId) {
-                const alertEl = document.getElementById(alertId);
-                const timeEl = document.getElementById(timeId);
-                if (!alertEl || !timeEl)
-                    return; // kalau elemen tidak ada (misal di halaman lain)
-
-                if (h > 9 || (h === 9 && m > 0)) {
-                    alertEl.style.display = 'flex';
-                    timeEl.textContent = formatted;
-                } else {
-                    alertEl.style.display = 'none';
+                    if (h > 9 || (h === 9 && m > 0)) {
+                        alertEl.style.display = 'flex';
+                        timeEl.textContent = formatted;
+                    } else {
+                        alertEl.style.display = 'none';
+                    }
                 }
+
+                // alert di halaman utama
+                applyAlert('late-alert-page', 'late-time-page');
+                // alert di dalam modal
+                applyAlert('late-alert', 'late-time');
             }
 
-            // alert di halaman utama
-            applyAlert('late-alert-page', 'late-time-page');
-            // alert di dalam modal
-            applyAlert('late-alert', 'late-time');
-        }
+            updateLateAlerts();
+            setInterval(updateLateAlerts, 1000);
+        </script>
 
-        updateLateAlerts();
-        setInterval(updateLateAlerts, 1000);
-    </script>
-
-</body>
+    </body>
 </html>

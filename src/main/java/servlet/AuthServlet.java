@@ -14,37 +14,43 @@ import java.io.IOException;
 
 @WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
+
     private UserDAO userDAO = new UserDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
-        if ("login".equals(action)) {
-            User user = userDAO.login(req.getParameter("email"), req.getParameter("password"));
+        if ("Login".equals(action)) {
+            String email = req.getParameter("email");
+            String password = req.getParameter("password");
+
+            User user = userDAO.Login(email, password);
+
             if (user != null) {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
 
+                // Redirect berdasarkan role
                 switch (user.getRole()) {
                     case "admin_dapur":
-                        resp.sendRedirect("kitchen");
+                        resp.sendRedirect("DashboardDapur.jsp");
                         break;
                     case "petugas_sekolah":
-                        resp.sendRedirect("school");
+                        resp.sendRedirect("DashboardSekolah.jsp");
                         break;
                     case "admin_audit":
-                        resp.sendRedirect("audit");
+                        resp.sendRedirect("DashboardAudit.jsp");
                         break;
                     default:
-                        resp.sendRedirect("login.jsp?error=Invalid role");
+                        resp.sendRedirect("Login.jsp?status=error");
                 }
             } else {
-                resp.sendRedirect("login.jsp?error=Invalid credentials");
+                resp.sendRedirect("Login.jsp?status=error");
             }
         } else if ("logout".equals(action)) {
             req.getSession().invalidate();
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect("Login.jsp");
         }
     }
 }

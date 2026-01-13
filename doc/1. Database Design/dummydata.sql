@@ -1,3 +1,7 @@
+INSERT INTO accounts (role, nama, email, password) VALUES 
+('admin_dapur', 'Dapur', 'dapur@nutrilog.com', 'dapurpw1'),
+('petugas_sekolah', 'Sekolah', 'sekolah@nutrilog.com', 'sekolahpw1'),
+('admin_audit', 'Audit', 'audit@nutrilog.com', 'auditpw1');
 INSERT INTO vehicles (nama_kendaraan, jenis_kendaraan, plat_nomor, kapasitas) VALUES 
 ('Grand Max Blind Van', 'Mobil Box', 'B 9101 TBA', 100),
 ('Carry Futura', 'Pick Up', 'D 8234 ABG', 80),

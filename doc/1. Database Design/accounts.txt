@@ -1,4 +1,0 @@
-INSERT INTO accounts (role, nama, email, password) VALUES 
-('admin_dapur', 'Farel Dapur', 'dapur@nutrilog.com', 'password123'),
-('petugas_sekolah', 'Azam Sekolah', 'sekolah@nutrilog.com', 'password123'),
-('admin_audit', 'Tri Audit', 'audit@nutrilog.com', 'password');
