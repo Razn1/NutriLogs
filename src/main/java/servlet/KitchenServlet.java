@@ -28,6 +28,18 @@ public class KitchenServlet extends HttpServlet {
             return;
         }
 
+        Date today = Date.valueOf(LocalDate.now());
+
+        int total = deliveryDAO.countTotalDeliveries(today);
+        int selesai = deliveryDAO.countDeliveriesByStatus(today, "received");
+        int pending = deliveryDAO.countDeliveriesByStatus(today, "pending");
+        int bermasalah = 0;
+
+        req.setAttribute("totalCount", total);
+        req.setAttribute("selesaiCount", selesai);
+        req.setAttribute("pendingCount", pending);
+        req.setAttribute("masalahCount", bermasalah);
+
         req.setAttribute("schools", dataDAO.getAllSchools());
         req.setAttribute("kitchens", dataDAO.getAllKitchens());
         req.setAttribute("vehicles", dataDAO.getAllVehicles());

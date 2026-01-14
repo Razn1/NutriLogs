@@ -132,4 +132,35 @@ public class DeliveryDAO {
             return false;
         }
     }
+
+    public int countDeliveriesByStatus(Date date, String status) {
+        String sql = "SELECT COUNT(*) FROM delivery_history WHERE tanggal = ? AND status_pengiriman = ?::delivery_status";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDate(1, date);
+            pstmt.setString(2, status);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int countTotalDeliveries(Date date) {
+        String sql = "SELECT COUNT(*) FROM delivery_history WHERE tanggal = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDate(1, date);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

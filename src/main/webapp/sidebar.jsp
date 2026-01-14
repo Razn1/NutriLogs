@@ -115,13 +115,17 @@
     </div>
 
     <nav class="nav flex-column">
-        <a href="#" class="nav-link active d-inline-flex text-white">
+        <a href="audit?halaman=MainAudit" class="nav-link active d-inline-flex text-white">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard w-5 h-5"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>
             Dashboard
         </a>
-        <a href="#" class="nav-link d-inline-flex text-white">
+        <a href="audit?halaman=KelolaSekolah" class="nav-link d-inline-flex text-white">
             <i class="fa-solid fa-school-circle-check"></i>
             Kelola Data Sekolah
+        </a>
+        <a href="audit?halaman=KelolaKendaraan" class="nav-link d-inline-flex text-white">
+            <i class="fa-solid fa-truck-fast"></i>
+            Kelola Data Kendaraan
         </a>
     </nav>
 

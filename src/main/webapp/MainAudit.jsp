@@ -1,21 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%
-    // Data dummy (bisa nanti diisi dari servlet/database)
-    int menunggu = 2;
-    int diterima = 2;
-    int dalamPerjalanan = 2;
-
-    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("EEEE, d MMMM yyyy", new java.util.Locale("id", "ID"));
-    String tanggal = sdf.format(new java.util.Date());
-%>
 <!doctype html>
 <html lang="id">
     <head>
         <meta charset="UTF-8">
         <title>Dashboard Audit</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <!-- Bootstrap CSS & JS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -279,7 +268,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h1 class="headline mb-1">Dashboard Audit</h1>
-                    <p class="subheadline"><%= tanggal%></p>
+                    <p class="subheadline" id="current-date">Memuat tanggal...</p>
                 </div>
             </div>
             <div class="row g-3 mt-2">
@@ -436,5 +425,22 @@
                 </div>
             </div>           
         </div>    
+        <script>
+            function updateDate() {
+                const now = new Date();
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
+
+                const formattedDate = now.toLocaleDateString('id-ID', options);
+
+                document.getElementById('current-date').innerText = formattedDate;
+            }
+
+            updateDate();
+        </script>
     </body>
 </html>

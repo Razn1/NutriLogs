@@ -11,8 +11,6 @@
         session.invalidate(); 
  
         HttpSession newSession = request.getSession(true);
-        newSession.setAttribute("errorMessage", "Akses Ilegal! Anda telah dikeluarkan dari sistem.");
-        
         response.sendRedirect("Login.jsp");
         return;
     }

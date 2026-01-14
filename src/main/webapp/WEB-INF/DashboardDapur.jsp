@@ -1,4 +1,6 @@
 <%@ page import="model.User" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
     User user = (User) session.getAttribute("user");
 
@@ -11,7 +13,6 @@
         session.invalidate();
 
         HttpSession newSession = request.getSession(true);
-        newSession.setAttribute("errorMessage", "Akses Ilegal! Anda telah dikeluarkan dari sistem.");
 
         response.sendRedirect("Login.jsp");
         return;
@@ -164,7 +165,7 @@
                 font-size: 0.9rem;
             }
 
-            .badge-sent {
+            .badge-send {
                 background-color: #fcc419;
                 color: #453000;
                 border-radius: 20px;
@@ -237,20 +238,12 @@
                 border-radius: 10px;
             }
 
-            badge-pending {
-                background-color: #f1f5f9;
-                color: #64748b;
-                border: none;
-            }
-
-            .badge-shipping {
-                background-color: #fef9c3;
-                color: #a16207;
-            }
-
             .badge-received {
                 background-color: #dcfce7;
                 color: #15803d;
+                border-radius: 20px;
+                padding: 6px 16px;
+                font-weight: 600;
             }
 
             .vehicle-header {
@@ -266,13 +259,23 @@
             }
 
             .badge-available {
-                background-color: #f0fff4;
+                background-color: #f7fcf9;
                 color: #2ecc71;
                 font-size: 0.75rem;
                 font-weight: 600;
                 padding: 4px 10px;
                 border-radius: 20px;
                 border: 1px solid #d1fae5;
+            }
+
+            .badge-unavailable {
+                background-color: #fffcf5;
+                color: #2ecc71;
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 4px 10px;
+                border-radius: 20px;
+                border: 1px solid #fcc419;
             }
 
             .vehicle-name {
@@ -318,7 +321,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h1 class="headline mb-1">Dashboard Dapur</h1>
-                    <p class="subheadline">tanggal</p>
+                    <p class="subheadline" id="realtime-date">Memuat tanggal...</p>
                 </div>
 
                 <div class="d-flex align-items-center gap-2">
@@ -359,7 +362,7 @@
                     <div class="card card-stat h-100">
                         <div class="card-body">
                             <h6 class="card-title">Total Hari Ini</h6>
-                            <h2 class="card-value">0</h2>
+                            <h2 class="card-value text-black">${totalCount}</h2>
                         </div>
                     </div>
                 </div>
@@ -367,7 +370,7 @@
                     <div class="card card-stat h-100">
                         <div class="card-body">
                             <h6 class="card-title">Selesai</h6>
-                            <h2 class="card-value">0</h2>
+                            <h2 class="card-value text-black">${selesaiCount}</h2>
                         </div>
                     </div>
                 </div>
@@ -375,7 +378,7 @@
                     <div class="card card-stat h-100">
                         <div class="card-body">
                             <h6 class="card-title">Dalam Perjalanan</h6>
-                            <h2 class="card-value">0</h2>
+                            <h2 class="card-value text-black">${pendingCount}</h2>
                         </div>
                     </div>
                 </div>
@@ -383,7 +386,7 @@
                     <div class="card card-stat h-100">
                         <div class="card-body">
                             <h6 class="card-title">Bermasalah</h6>
-                            <h2 class="card-value">0</h2>
+                            <h2 class="card-value text-black">${masalahCount}</h2>
                         </div>
                     </div>
                 </div>
@@ -405,7 +408,24 @@
                                             <h6>${s.nama}</h6>
                                             <span>${s.jumlahSiswa} siswa</span>
                                         </div>
-                                        <span class="badge badge-pending ">Belum Dikirim</span>
+                                        <c:set var="isSent" value="false" />
+                                        <c:forEach var="d" items="${deliveries}">
+                                            <c:if test="${d.schoolId == s.id}">
+                                                <c:set var="isSent" value="true" />
+                                            </c:if>
+                                        </c:forEach>
+
+                                        <c:choose>
+                                            <c:when test="${d.status == 'selesai'}">
+                                                <span class="badge badge-received">Terkirim</span>
+                                            </c:when>
+                                            <c:when test="${isSent}">
+                                                <span class="badge badge-send"> <i class="fa-solid fa-box-open" style="font-size: 0.7rem;"></i> Dikirim</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge badge-pending">Belum Dikirim</span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </c:forEach>                            
@@ -423,23 +443,43 @@
                             <p class="text-muted mb-4" style="font-size: 0.95rem;">5 pengiriman terakhir hari ini</p>
 
                             <div class="delivery-list">
-                                <div class="delivery-card">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-box">
-                                            <i class="fa-solid fa-truck-fast"></i>
+                                <c:forEach var="d" items="${deliveries}" varStatus="status">
+                                    <c:if test="${status.index < 5}">
+                                        <div class="delivery-card">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-box">
+                                                    <i class="fa-solid fa-truck-fast"></i>
+                                                </div>
+                                                <div class="delivery-info">
+                                                    <h6>${d.schoolName}</h6>
+                                                    <span>${d.jumlahKirim} porsi</span>
+                                                </div>
+                                            </div>
+                                            <div class="delivery-status">
+                                                <c:choose>
+                                                    <c:when test="${d.statusPengiriman == 'selesai'}">
+                                                        <span class="badge badge-received">
+                                                            <i class="fa-solid fa-check-double" style="font-size: 0.7rem;"></i> Terkirim
+                                                        </span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="badge badge-send">
+                                                            <i class="fa-solid fa-truck-fast" style="font-size: 0.7rem;"></i> Dikirim
+                                                        </span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <span class="time-text">Kirim: <fmt:formatDate value="${d.waktuKirim}" pattern="HH.mm" /></span>
+                                            </div>
                                         </div>
-                                        <div class="delivery-info">
-                                            <h6>SDN 12 Kebayoran</h6>
-                                            <span>300 porsi</span>
-                                        </div>
+                                    </c:if>
+                                </c:forEach>
+
+                                <c:if test="${empty deliveries}">
+                                    <div class="text-center text-muted py-4">
+                                        <i class="fa-solid fa-inbox d-block mb-2" style="font-size: 2rem;"></i>
+                                        Belum ada pengiriman hari ini.
                                     </div>
-                                    <div class="delivery-status">
-                                        <span class="badge badge-sent">
-                                            <i class="fa-solid fa-box-open" style="font-size: 0.7rem;"></i> Dikirim
-                                        </span>
-                                        <span class="time-text">Kirim: 20.56</span>
-                                    </div>
-                                </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -502,7 +542,28 @@
             }
 
             updateLateAlerts();
-            setInterval(updateLateAlerts, 1000);
+            setInterval(updateLateAlerts, 36000);
+
+            function updateDateOnly() {
+                const now = new Date();
+
+                // Format: Senin, 14 Januari 2026
+                const options = {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                };
+
+                const dateString = now.toLocaleDateString('id-ID', options);
+
+                const displayElement = document.getElementById('realtime-date');
+                if (displayElement) {
+                    displayElement.textContent = dateString;
+                }
+            }
+            updateDateOnly();
+            setInterval(updateDateOnly, 46800000);
         </script>
 
     </body>
