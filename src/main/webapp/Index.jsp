@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : 7 Jan 2026, 20.28.03
-    Author     : Razn
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="id">
@@ -124,7 +118,7 @@
                 <a href="#workflow" class="hover:text-emerald-600 transition">Alur Kerja</a>
                 <a href="#features" class="hover:text-emerald-600 transition">Fitur Utama</a>
                 <a href="#roles" class="hover:text-emerald-600 transition">Peran User</a>
-                <a href="Login.jsp" class="btn-primary text-white px-6 py-2.5 rounded-lg">Masuk Sistem</a>
+                <a href="tolog.jsp" class="btn-primary text-white px-6 py-2.5 rounded-lg">Masuk Sistem</a>
             </div>
 
             <button class="md:hidden text-gray-600">
