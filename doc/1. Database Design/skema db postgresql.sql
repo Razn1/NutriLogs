@@ -2,68 +2,78 @@
 CREATE DATABASE dbnutrilog;
 \c dbnutrilog;
 
--- 1. Membuat Tipe Data ENUM (Di PostgreSQL ENUM harus didefinisikan sebagai tipe data)
-CREATE TYPE user_role AS ENUM ('admin_dapur', 'petugas_sekolah', 'admin_audit');
-CREATE TYPE delivery_status AS ENUM ('pending', 'dikirim', 'diterima', 'bermasalah');
-CREATE TYPE food_quality AS ENUM ('sangat_baik', 'baik', 'cukup', 'buruk');
+-- Enum Types (represented as VARCHAR/TEXT with Check constraints in standard SQL or just plain text)
+-- User Roles: 'admin_dapur', 'petugas_sekolah', 'admin_audit'
+-- Delivery Status: 'pending', 'dikirim', 'diterima', 'bermasalah'
+-- Food Quality: 'sangat_baik', 'baik', 'cukup', 'buruk'
 
--- 2. Tabel Akun (Master User)
 CREATE TABLE accounts (
-    id SERIAL PRIMARY KEY, -- AUTO_INCREMENT diganti SERIAL
-    role user_role NOT NULL,
+    id VARCHAR(50) PRIMARY KEY,
     nama VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL, -- For simple auth
+    role VARCHAR(20) NOT NULL CHECK (role IN ('admin_dapur', 'petugas_sekolah', 'admin_audit'))
 );
 
--- 3. Tabel Sekolah (Master Sekolah)
-CREATE TABLE schools (
-    id SERIAL PRIMARY KEY,
-    nama VARCHAR(150) NOT NULL,
-    alamat TEXT NOT NULL,
-    jumlah_siswa INT NOT NULL
-);
-
--- 4. Tabel Dapur MBG (Master Dapur)
 CREATE TABLE kitchens (
-    id SERIAL PRIMARY KEY,
-    nama VARCHAR(150) NOT NULL,
+    id VARCHAR(50) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
     alamat TEXT NOT NULL,
     kapasitas INT NOT NULL,
     jumlah_karyawan INT NOT NULL
 );
 
--- 5. Tabel Kendaraan (Master Kendaraan)
+CREATE TABLE schools (
+    id VARCHAR(50) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    alamat TEXT NOT NULL,
+    jumlah_siswa INT NOT NULL
+);
+
 CREATE TABLE vehicles (
-    id SERIAL PRIMARY KEY,
-    nama_kendaraan VARCHAR(100),
-    jenis_kendaraan VARCHAR(50),
+    id VARCHAR(50) PRIMARY KEY,
+    nama_kendaraan VARCHAR(100) NOT NULL,
+    jenis_kendaraan VARCHAR(50) NOT NULL,
     plat_nomor VARCHAR(20) UNIQUE NOT NULL,
     kapasitas INT NOT NULL
 );
 
--- 6. Tabel History Pengiriman Harian
 CREATE TABLE delivery_history (
-    id SERIAL PRIMARY KEY,
-    tanggal DATE NOT NULL DEFAULT CURRENT_DATE,
-    kitchen_id INT REFERENCES kitchens(id),
-    school_id INT REFERENCES schools(id),
-    vehicle_id INT REFERENCES vehicles(id),
-    account_id_pengirim INT REFERENCES accounts(id),
+    id VARCHAR(50) PRIMARY KEY,
+    tanggal DATE NOT NULL,
+    status_pengiriman VARCHAR(20) NOT NULL DEFAULT 'pending',
     
-    -- Pengiriman 
-    waktu_kirim TIMESTAMP DEFAULT NOW(),
-    jumlah_kirim INT NOT NULL CHECK (jumlah_kirim > 0),
-    status_pengiriman delivery_status DEFAULT 'pending',
-    is_late_departure BOOLEAN GENERATED ALWAYS AS ((waktu_kirim::time > '09:00:00'::time)) STORED,
+    -- Sending Info
+    kitchen_id VARCHAR(50) NOT NULL REFERENCES kitchens(id),
+    school_id VARCHAR(50) NOT NULL REFERENCES schools(id),
+    vehicle_id VARCHAR(50) NOT NULL REFERENCES vehicles(id),
+    waktu_kirim TIMESTAMP,
+    jumlah_kirim INT NOT NULL,
     
-    -- Konfirmasi 
+    -- Receiving Info
     waktu_terima TIMESTAMP,
     jumlah_terima INT,
-    kualitas_makanan food_quality DEFAULT NULL,
-    foto_bukti_path VARCHAR(255),
-    
-    -- Field Audit Instan
-    is_late_arrival BOOLEAN GENERATED ALWAYS AS ((waktu_terima::time > '11:00:00'::time)) STORED,
-    selisih_porsi INT GENERATED ALWAYS AS (jumlah_kirim - jumlah_terima) STORED
+    kualitas_makanan VARCHAR(20),
+    catatan_kualitas TEXT,
+    foto_bukti_path TEXT
 );
+
+-- Initial Data Seeding
+INSERT INTO accounts (id, nama, email, password, role) VALUES 
+('u1', 'Admin Dapur', 'dapur@admin.com', 'password', 'admin_dapur'),
+('u2', 'Petugas Sekolah', 'sekolah@admin.com', 'password', 'petugas_sekolah'),
+('u3', 'Admin Audit', 'audit@admin.com', 'password', 'admin_audit');
+
+INSERT INTO kitchens (id, nama, alamat, kapasitas, jumlah_karyawan) VALUES
+('k1', 'Dapur Pusat Jakarta', 'Jl. Merdeka No. 1', 5000, 20),
+('k2', 'Dapur Cabang Selatan', 'Jl. Fatmawati No. 10', 2000, 10);
+
+INSERT INTO schools (id, nama, alamat, jumlah_siswa) VALUES
+('s1', 'SDN 01 Pagi', 'Jl. Sekolah No. 1', 300),
+('s2', 'SMP Negeri 1', 'Jl. Pendidikan No. 5', 500),
+('s3', 'SMA Negeri 3', 'Jl. SMA No. 3', 800);
+
+INSERT INTO vehicles (id, nama_kendaraan, jenis_kendaraan, plat_nomor, kapasitas) VALUES
+('v1', 'Box A', 'Mobil Box', 'B 1234 ABC', 1000),
+('v2', 'Box B', 'Mobil Box', 'B 5678 DEF', 1000),
+('v3', 'Motor A', 'Motor', 'B 9012 GHI', 200);
