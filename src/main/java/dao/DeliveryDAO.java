@@ -1,166 +1,150 @@
 package dao;
 
-import model.Delivery;
+import model.*;
+import model.enums.*;
 import util.DBConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DeliveryDAO {
 
-    public boolean createDelivery(Delivery delivery) {
-        // HANYA kolom manual. Jangan masukkan id, is_late_departure, is_late_arrival, selisih_porsi.
-        String sql = "INSERT INTO delivery_history (tanggal, kitchen_id, school_id, vehicle_id, "
-                + "account_id_pengirim, waktu_kirim, jumlah_kirim, status_pengiriman) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?::delivery_status)";
+    private KitchenDAO kitchenDAO = new KitchenDAO();
+    private SchoolDAO schoolDAO = new SchoolDAO();
+    private VehicleDAO vehicleDAO = new VehicleDAO();
 
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    public void create(Delivery delivery) throws SQLException {
+        String sql = "INSERT INTO delivery_history (id, tanggal, status_pengiriman, kitchen_id, school_id, vehicle_id, waktu_kirim, jumlah_kirim) "
+                +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setDate(1, delivery.getTanggal());
-            pstmt.setInt(2, delivery.getKitchenId());
-            pstmt.setInt(3, delivery.getSchoolId());
-            pstmt.setInt(4, delivery.getVehicleId());
-            pstmt.setInt(5, delivery.getAccountIdPengirim());
-            pstmt.setTimestamp(6, delivery.getWaktuKirim());
-            pstmt.setInt(7, delivery.getJumlahKirim());
-            pstmt.setString(8, "pending");
+            pstmt.setString(1, delivery.getId());
+            pstmt.setDate(2, Date.valueOf(delivery.getTanggal()));
+            pstmt.setString(3, delivery.getStatusPengiriman().name());
+            pstmt.setString(4, delivery.getKitchenId());
+            pstmt.setString(5, delivery.getSchoolId());
+            pstmt.setString(6, delivery.getVehicleId());
+            pstmt.setTimestamp(7,
+                    delivery.getWaktuKirim() != null ? Timestamp.valueOf(delivery.getWaktuKirim()) : null);
+            pstmt.setInt(8, delivery.getJumlahKirim());
 
-            int rows = pstmt.executeUpdate();
-            return rows > 0;
-        } catch (SQLException e) {
-            System.err.println("CRITICAL DATABASE ERROR: " + e.getMessage());
-            e.printStackTrace();
-            return false;
+            pstmt.executeUpdate();
         }
     }
 
-    public List<Delivery> getDeliveriesByDate(Date date) {
-        List<Delivery> list = new ArrayList<>();
-        // Gunakan LEFT JOIN agar jika ada data Master yang terhapus, data transaksi tetap muncul
-        String sql = "SELECT d.*, s.nama as school_name, k.nama as kitchen_name, v.plat_nomor as vehicle_name "
-                + "FROM delivery_history d "
-                + "LEFT JOIN schools s ON d.school_id = s.id "
-                + "LEFT JOIN kitchens k ON d.kitchen_id = k.id "
-                + "LEFT JOIN vehicles v ON d.vehicle_id = v.id "
-                + "WHERE d.tanggal = ? "
-                + "ORDER BY d.waktu_kirim DESC";
+    public void updateReceivingInfo(Delivery delivery) throws SQLException {
+        String sql = "UPDATE delivery_history SET status_pengiriman = ?, waktu_terima = ?, jumlah_terima = ?, kualitas_makanan = ?, "
+                +
+                "catatan_kualitas = ?, foto_bukti_path = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDate(1, date);
+            pstmt.setString(1, delivery.getStatusPengiriman().name());
+            pstmt.setTimestamp(2,
+                    delivery.getWaktuTerima() != null ? Timestamp.valueOf(delivery.getWaktuTerima()) : null);
+            if (delivery.getJumlahTerima() != null)
+                pstmt.setInt(3, delivery.getJumlahTerima());
+            else
+                pstmt.setNull(3, Types.INTEGER);
+            if (delivery.getKualitasMakanan() != null)
+                pstmt.setString(4, delivery.getKualitasMakanan().name());
+            else
+                pstmt.setNull(4, Types.VARCHAR);
+            pstmt.setString(5, delivery.getCatatanKualitas());
+            pstmt.setString(6, delivery.getFotoBuktiPath());
+            pstmt.setString(7, delivery.getId());
+
+            pstmt.executeUpdate();
+        }
+    }
+
+    // Simplified list fetch without joins for now, or we can fetch eagerly
+    public List<Delivery> findAll() throws SQLException {
+        String sql = "SELECT * FROM delivery_history ORDER BY tanggal DESC, waktu_kirim DESC";
+        return fetchList(sql);
+    }
+
+    public List<Delivery> findByKitchen(String kitchenId) throws SQLException {
+        String sql = "SELECT * FROM delivery_history WHERE kitchen_id = ? ORDER BY tanggal DESC";
+        return fetchList(sql, kitchenId);
+    }
+
+    public List<Delivery> findBySchool(String schoolId) throws SQLException {
+        String sql = "SELECT * FROM delivery_history WHERE school_id = ? ORDER BY tanggal DESC";
+        return fetchList(sql, schoolId);
+    }
+
+    public Delivery findById(String id) throws SQLException {
+        String sql = "SELECT * FROM delivery_history WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    list.add(mapResultSetToDelivery(rs));
+                if (rs.next()) {
+                    return mapRow(rs);
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private List<Delivery> fetchList(String sql, String... params) throws SQLException {
+        List<Delivery> list = new ArrayList<>();
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setString(i + 1, params[i]);
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapRow(rs));
+                }
+            }
         }
         return list;
     }
 
-    private Delivery mapResultSetToDelivery(ResultSet rs) throws SQLException {
+    private Delivery mapRow(ResultSet rs) throws SQLException {
         Delivery d = new Delivery();
-        d.setId(rs.getInt("id"));
-        d.setTanggal(rs.getDate("tanggal"));
-        d.setKitchenId(rs.getInt("kitchen_id"));
-        d.setSchoolId(rs.getInt("school_id"));
-        d.setVehicleId(rs.getInt("vehicle_id"));
-        d.setAccountIdPengirim(rs.getInt("account_id_pengirim"));
-        d.setWaktuKirim(rs.getTimestamp("waktu_kirim"));
+        d.setId(rs.getString("id"));
+        d.setTanggal(rs.getDate("tanggal").toLocalDate());
+        d.setStatusPengiriman(DeliveryStatus.valueOf(rs.getString("status_pengiriman")));
+        d.setKitchenId(rs.getString("kitchen_id"));
+        d.setSchoolId(rs.getString("school_id"));
+        d.setVehicleId(rs.getString("vehicle_id"));
+
+        Timestamp tsKirim = rs.getTimestamp("waktu_kirim");
+        if (tsKirim != null)
+            d.setWaktuKirim(tsKirim.toLocalDateTime());
+
         d.setJumlahKirim(rs.getInt("jumlah_kirim"));
-        d.setStatusPengiriman(rs.getString("status_pengiriman"));
-        d.setSchoolName(rs.getString("school_name"));
-        d.setKitchenName(rs.getString("kitchen_name"));
-        d.setVehicleName(rs.getString("vehicle_name"));
+
+        Timestamp tsTerima = rs.getTimestamp("waktu_terima");
+        if (tsTerima != null)
+            d.setWaktuTerima(tsTerima.toLocalDateTime());
+
+        int jmlTerima = rs.getInt("jumlah_terima");
+        if (!rs.wasNull())
+            d.setJumlahTerima(jmlTerima);
+
+        String qual = rs.getString("kualitas_makanan");
+        if (qual != null)
+            d.setKualitasMakanan(FoodQuality.valueOf(qual));
+
+        d.setCatatanKualitas(rs.getString("catatan_kualitas"));
+        d.setFotoBuktiPath(rs.getString("foto_bukti_path"));
+
+        // Eager load relations (simple N+1 for now, optimized later if needed)
+        // ideally we join, but for demo simpler code is better
+        d.setKitchen(kitchenDAO.findById(d.getKitchenId()));
+        d.setSchool(schoolDAO.findById(d.getSchoolId()));
+        d.setVehicle(vehicleDAO.findById(d.getVehicleId()));
+
         return d;
-    }
-
-    public List<Delivery> getPendingDeliveriesForSchool(int schoolId, Date tanggal) {
-        List<Delivery> list = new ArrayList<>();
-        // Menggunakan JOIN agar nama sekolah, dapur, dan kendaraan juga ikut terbawa
-        String sql = "SELECT d.*, s.nama as school_name, k.nama as kitchen_name, v.plat_nomor as vehicle_name "
-                + "FROM delivery_history d "
-                + "LEFT JOIN schools s ON d.school_id = s.id "
-                + "LEFT JOIN kitchens k ON d.kitchen_id = k.id "
-                + "LEFT JOIN vehicles v ON d.vehicle_id = v.id "
-                + "WHERE d.school_id = ? AND d.tanggal = ? AND d.status_pengiriman = 'pending'";
-
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, schoolId);
-            pstmt.setDate(2, tanggal);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    // Menggunakan fungsi map yang sudah Anda buat sebelumnya
-                    list.add(mapResultSetToDelivery(rs));
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Error fetching pending deliveries: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    public boolean confirmDelivery(int deliveryId, int qtyReceived, String quality, String notes, String photoPath) {
-        // Kita update data pengiriman yang sudah ada
-        // Set status menjadi 'received' (sesuaikan dengan enum di database Anda)
-        // Serta mencatat waktu tiba (waktu_tiba) secara otomatis menggunakan CURRENT_TIMESTAMP
-        String sql = "UPDATE delivery_history SET "
-                + "jumlah_terima = ?, "
-                + "kualitas_makanan = ?, "
-                + "catatan_kualitas = ?, "
-                + "foto_bukti = ?, "
-                + "status_pengiriman = 'received'::delivery_status, "
-                + "waktu_tiba = CURRENT_TIMESTAMP "
-                + "WHERE id = ?";
-
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, qtyReceived);
-            pstmt.setString(2, quality);
-            pstmt.setString(3, notes);
-            pstmt.setString(4, photoPath);
-            pstmt.setInt(5, deliveryId);
-
-            int rows = pstmt.executeUpdate();
-            return rows > 0;
-        } catch (SQLException e) {
-            System.err.println("Error confirming delivery: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public int countDeliveriesByStatus(Date date, String status) {
-        String sql = "SELECT COUNT(*) FROM delivery_history WHERE tanggal = ? AND status_pengiriman = ?::delivery_status";
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDate(1, date);
-            pstmt.setString(2, status);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public int countTotalDeliveries(Date date) {
-        String sql = "SELECT COUNT(*) FROM delivery_history WHERE tanggal = ?";
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDate(1, date);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 }

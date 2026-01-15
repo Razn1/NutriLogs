@@ -1,85 +1,93 @@
 package model;
 
-import java.sql.Timestamp;
-import java.sql.Date;
+import model.enums.DeliveryStatus;
+import model.enums.FoodQuality;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Delivery {
-    private int id;
-    private Date tanggal;
-    private int kitchenId;
-    private int schoolId;
-    private int vehicleId;
-    private int accountIdPengirim;
-    private Timestamp waktuKirim;
-    private int jumlahKirim;
-    private String statusPengiriman;
-    private Timestamp waktuTerima;
-    private int jumlahTerima;
-    private String kualitasMakanan;
-    private String catatanKualitas;
-    private String fotoBuktiPath;
+    private String id;
+    private LocalDate tanggal;
+    private DeliveryStatus statusPengiriman;
 
-    // Auxiliary fields (join results)
-    private String schoolName;
-    private String kitchenName;
-    private String vehicleName;
+    // Foreign Keys
+    private String kitchenId;
+    private String schoolId;
+    private String vehicleId;
+
+    // Sending Info
+    private LocalDateTime waktuKirim;
+    private int jumlahKirim;
+
+    // Receiving Info
+    private LocalDateTime waktuTerima;
+    private Integer jumlahTerima; // Nullable
+    private FoodQuality kualitasMakanan; // Nullable
+    private String catatanKualitas; // Nullable
+    private String fotoBuktiPath; // Nullable
+
+    // Relations (for display)
+    private Kitchen kitchen;
+    private School school;
+    private Vehicle vehicle;
 
     public Delivery() {
     }
 
-    public int getId() {
+    // Getters and Setters
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Date getTanggal() {
+    public LocalDate getTanggal() {
         return tanggal;
     }
 
-    public void setTanggal(Date tanggal) {
+    public void setTanggal(LocalDate tanggal) {
         this.tanggal = tanggal;
     }
 
-    public int getKitchenId() {
+    public DeliveryStatus getStatusPengiriman() {
+        return statusPengiriman;
+    }
+
+    public void setStatusPengiriman(DeliveryStatus statusPengiriman) {
+        this.statusPengiriman = statusPengiriman;
+    }
+
+    public String getKitchenId() {
         return kitchenId;
     }
 
-    public void setKitchenId(int kitchenId) {
+    public void setKitchenId(String kitchenId) {
         this.kitchenId = kitchenId;
     }
 
-    public int getSchoolId() {
+    public String getSchoolId() {
         return schoolId;
     }
 
-    public void setSchoolId(int schoolId) {
+    public void setSchoolId(String schoolId) {
         this.schoolId = schoolId;
     }
 
-    public int getVehicleId() {
+    public String getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(int vehicleId) {
+    public void setVehicleId(String vehicleId) {
         this.vehicleId = vehicleId;
     }
 
-    public int getAccountIdPengirim() {
-        return accountIdPengirim;
-    }
-
-    public void setAccountIdPengirim(int accountIdPengirim) {
-        this.accountIdPengirim = accountIdPengirim;
-    }
-
-    public Timestamp getWaktuKirim() {
+    public LocalDateTime getWaktuKirim() {
         return waktuKirim;
     }
 
-    public void setWaktuKirim(Timestamp waktuKirim) {
+    public void setWaktuKirim(LocalDateTime waktuKirim) {
         this.waktuKirim = waktuKirim;
     }
 
@@ -91,35 +99,27 @@ public class Delivery {
         this.jumlahKirim = jumlahKirim;
     }
 
-    public String getStatusPengiriman() {
-        return statusPengiriman;
-    }
-
-    public void setStatusPengiriman(String statusPengiriman) {
-        this.statusPengiriman = statusPengiriman;
-    }
-
-    public Timestamp getWaktuTerima() {
+    public LocalDateTime getWaktuTerima() {
         return waktuTerima;
     }
 
-    public void setWaktuTerima(Timestamp waktuTerima) {
+    public void setWaktuTerima(LocalDateTime waktuTerima) {
         this.waktuTerima = waktuTerima;
     }
 
-    public int getJumlahTerima() {
+    public Integer getJumlahTerima() {
         return jumlahTerima;
     }
 
-    public void setJumlahTerima(int jumlahTerima) {
+    public void setJumlahTerima(Integer jumlahTerima) {
         this.jumlahTerima = jumlahTerima;
     }
 
-    public String getKualitasMakanan() {
+    public FoodQuality getKualitasMakanan() {
         return kualitasMakanan;
     }
 
-    public void setKualitasMakanan(String kualitasMakanan) {
+    public void setKualitasMakanan(FoodQuality kualitasMakanan) {
         this.kualitasMakanan = kualitasMakanan;
     }
 
@@ -139,27 +139,27 @@ public class Delivery {
         this.fotoBuktiPath = fotoBuktiPath;
     }
 
-    public String getSchoolName() {
-        return schoolName;
+    public Kitchen getKitchen() {
+        return kitchen;
     }
 
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
+    public void setKitchen(Kitchen kitchen) {
+        this.kitchen = kitchen;
     }
 
-    public String getKitchenName() {
-        return kitchenName;
+    public School getSchool() {
+        return school;
     }
 
-    public void setKitchenName(String kitchenName) {
-        this.kitchenName = kitchenName;
+    public void setSchool(School school) {
+        this.school = school;
     }
 
-    public String getVehicleName() {
-        return vehicleName;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicleName(String vehicleName) {
-        this.vehicleName = vehicleName;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }

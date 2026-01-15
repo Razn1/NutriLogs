@@ -1,87 +1,86 @@
 package servlet;
 
-import dao.DataDAO;
-import dao.DeliveryDAO;
-import model.Delivery;
-import model.User;
+import dao.*;
+import model.*;
+import model.enums.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.sql.Date;
-import java.time.LocalDate;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/kitchen")
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+@WebServlet(name = "KitchenServlet", urlPatterns = { "/kitchen/dashboard", "/kitchen/delivery",
+        "/kitchen/delivery/submit" })
 public class KitchenServlet extends HttpServlet {
 
-    private DataDAO dataDAO = new DataDAO();
     private DeliveryDAO deliveryDAO = new DeliveryDAO();
+    private SchoolDAO schoolDAO = new SchoolDAO();
+    private VehicleDAO vehicleDAO = new VehicleDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
-
-        if (user == null || !"admin_dapur".equals(user.getRole())) {
-            resp.sendRedirect("Login.jsp");
-            return;
+        String path = req.getServletPath();
+        try {
+            if (path.equals("/kitchen/dashboard")) {
+                showDashboard(req, resp);
+            } else if (path.equals("/kitchen/delivery")) {
+                showDeliveryForm(req, resp);
+            }
+        } catch (SQLException e) {
+            throw new ServletException(e);
         }
+    }
 
-        Date today = Date.valueOf(LocalDate.now());
+    private void showDashboard(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException, SQLException {
+        String kitchenId = "k1";
 
-        int total = deliveryDAO.countTotalDeliveries(today);
-        int selesai = deliveryDAO.countDeliveriesByStatus(today, "received");
-        int pending = deliveryDAO.countDeliveriesByStatus(today, "pending");
-        int bermasalah = 0;
+        List<Delivery> deliveries = deliveryDAO.findByKitchen(kitchenId);
+        req.setAttribute("deliveries", deliveries);
+        req.getRequestDispatcher("/WEB-INF/views/kitchen/dashboard.jsp").forward(req, resp);
+    }
 
-        req.setAttribute("totalCount", total);
-        req.setAttribute("selesaiCount", selesai);
-        req.setAttribute("pendingCount", pending);
-        req.setAttribute("masalahCount", bermasalah);
-
-        req.setAttribute("schools", dataDAO.getAllSchools());
-        req.setAttribute("kitchens", dataDAO.getAllKitchens());
-        req.setAttribute("vehicles", dataDAO.getAllVehicles());
-        req.setAttribute("deliveries", deliveryDAO.getDeliveriesByDate(Date.valueOf(LocalDate.now())));
-
-        req.getRequestDispatcher("/WEB-INF/DashboardDapur.jsp").forward(req, resp);
+    private void showDeliveryForm(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException, SQLException {
+        List<School> schools = schoolDAO.findAll();
+        List<Vehicle> vehicles = vehicleDAO.findAll();
+        req.setAttribute("schools", schools);
+        req.setAttribute("vehicles", vehicles);
+        req.getRequestDispatcher("/WEB-INF/views/kitchen/delivery.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
-
-        if (user == null) {
-            resp.sendRedirect("Login.jsp");
-            return;
-        }
-
-        try {
-            Delivery d = new Delivery();
-            d.setTanggal(Date.valueOf(LocalDate.now()));
-            d.setKitchenId(Integer.parseInt(req.getParameter("kitchen_id")));
-            d.setSchoolId(Integer.parseInt(req.getParameter("school_id")));
-            d.setVehicleId(Integer.parseInt(req.getParameter("vehicle_id")));
-            d.setAccountIdPengirim(user.getId()); // Mengambil ID dari session login
-            d.setWaktuKirim(new Timestamp(System.currentTimeMillis()));
-            d.setJumlahKirim(Integer.parseInt(req.getParameter("jumlah_kirim")));
-
-            System.out.println("DEBUG: Mencoba insert data untuk User ID: " + user.getId());
-
-            boolean isSuccess = deliveryDAO.createDelivery(d);
-
-            if (isSuccess) {
-                session.setAttribute("message", "Data pengiriman berhasil disimpan!");
-            } else {
-                session.setAttribute("error", "Gagal menyimpan ke database. Cek Console IDE.");
+        String path = req.getServletPath();
+        if (path.equals("/kitchen/delivery/submit")) {
+            try {
+                processDelivery(req, resp);
+            } catch (SQLException e) {
+                throw new ServletException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.setAttribute("error", "Terjadi kesalahan input: " + e.getMessage());
         }
+    }
 
-        resp.sendRedirect("kitchen");
+    private void processDelivery(HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
+        Delivery d = new Delivery();
+        d.setId(UUID.randomUUID().toString());
+        d.setTanggal(LocalDate.now());
+        d.setStatusPengiriman(DeliveryStatus.dikirim);
+        d.setKitchenId("k1"); // Hardcoded for demo
+        d.setSchoolId(req.getParameter("schoolId"));
+        d.setVehicleId(req.getParameter("vehicleId"));
+        d.setWaktuKirim(LocalDateTime.now());
+        d.setJumlahKirim(Integer.parseInt(req.getParameter("jumlahKirim")));
+
+        deliveryDAO.create(d);
+
+        resp.sendRedirect(req.getContextPath() + "/kitchen/dashboard");
     }
 }

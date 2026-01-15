@@ -1,48 +1,31 @@
 package model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import model.enums.UserRole;
 
-@Entity
-@Table(name = "accounts")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    
-    private String role;
+    private String id;
     private String nama;
     private String email;
     private String password;
+    private UserRole role;
+
+    public User(String id, String nama, String email, String password, UserRole role) {
+        this.id = id;
+        this.nama = nama;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
     public User() {
     }
 
-    public User(int id, String role, String nama, String email, String password) {
-        this.id = id;
-        this.role = role;
-        this.nama = nama;
-        this.email = email;
-        this.password = password;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getNama() {
@@ -67,5 +50,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

@@ -1,98 +1,52 @@
 package dao;
 
 import model.School;
-import util.DBConnection; 
-import java.sql.*;
+import util.DBConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SchoolDAO {
 
-    public List<School> getAllSchools() {
-        List<School> list = new ArrayList<>();
-        String sql = "SELECT * FROM sekolah ORDER BY id DESC";
+    public School findById(String id) throws SQLException {
+        String sql = "SELECT * FROM schools WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            pstmt.setString(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapRow(rs);
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<School> findAll() throws SQLException {
+        String sql = "SELECT * FROM schools ORDER BY nama ASC";
+        List<School> list = new ArrayList<>();
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                School s = new School();
-                s.setId(rs.getInt("id"));
-                s.setNama(rs.getString("nama"));
-                s.setAlamat(rs.getString("alamat"));
-                s.setJumlahSiswa(rs.getInt("jumlah_siswa"));
-                list.add(s);
+                list.add(mapRow(rs));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return list;
     }
 
-    // 2. Tambah Sekolah Baru
-    public boolean addSchool(School s) {
-        String sql = "INSERT INTO sekolah (nama, alamat, jumlah_siswa) VALUES (?, ?, ?)";
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, s.getNama());
-            ps.setString(2, s.getAlamat());
-            ps.setInt(3, s.getJumlahSiswa());
-
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // 3. Update Data Sekolah
-    public boolean updateSchool(School s) {
-        String sql = "UPDATE sekolah SET nama=?, alamat=?, jumlah_siswa=? WHERE id=?";
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, s.getNama());
-            ps.setString(2, s.getAlamat());
-            ps.setInt(3, s.getJumlahSiswa());
-            ps.setInt(4, s.getId());
-
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // 4. Hapus Sekolah
-    public boolean deleteSchool(int id) {
-        String sql = "DELETE FROM sekolah WHERE id=?";
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // 5. Ambil Detail Sekolah Berdasarkan ID
-    public School getSchoolById(int id) {
-        String sql = "SELECT * FROM sekolah WHERE id = ?";
-        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    School s = new School();
-                    s.setId(rs.getInt("id"));
-                    s.setNama(rs.getString("nama"));
-                    s.setAlamat(rs.getString("alamat"));
-                    s.setJumlahSiswa(rs.getInt("jumlah_siswa"));
-                    return s;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private School mapRow(ResultSet rs) throws SQLException {
+        School s = new School();
+        s.setId(rs.getString("id"));
+        s.setNama(rs.getString("nama"));
+        s.setAlamat(rs.getString("alamat"));
+        s.setJumlahSiswa(rs.getInt("jumlah_siswa"));
+        return s;
     }
 }

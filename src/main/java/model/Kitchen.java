@@ -1,16 +1,13 @@
 package model;
 
 public class Kitchen {
-    private int id;
+    private String id;
     private String nama;
     private String alamat;
     private int kapasitas;
     private int jumlahKaryawan;
 
-    public Kitchen() {
-    }
-
-    public Kitchen(int id, String nama, String alamat, int kapasitas, int jumlahKaryawan) {
+    public Kitchen(String id, String nama, String alamat, int kapasitas, int jumlahKaryawan) {
         this.id = id;
         this.nama = nama;
         this.alamat = alamat;
@@ -18,11 +15,14 @@ public class Kitchen {
         this.jumlahKaryawan = jumlahKaryawan;
     }
 
-    public int getId() {
+    public Kitchen() {
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

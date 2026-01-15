@@ -1,26 +1,26 @@
 package model;
 
 public class School {
-    private int id;
+    private String id;
     private String nama;
     private String alamat;
     private int jumlahSiswa;
 
-    public School() {
-    }
-
-    public School(int id, String nama, String alamat, int jumlahSiswa) {
+    public School(String id, String nama, String alamat, int jumlahSiswa) {
         this.id = id;
         this.nama = nama;
         this.alamat = alamat;
         this.jumlahSiswa = jumlahSiswa;
     }
 
-    public int getId() {
+    public School() {
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

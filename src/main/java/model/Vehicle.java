@@ -1,16 +1,13 @@
 package model;
 
 public class Vehicle {
-    private int id;
+    private String id;
     private String namaKendaraan;
     private String jenisKendaraan;
     private String platNomor;
     private int kapasitas;
 
-    public Vehicle() {
-    }
-
-    public Vehicle(int id, String namaKendaraan, String jenisKendaraan, String platNomor, int kapasitas) {
+    public Vehicle(String id, String namaKendaraan, String jenisKendaraan, String platNomor, int kapasitas) {
         this.id = id;
         this.namaKendaraan = namaKendaraan;
         this.jenisKendaraan = jenisKendaraan;
@@ -18,11 +15,14 @@ public class Vehicle {
         this.kapasitas = kapasitas;
     }
 
-    public int getId() {
+    public Vehicle() {
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -56,21 +56,5 @@ public class Vehicle {
 
     public void setKapasitas(int kapasitas) {
         this.kapasitas = kapasitas;
-    }
-
-    public void setStatus(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public void setJenis(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public String getStatus() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public String getJenis() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

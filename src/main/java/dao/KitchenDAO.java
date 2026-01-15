@@ -1,6 +1,6 @@
 package dao;
 
-import model.Vehicle;
+import model.Kitchen;
 import util.DBConnection;
 
 import java.sql.Connection;
@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VehicleDAO {
+public class KitchenDAO {
 
-    public Vehicle findById(String id) throws SQLException {
-        String sql = "SELECT * FROM vehicles WHERE id = ?";
+    public Kitchen findById(String id) throws SQLException {
+        String sql = "SELECT * FROM kitchens WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -27,9 +27,9 @@ public class VehicleDAO {
         return null;
     }
 
-    public List<Vehicle> findAll() throws SQLException {
-        String sql = "SELECT * FROM vehicles ORDER BY nama_kendaraan ASC";
-        List<Vehicle> list = new ArrayList<>();
+    public List<Kitchen> findAll() throws SQLException {
+        String sql = "SELECT * FROM kitchens ORDER BY nama ASC";
+        List<Kitchen> list = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 ResultSet rs = pstmt.executeQuery()) {
@@ -41,13 +41,13 @@ public class VehicleDAO {
         return list;
     }
 
-    private Vehicle mapRow(ResultSet rs) throws SQLException {
-        Vehicle v = new Vehicle();
-        v.setId(rs.getString("id"));
-        v.setNamaKendaraan(rs.getString("nama_kendaraan"));
-        v.setJenisKendaraan(rs.getString("jenis_kendaraan"));
-        v.setPlatNomor(rs.getString("plat_nomor"));
-        v.setKapasitas(rs.getInt("kapasitas"));
-        return v;
+    private Kitchen mapRow(ResultSet rs) throws SQLException {
+        Kitchen k = new Kitchen();
+        k.setId(rs.getString("id"));
+        k.setNama(rs.getString("nama"));
+        k.setAlamat(rs.getString("alamat"));
+        k.setKapasitas(rs.getInt("kapasitas"));
+        k.setJumlahKaryawan(rs.getInt("jumlah_karyawan"));
+        return k;
     }
 }

@@ -1,0 +1,24 @@
+<%@ page pageEncoding="UTF-8" %>
+<nav class="bg-card border-b border-border shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex">
+                <div class="flex-shrink-0 flex items-center">
+                    <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-foreground">NutriLog</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm text-muted-foreground hidden sm:inline-block">
+                    Halo, ${sessionScope.user.nama}
+                </span>
+                <a href="${pageContext.request.contextPath}/logout" 
+                   class="inline-flex items-center px-4 py-2 border border-input text-sm font-medium rounded-md text-foreground bg-background hover:bg-accent/50 transition-colors">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

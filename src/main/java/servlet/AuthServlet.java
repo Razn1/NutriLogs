@@ -2,7 +2,6 @@ package servlet;
 
 import dao.UserDAO;
 import model.User;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,46 +10,61 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
-@WebServlet("/auth")
+@WebServlet(name = "AuthServlet", urlPatterns = { "/login", "/logout" })
 public class AuthServlet extends HttpServlet {
 
     private UserDAO userDAO = new UserDAO();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String path = req.getServletPath();
+        if ("/logout".equals(path)) {
+            HttpSession session = req.getSession(false);
+            if (session != null) {
+                session.invalidate();
+            }
+            resp.sendRedirect(req.getContextPath() + "/login");
+        } else {
+            // Forward to login page
+            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+        }
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
 
-        if ("Login".equals(action)) {
-            String email = req.getParameter("email");
-            String password = req.getParameter("password");
-
-            User user = userDAO.Login(email, password);
-
-            if (user != null) {
+        try {
+            User user = userDAO.findByEmail(email);
+            if (user != null && user.getPassword().equals(password)) {
+                // Login success
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
 
-                // Redirect berdasarkan role
+                // Redirect based on role
                 switch (user.getRole()) {
-                    case "admin_dapur":
-                        resp.sendRedirect("kitchen");
+                    case admin_dapur:
+                        resp.sendRedirect(req.getContextPath() + "/kitchen/dashboard");
                         break;
-                    case "petugas_sekolah":
-                        resp.sendRedirect("school");
+                    case petugas_sekolah:
+                        resp.sendRedirect(req.getContextPath() + "/school/dashboard");
                         break;
-                    case "admin_audit":
-                        resp.sendRedirect("audit");
+                    case admin_audit:
+                        resp.sendRedirect(req.getContextPath() + "/audit/dashboard");
                         break;
                     default:
-                        resp.sendRedirect("Login.jsp?status=error");
+                        resp.sendRedirect(req.getContextPath() + "/");
                 }
             } else {
-                resp.sendRedirect("Login.jsp?status=error");
+                // Login failed
+                req.setAttribute("error", "Invalid email or password");
+                req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
             }
-        } else if ("logout".equals(action)) {
-            req.getSession().invalidate();
-            resp.sendRedirect("Login.jsp");
+        } catch (SQLException e) {
+            throw new ServletException(e);
         }
     }
 }
