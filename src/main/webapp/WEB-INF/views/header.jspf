@@ -1,48 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script src="https://cdn.tailwindcss.com"></script>
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          border: "hsl(210 14% 89%)", 
-          input: "hsl(210 14% 89%)",
-          ring: "hsl(145 63% 49%)",
-          background: "hsl(210 20% 98%)",
-          foreground: "hsl(210 29% 15%)",
-          primary: {
-            DEFAULT: "hsl(145 63% 49%)",
-            foreground: "hsl(0 0% 100%)",
-          },
-          secondary: {
-            DEFAULT: "hsl(210 14% 93%)",
-            foreground: "hsl(210 29% 24%)",
-          },
-          destructive: {
-            DEFAULT: "hsl(6 78% 57%)",
-            foreground: "hsl(0 0% 100%)",
-          },
-          muted: {
-            DEFAULT: "hsl(210 14% 93%)",
-            foreground: "hsl(210 14% 46%)",
-          },
-          accent: {
-            DEFAULT: "hsl(145 63% 95%)",
-            foreground: "hsl(145 63% 30%)",
-          },
-          card: {
-            DEFAULT: "hsl(0 0% 100%)",
-            foreground: "hsl(210 29% 15%)",
-          },
-        },
-        borderRadius: {
-          lg: "var(--radius)",
-          md: "calc(var(--radius) - 2px)",
-          sm: "calc(var(--radius) - 4px)",
-        },
-      }
-    }
-  }
-</script>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+<!-- Custom Styles -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<!-- Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>

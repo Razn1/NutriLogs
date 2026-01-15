@@ -1,21 +1,26 @@
 <%@ page pageEncoding="UTF-8" %>
-<nav class="bg-card border-b border-border shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <div class="flex-shrink-0 flex items-center">
-                    <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+<nav class="glass border-bottom sticky-top z-3">
+    <div class="container-fluid max-w-7xl mx-auto px-4">
+        <div class="d-flex justify-content-between align-items-center" style="height: 4rem;">
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center me-2 bg-emerald-100 text-emerald" style="width: 2rem; height: 2rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
+                            <path d="M15 18H9" />
+                            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
+                            <circle cx="7" cy="18" r="2" />
+                            <circle cx="17" cy="18" r="2" />    </svg>
                     </div>
-                    <span class="font-bold text-xl tracking-tight text-foreground">NutriLog</span>
+                    <span class="fw-bold fs-4 tracking-tight text-dark">NutriLog</span>
                 </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-sm text-muted-foreground hidden sm:inline-block">
+            <div class="d-flex align-items-center gap-3">
+                <span class="small text-secondary d-none d-sm-inline-block">
                     Halo, ${sessionScope.user.nama}
                 </span>
                 <a href="${pageContext.request.contextPath}/logout" 
-                   class="inline-flex items-center px-4 py-2 border border-input text-sm font-medium rounded-md text-foreground bg-background hover:bg-accent/50 transition-colors">
+                   class="btn btn-glass btn-sm d-flex align-items-center text-dark">
                     Logout
                 </a>
             </div>

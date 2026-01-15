@@ -15,10 +15,10 @@
         <%@ include file="../header.jspf" %>
     </head>
 
-    <body class="bg-background min-h-screen">
+    <body class="bg-light min-vh-100">
         <%@ include file="../navbar.jspf" %>
 
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <main class="container py-5 d-flex flex-column gap-4">
             <% List<Delivery> deliveries = (List<Delivery>) request.getAttribute("deliveries");
                 int total = deliveries.size();
                 int completed = 0;
@@ -42,19 +42,19 @@
 
             <!-- Header -->
             <div
-                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
                 <div>
-                    <h1 class="text-3xl font-bold">Dashboard Dapur</h1>
-                    <p class="text-muted-foreground mt-1">
+                    <h1 class="h2 fw-bold mb-1">Dashboard Dapur</h1>
+                    <p class="text-secondary mb-0">
                         <%= today%>
                     </p>
                 </div>
                 <a href="<%= request.getContextPath()%>/kitchen/delivery"
-                   class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-8 py-2 shadow-lg">
+                   class="btn btn-primary-custom d-inline-flex align-items-center shadow-lg px-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                          viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="2" stroke-linecap="round"
-                         stroke-linejoin="round" class="mr-2">
+                         stroke-linejoin="round" class="me-2">
                     <line x1="22" y1="2" x2="11" y2="13" />
                     <polygon points="22 2 15 22 11 13 2 9 22 2" />
                     </svg>
@@ -65,14 +65,13 @@
             <% if (currentHour >= 9) { %>
             <!-- Late Warning Banner -->
             <div
-                class="p-4 rounded-xl bg-warning/10 border border-warning/30 flex items-center gap-3 animate-fade-in">
-                <div
-                    class="w-10 h-10 rounded-full bg-warning/20 flex items-center justify-center">
+                class="alert alert-warning d-flex align-items-center gap-3 border-warning shadow-sm mb-0">
+                <div class="d-flex align-items-center justify-content-center flex-shrink-0 rounded-circle bg-white text-warning"
+                     style="width: 2.5rem; height: 2.5rem;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20"
                          height="20" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="2"
-                         stroke-linecap="round" stroke-linejoin="round"
-                         class="text-warning">
+                         stroke-linecap="round" stroke-linejoin="round">
                     <path
                         d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
                     <line x1="12" y1="9" x2="12" y2="13" />
@@ -80,119 +79,147 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="font-semibold text-warning-foreground">Peringatan:
-                        Sudah Lewat Jam 09:00</p>
-                    <p class="text-sm text-muted-foreground">Pengiriman setelah
-                        jam 09:00 akan ditandai sebagai terlambat</p>
+                    <h6 class="alert-heading fw-bold mb-0">Peringatan: Sudah
+                        Lewat Jam 09:00</h6>
+                    <p class="mb-0 small">Pengiriman setelah jam 09:00 akan
+                        ditandai sebagai terlambat</p>
                 </div>
             </div>
             <% }%>
 
             <!-- Stats Grid -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="row g-3">
                 <!-- Total -->
-                <div
-                    class="p-6 rounded-xl border bg-card text-card-foreground shadow-sm card-interactive">
-                    <div
-                        class="flex items-center justify-between space-y-0 pb-2">
-                        <p
-                            class="text-sm font-medium text-muted-foreground">
-                            Total Hari Ini</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                             height="20" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round"
-                             class="text-muted-foreground">
-                        <path
-                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                        <polyline
-                            points="3.27 6.96 12 12.01 20.73 6.96" />
-                        <line x1="12" y1="22.08" x2="12" y2="12" />
-                        </svg>
-                    </div>
-                    <div class="text-2xl font-bold">
-                        <%= total%>
+                <div class="col-6 col-lg-3">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <div
+                                class="d-flex align-items-center justify-content-between mb-2">
+                                <p
+                                    class="small fw-medium text-secondary mb-0">
+                                    Total Hari Ini</p>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="20" height="20"
+                                     viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="text-secondary">
+                                <path
+                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                <polyline
+                                    points="3.27 6.96 12 12.01 20.73 6.96" />
+                                <line x1="12" y1="22.08" x2="12"
+                                      y2="12" />
+                                </svg>
+                            </div>
+                            <h3 class="fw-bold mb-0">
+                                <%= total%>
+                            </h3>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Completed -->
-                <div
-                    class="p-6 rounded-xl border bg-card text-card-foreground shadow-sm card-interactive border-l-4 border-l-primary">
+                <div class="col-6 col-lg-3">
                     <div
-                        class="flex items-center justify-between space-y-0 pb-2">
-                        <p
-                            class="text-sm font-medium text-muted-foreground">
-                            Selesai</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                             height="20" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round"
-                             class="text-primary">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                        <polyline points="22 4 12 14.01 9 11.01" />
-                        </svg>
-                    </div>
-                    <div class="text-2xl font-bold text-primary">
-                        <%= completed%>
+                        class="card h-100 shadow-sm border-0 border-start border-4 border-success">
+                        <div class="card-body">
+                            <div
+                                class="d-flex align-items-center justify-content-between mb-2">
+                                <p
+                                    class="small fw-medium text-secondary mb-0">
+                                    Selesai</p>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="20" height="20"
+                                     viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="text-success">
+                                <path
+                                    d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline
+                                    points="22 4 12 14.01 9 11.01" />
+                                </svg>
+                            </div>
+                            <h3 class="fw-bold text-success mb-0">
+                                <%= completed%>
+                            </h3>
+                        </div>
                     </div>
                 </div>
 
                 <!-- In Progress -->
-                <div
-                    class="p-6 rounded-xl border bg-card text-card-foreground shadow-sm card-interactive border-l-4 border-l-warning">
+                <div class="col-6 col-lg-3">
                     <div
-                        class="flex items-center justify-between space-y-0 pb-2">
-                        <p
-                            class="text-sm font-medium text-muted-foreground">
-                            Dalam Perjalanan</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                             height="20" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round"
-                             class="text-warning">
-                        <rect width="16" height="13" x="1" y="6"
-                              rx="2" />
-                        <polygon points="17 6 23 11 23 19 17 19" />
-                        <circle cx="5.5" cy="18.5" r="2.5" />
-                        <circle cx="18.5" cy="18.5" r="2.5" />
-                        </svg>
-                    </div>
-                    <div class="text-2xl font-bold text-warning">
-                        <%= inProgress%>
+                        class="card h-100 shadow-sm border-0 border-start border-4 border-warning">
+                        <div class="card-body">
+                            <div
+                                class="d-flex align-items-center justify-content-between mb-2">
+                                <p
+                                    class="small fw-medium text-secondary mb-0">
+                                    Dalam Perjalanan</p>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="20" height="20"
+                                     viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="text-warning">
+                                <rect width="16" height="13" x="1" y="6"
+                                      rx="2" />
+                                <polygon
+                                    points="17 6 23 11 23 19 17 19" />
+                                <circle cx="5.5" cy="18.5" r="2.5" />
+                                <circle cx="18.5" cy="18.5" r="2.5" />
+                                </svg>
+                            </div>
+                            <h3 class="fw-bold text-warning mb-0">
+                                <%= inProgress%>
+                            </h3>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Issues -->
-                <div
-                    class="p-6 rounded-xl bg-card text-card-foreground shadow-sm card-interactive border-l-4 border-l-destructive border">
+                <div class="col-6 col-lg-3">
                     <div
-                        class="flex items-center justify-between space-y-0 pb-2">
-                        <p
-                            class="text-sm font-medium text-muted-foreground">
-                            Bermasalah</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                             height="20" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round"
-                             class="text-destructive">
-                        <path
-                            d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-                        <line x1="12" y1="9" x2="12" y2="13" />
-                        <line x1="12" y1="17" x2="12.01" y2="17" />
-                        </svg>
-                    </div>
-                    <div class="text-2xl font-bold text-destructive">
-                        <%= issues%>
+                        class="card h-100 shadow-sm border-0 border-start border-4 border-danger">
+                        <div class="card-body">
+                            <div
+                                class="d-flex align-items-center justify-content-between mb-2">
+                                <p
+                                    class="small fw-medium text-secondary mb-0">
+                                    Bermasalah</p>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="20" height="20"
+                                     viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="text-danger">
+                                <path
+                                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                                <line x1="12" y1="9" x2="12" y2="13" />
+                                <line x1="12" y1="17" x2="12.01"
+                                      y2="17" />
+                                </svg>
+                            </div>
+                            <h3 class="fw-bold text-danger mb-0">
+                                <%= issues%>
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Recent Deliveries -->
-            <div
-                class="rounded-xl border bg-card text-card-foreground shadow">
-                <div class="flex flex-col space-y-1.5 p-6">
+            <div class="card border-light shadow-sm rounded-4">
+                <div
+                    class="card-header bg-white border-bottom-0 pt-4 px-4 pb-0">
                     <h3
-                        class="font-semibold leading-none tracking-tight flex items-center gap-2">
+                        class="h5 fw-bold mb-1 d-flex align-items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20"
                              height="20" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2"
@@ -203,24 +230,23 @@
                         </svg>
                         Pengiriman Terbaru
                     </h3>
-                    <p class="text-sm text-muted-foreground">Daftar
-                        pengiriman hari ini</p>
+                    <p class="small text-secondary mb-0">Daftar pengiriman
+                        hari ini</p>
                 </div>
-                <div class="p-6 pt-0">
-                    <div class="space-y-3">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column gap-3">
                         <% if (deliveries.isEmpty()) { %>
-                        <div
-                            class="text-center py-8 text-muted-foreground">
+                        <div class="text-center py-5 text-secondary">
                             <p>Belum ada pengiriman hari ini</p>
                         </div>
                         <% } else { %>
                         <% for (Delivery d : deliveries) {%>
                         <div
-                            class="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                            class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light border">
                             <div
-                                class="flex items-center gap-3">
-                                <div
-                                    class="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
+                                class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center justify-content-center rounded-3 bg-emerald-100 text-emerald"
+                                     style="width: 2.5rem; height: 2.5rem;">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          width="20" height="20"
                                          viewBox="0 0 24 24"
@@ -228,8 +254,7 @@
                                          stroke="currentColor"
                                          stroke-width="2"
                                          stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         class="text-primary">
+                                         stroke-linejoin="round">
                                     <rect width="16"
                                           height="13" x="1"
                                           y="6" rx="2" />
@@ -242,28 +267,28 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-medium">
-                                        <%= d.getSchool().getNama()%>
+                                    <p class="fw-bold mb-0">
+                                        <%=d.getSchool().getNama()%>
                                     </p>
                                     <p
-                                        class="text-sm text-muted-foreground">
-                                        <%= d.getJumlahKirim()%> porsi
+                                        class="small text-secondary mb-0">
+                                        <%= d.getJumlahKirim()%>
+                                        porsi
                                     </p>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 
+                            <div class="text-end">
+                                <span class="badge rounded-pill
                                       <%= d.getStatusPengiriman() == DeliveryStatus.dikirim
-                                              ? "border-transparent bg-warning text-warning-foreground hover:bg-warning/80"
-                                              : d.getStatusPengiriman() == DeliveryStatus.diterima
-                                              ? "border-transparent bg-primary text-primary-foreground hover:bg-primary/80"
-                                              : "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80"%>">
-                                    <%= d.getStatusPengiriman().name()%>
+                                              ? " bg-warning text-dark" : d.getStatusPengiriman() == DeliveryStatus.diterima
+                                              ? "bg-success" : "bg-danger"%>">
+                                    <%=d.getStatusPengiriman().name()%>
                                 </span>
                                 <% if (d.getWaktuKirim() != null) {%>
                                 <p
-                                    class="text-xs text-muted-foreground mt-1">
-                                    Kirim: <%=d.getWaktuKirim().format(DateTimeFormatter.ofPattern("HH:mm"))%>
+                                    class="small text-secondary mt-1 mb-0">
+                                    Kirim:
+                                    <%=d.getWaktuKirim().format(DateTimeFormatter.ofPattern("HH:mm"))%>
                                 </p>
                                 <% } %>
                             </div>

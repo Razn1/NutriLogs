@@ -1,0 +1,188 @@
+:root {
+    --primary: #10B981;
+    --primary-hover: #059669;
+    --surface: #F9FAFB;
+    --text-primary: #111827;
+    --text-secondary: #4B5563;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--surface);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    color: var(--primary);
+}
+
+/* Updated Animated Mesh Gradient Background to Emerald Tones */
+.bg-mesh {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: #f9fafb;
+    background-image:
+        radial-gradient(at 0% 0%, hsla(161, 68%, 91%, 1) 0, transparent 50%),
+        radial-gradient(at 50% 0%, hsla(161, 68%, 95%, 1) 0, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(161, 68%, 91%, 1) 0, transparent 50%);
+    filter: blur(80px);
+    animation: meshMove 20s ease infinite alternate;
+}
+
+@keyframes meshMove {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary-custom {
+    background-color: var(--primary);
+    color: white !important;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+    border: none;
+    padding: 0.625rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid #E5E7EB;
+    padding: 0.625rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-glass:hover {
+    background: white;
+}
+
+.card-hover {
+    transition: transform 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.step-line {
+    position: relative;
+}
+
+.step-line::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: 40px;
+    height: 2px;
+    background: #E5E7EB;
+}
+
+@media (max-width: 768px) {
+    .step-line::after {
+        display: none;
+    }
+}
+
+/* Utility overrides to match design exactly */
+.text-emerald {
+    color: #10B981 !important;
+}
+
+.bg-emerald {
+    background-color: #10B981 !important;
+}
+
+.bg-emerald-50 {
+    background-color: #ECFDF5 !important;
+}
+
+.bg-emerald-100 {
+    background-color: #D1FAE5 !important;
+}
+
+.text-emerald-600 {
+    color: #059669 !important;
+}
+
+.text-emerald-700 {
+    color: #047857 !important;
+}
+
+.max-w-7xl {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rounded-xl {
+    border-radius: 0.75rem !important;
+}
+
+.rounded-2xl {
+    border-radius: 1rem !important;
+}
+
+.rounded-3xl {
+    border-radius: 1.5rem !important;
+}
+
+/* Font Sizes */
+.fs-7 {
+    font-size: 0.75rem;
+}
+
+/* xs */
+.display-custom {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+    .display-custom {
+        font-size: 3.75rem;
+    }
+}

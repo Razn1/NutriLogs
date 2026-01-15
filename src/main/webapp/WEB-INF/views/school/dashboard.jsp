@@ -13,45 +13,42 @@
         <%@ include file="../header.jspf" %>
     </head>
 
-    <body class="bg-background min-h-screen">
+    <body class="bg-light min-vh-100">
         <%@ include file="../navbar.jspf" %>
 
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <main class="container py-5">
             <!-- Header -->
-            <div>
-                <h1 class="text-3xl font-bold">Dashboard Sekolah</h1>
-                <p class="text-muted-foreground mt-1">Kelola penerimaan makanan</p>
+            <div class="mb-4">
+                <h1 class="h2 fw-bold">Dashboard Sekolah</h1>
+                <p class="text-secondary mt-1">Kelola penerimaan makanan</p>
             </div>
 
             <!-- Deliveries List -->
-            <div class="rounded-xl border bg-card text-card-foreground shadow">
-                <div class="flex flex-col space-y-1.5 p-6">
-                    <h3 class="font-semibold leading-none tracking-tight">Daftar Pengiriman Masuk
-                    </h3>
-                    <p class="text-sm text-muted-foreground">Konfirmasi penerimaan makanan yang tiba
-                    </p>
+            <div class="card border-light shadow-sm rounded-4">
+                <div class="card-header bg-white border-bottom-0 pt-4 px-4 pb-0">
+                    <h3 class="h5 fw-bold mb-1">Daftar Pengiriman Masuk</h3>
+                    <p class="small text-secondary mb-0">Konfirmasi penerimaan makanan yang tiba</p>
                 </div>
-                <div class="p-6 pt-0">
-                    <div class="space-y-4">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column gap-3">
                         <% List<Delivery> deliveries = (List<Delivery>) request.getAttribute("deliveries");
                             if (deliveries.isEmpty()) {
                         %>
-                        <div class="text-center py-12 text-muted-foreground">
+                        <div class="text-center py-5 text-secondary">
                             <p>Belum ada pengiriman untuk sekolah ini</p>
                         </div>
                         <% } else { %>
                         <% for (Delivery d : deliveries) {%>
                         <div
-                            class="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl border bg-muted/30 gap-4">
-                            <div class="flex items-start gap-4">
-                                <div
-                                    class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            class="d-flex flex-column flex-md-row align-items-md-center justify-content-between p-3 rounded-4 border bg-light gap-3">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="d-flex align-items-center justify-content-center flex-shrink-0 rounded-circle bg-emerald-100 text-emerald"
+                                     style="width: 3rem; height: 3rem;">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor"
                                          stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         class="text-primary">
+                                         stroke-linejoin="round">
                                     <rect width="16" height="13" x="1" y="6"
                                           rx="2" />
                                     <polygon points="17 6 23 11 23 19 17 19" />
@@ -60,27 +57,29 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-semibold text-lg">Pengiriman
+                                    <div
+                                        class="d-flex align-items-center gap-2 mb-1">
+                                        <h4 class="fw-bold fs-6 mb-0">Pengiriman
                                             dari <%= d.getKitchen().getNama()%>
                                         </h4>
-                                        <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+                                        <span class="badge rounded-pill
                                               <%= d.getStatusPengiriman() == DeliveryStatus.dikirim
-                                                      ? "border-transparent bg-warning text-warning-foreground"
+                                                      ? " bg-warning text-dark"
                                                       : d.getStatusPengiriman() == DeliveryStatus.diterima
-                                                      ? "border-transparent bg-primary text-primary-foreground"
-                                                      : "border-transparent bg-destructive text-destructive-foreground"%>">
-                                            <%= d.getStatusPengiriman().name().toUpperCase()%>
+                                                      ? "bg-success" : "bg-danger"%>">
+                                            <%=d.getStatusPengiriman().name().toUpperCase()%>
                                         </span>
                                     </div>
-                                    <div
-                                        class="text-sm text-muted-foreground space-y-1">
-                                        <p>Kendaraan: <%=d.getVehicle().getNamaKendaraan()%>
-                                            (<%= d.getVehicle().getPlatNomor()%>)</p>
-                                        <p>Jumlah Kirim: <%= d.getJumlahKirim()%>
+                                    <div class="small text-secondary">
+                                        <p class="mb-0">Kendaraan:
+                                            <%=d.getVehicle().getNamaKendaraan()%>
+                                            (<%= d.getVehicle().getPlatNomor()%>
+                                            )</p>
+                                        <p class="mb-0">Jumlah Kirim: <%=d.getJumlahKirim()%>
                                             porsi</p>
                                             <% if (d.getWaktuKirim() != null) {%>
-                                        <p>Waktu Kirim: <%=d.getWaktuKirim().format(DateTimeFormatter.ofPattern("HH:mm"))%>
+                                        <p class="mb-0">Waktu Kirim:
+                                            <%=d.getWaktuKirim().format(DateTimeFormatter.ofPattern("HH:mm"))%>
                                         </p>
                                         <% } %>
                                     </div>
@@ -89,21 +88,22 @@
 
                             <% if (d.getStatusPengiriman() == DeliveryStatus.dikirim) {%>
                             <a href="<%= request.getContextPath()%>/school/confirm?id=<%= d.getId()%>"
-                               class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 shadow-sm">
+                               class="btn btn-primary-custom btn-sm d-inline-flex align-items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      width="16" height="16" viewBox="0 0 24 24"
                                      fill="none" stroke="currentColor"
                                      stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round" class="mr-2">
+                                     stroke-linejoin="round" class="me-2">
                                 <polyline points="20 6 9 17 4 12" />
                                 </svg>
                                 Konfirmasi Terima
                             </a>
                             <% } else if (d.getStatusPengiriman() == DeliveryStatus.diterima
                                                                             || d.getStatusPengiriman() == DeliveryStatus.bermasalah) {%>
-                            <div class="text-right text-sm">
-                                    <p class="font-medium">Diterima: <%=d.getJumlahTerima()%> porsi</p>
-                                <p class="text-muted-foreground">Kualitas:
+                            <div class="text-md-end text-start small">
+                                <p class="fw-medium mb-0">Diterima:
+                                    <%=d.getJumlahTerima()%> porsi</p>
+                                <p class="text-secondary mb-0">Kualitas:
                                     <%= d.getKualitasMakanan().name()%>
                                 </p>
                             </div>
