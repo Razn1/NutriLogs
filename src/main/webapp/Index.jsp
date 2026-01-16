@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="d-none d-md-flex align-items-center gap-4 small fw-medium text-secondary">
-                    <a href="index.jsp" class="text-decoration-none text-emerald fw-bold transition">Beranda</a>
+                    <a href="${pageContext.request.contextPath}/" class="text-decoration-none text-emerald fw-bold transition">Beranda</a>
                     <a href="about.jsp"
                         class="text-decoration-none text-secondary hover:text-emerald transition">Tentang Kami</a>
                     <a href="gallery.jsp"
@@ -56,7 +56,7 @@
             <!-- Mobile Menu Placeholder -->
             <div class="collapse d-md-none glass border-top border-light p-3" id="mobileMenu">
                 <div class="d-flex flex-column gap-3">
-                    <a href="index.jsp" class="text-emerald fw-bold">Beranda</a>
+                    <a href="${pageContext.request.contextPath}/" class="text-emerald fw-bold">Beranda</a>
                     <a href="about.jsp" class="text-secondary fw-bold">Tentang Kami</a>
                     <a href="gallery.jsp" class="text-secondary fw-bold">Galeri</a>
                     <a href="tolog.jsp" class="btn-primary-custom text-center">Masuk Sistem</a>
@@ -381,11 +381,8 @@
                     <!-- Developer 1 -->
                     <div class="text-center group">
                         <div class="position-relative mx-auto mb-3" style="width: 8rem; height: 8rem;">
-                            <div
-                                class="position-absolute w-100 h-100 bg-white rounded-circle border border-2 border-emerald-500 d-flex align-items-center justify-content-center overflow-hidden">
-                                <i data-lucide="user" class="text-emerald opacity-20"
-                                    style="width: 4rem; height: 4rem;"></i>
-                            </div>
+                            <img src="img/faisa.jpeg" alt="Faisa Al Farrel" class="rounded-circle"
+                                style="width: 8rem; height: 8rem;">
                         </div>
                         <h5 class="fw-bold text-dark mb-0">Faisa Al Farrel</h5>
                         <p class="small fw-medium text-uppercase mb-0">0110224149</p>
@@ -397,11 +394,11 @@
                         <div class="position-relative mx-auto mb-3" style="width: 8rem; height: 8rem;">
                             <div
                                 class="position-absolute w-100 h-100 bg-white rounded-circle border border-2 border-emerald-500 d-flex align-items-center justify-content-center overflow-hidden">
-                                <i data-lucide="user" class="text-emerald opacity-20"
-                                    style="width: 4rem; height: 4rem;"></i>
+                                <img src="img/jibril.png" alt="Faisa Al Farrel" class="rounded-circle"
+                                style="width: 8rem; height: 8rem;">
                             </div>
                         </div>
-                        <h5 class="fw-bold text-dark mb-0">Muhammad Jibril Ibrahim</h5>
+                        <h5 class="fw-bold text-dark mb-0">Jibril Ibrahim</h5>
                         <p class="small fw-medium text-uppercase mb-0">0110224002</p>
                         <p class="small text-emerald fw-bold text-uppercase">BackEnd</p>
                     </div>
@@ -411,8 +408,8 @@
                         <div class="position-relative mx-auto mb-3" style="width: 8rem; height: 8rem;">
                             <div
                                 class="position-absolute w-100 h-100 bg-white rounded-circle border border-2 border-emerald-500 d-flex align-items-center justify-content-center overflow-hidden">
-                                <i data-lucide="user" class="text-emerald opacity-20"
-                                    style="width: 4rem; height: 4rem;"></i>
+                                <img src="img/tri.jpeg" alt="Faisa Al Farrel" class="rounded-circle"
+                                style="width: 8rem; height: 8rem;">
                             </div>
                         </div>
                         <h5 class="fw-bold text-dark mb-0">Tri Nurjulyanti</h5>
@@ -425,8 +422,8 @@
                         <div class="position-relative mx-auto mb-3" style="width: 8rem; height: 8rem;">
                             <div
                                 class="position-absolute w-100 h-100 bg-white rounded-circle border border-2 border-emerald-500 d-flex align-items-center justify-content-center overflow-hidden">
-                                <i data-lucide="user" class="text-emerald opacity-20"
-                                    style="width: 4rem; height: 4rem;"></i>
+                                <img src="img/faisa.jpeg" alt="Faisa Al Farrel" class="rounded-circle"
+                                style="width: 8rem; height: 8rem;">
                             </div>
                         </div>
                         <h5 class="fw-bold text-dark mb-0">Fi'adn Fawzul Adzhim</h5>
@@ -439,8 +436,8 @@
                         <div class="position-relative mx-auto mb-3" style="width: 8rem; height: 8rem;">
                             <div
                                 class="position-absolute w-100 h-100 bg-white rounded-circle border border-2 border-emerald-500 d-flex align-items-center justify-content-center overflow-hidden">
-                                <i data-lucide="user" class="text-emerald opacity-20"
-                                    style="width: 4rem; height: 4rem;"></i>
+                                <img src="img/azzam.jpeg" alt="Faisa Al Farrel" class="rounded-circle"
+                                style="width: 8rem; height: 8rem;">
                             </div>
                         </div>
                         <h5 class="fw-bold text-dark mb-0">Azzam Firdaus</h5>
@@ -457,9 +454,9 @@
                 class="max-w-7xl mx-auto d-flex flex-column flex-md-row justify-content-between align-items-center gap-4">
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        <div class="bg-emerald-600 rounded d-flex align-items-center justify-content-center text-white"
-                            style="width: 32px; height: 32px;">
-                            <i data-lucide="truck" style="width: 16px; height: 16px;"></i>
+                        <div class="bg-emerald rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0"
+                            style="width: 40px; height: 40px;">
+                            <i data-lucide="truck"></i>
                         </div>
                         <span class="fs-5 fw-bold">NutriLog</span>
                     </div>
@@ -492,7 +489,7 @@
         </footer>
 
         <!-- Initialize Scripts -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script>
             // Initialize Lucide Icons
             lucide.createIcons();
