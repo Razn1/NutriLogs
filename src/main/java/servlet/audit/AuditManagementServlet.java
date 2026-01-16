@@ -19,15 +19,18 @@ public class AuditManagementServlet extends HttpServlet {
 
     private SchoolDAO schoolDAO = new SchoolDAO();
     private VehicleDAO vehicleDAO = new VehicleDAO();
+    private dao.UserDAO userDAO = new dao.UserDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             List<School> schools = schoolDAO.findAll();
             List<Vehicle> vehicles = vehicleDAO.findAll();
+            List<model.User> users = userDAO.findAll();
 
             req.setAttribute("schools", schools);
             req.setAttribute("vehicles", vehicles);
+            req.setAttribute("users", users);
 
             req.getRequestDispatcher("/WEB-INF/views/audit/management.jsp").forward(req, resp);
         } catch (SQLException e) {
@@ -52,6 +55,12 @@ public class AuditManagementServlet extends HttpServlet {
                 updateVehicle(req);
             } else if ("deleteVehicle".equals(action)) {
                 deleteVehicle(req);
+            } else if ("addUser".equals(action)) {
+                addUser(req);
+            } else if ("updateUser".equals(action)) {
+                updateUser(req);
+            } else if ("deleteUser".equals(action)) {
+                deleteUser(req);
             }
         } catch (SQLException e) {
             throw new ServletException("Database error processing action: " + action, e);
@@ -106,5 +115,30 @@ public class AuditManagementServlet extends HttpServlet {
     private void deleteVehicle(HttpServletRequest req) throws SQLException {
         String id = req.getParameter("id");
         vehicleDAO.delete(id);
+    }
+
+    private void addUser(HttpServletRequest req) throws SQLException {
+        model.User u = new model.User();
+        u.setId(req.getParameter("id"));
+        u.setNama(req.getParameter("nama"));
+        u.setEmail(req.getParameter("email"));
+        u.setPassword(req.getParameter("password")); // Note: In real app, hash this!
+        u.setRole(model.enums.UserRole.valueOf(req.getParameter("role")));
+        userDAO.insert(u);
+    }
+
+    private void updateUser(HttpServletRequest req) throws SQLException {
+        model.User u = new model.User();
+        u.setId(req.getParameter("id"));
+        u.setNama(req.getParameter("nama"));
+        u.setEmail(req.getParameter("email"));
+        u.setPassword(req.getParameter("password")); // Note: In real app, hash this!
+        u.setRole(model.enums.UserRole.valueOf(req.getParameter("role")));
+        userDAO.update(u);
+    }
+
+    private void deleteUser(HttpServletRequest req) throws SQLException {
+        String id = req.getParameter("id");
+        userDAO.delete(id);
     }
 }
