@@ -63,7 +63,7 @@
         <nav class="fixed-top w-100 glass border-bottom border-light" style="z-index: 1050;">
             <div class="max-w-7xl px-4 d-flex align-items-center justify-content-between" style="height: 80px;">
                 <div class="d-flex align-items-center gap-3">
-                    <a href="index.jsp" class="d-flex align-items-center gap-3 text-decoration-none text-dark">
+                    <a href="${pageContext.request.contextPath}/" class="d-flex align-items-center gap-3 text-decoration-none text-dark">
                         <div class="bg-emerald rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0"
                             style="width: 40px; height: 40px;">
                             <i data-lucide="truck"></i>
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="d-none d-md-flex align-items-center gap-4 small fw-medium text-secondary">
-                    <a href="index.jsp"
+                    <a href="${pageContext.request.contextPath}/"
                         class="text-decoration-none text-secondary hover:text-emerald transition">Beranda</a>
                     <a href="about.jsp"
                         class="text-decoration-none text-secondary hover:text-emerald transition">Tentang Kami</a>
@@ -95,7 +95,7 @@
             <!-- Mobile Menu Placeholder -->
             <div class="collapse d-md-none glass border-top border-light p-3" id="mobileMenu">
                 <div class="d-flex flex-column gap-3">
-                    <a href="index.jsp" class="text-secondary fw-bold">Beranda</a>
+                    <a href="${pageContext.request.contextPath}/" class="text-secondary fw-bold">Beranda</a>
                     <a href="about.jsp" class="text-secondary fw-bold">Tentang Kami</a>
                     <a href="gallery.jsp" class="text-emerald fw-bold">Galeri</a>
                     <a href="tolog.jsp" class="btn-primary-custom text-center">Masuk Sistem</a>
@@ -121,73 +121,61 @@
                 <div class="row g-4">
                     <!-- Gallery Item 1 -->
                     <div class="col-md-4">
-                        <div
-                            class="gallery-item shadow-sm border border-light bg-light d-flex align-items-center justify-content-center text-secondary">
-                            <div class="text-center p-4">
-                                <i data-lucide="chef-hat" style="width: 48px; height: 48px;"
-                                    class="mb-3 text-emerald opacity-50"></i>
-                                <h5 class="fw-bold fs-6">Persiapan di Dapur Pusat</h5>
+                        <div class="gallery-item shadow-sm border border-light">
+                            <img src="img/mbg1.jpeg" alt="Persiapan di Dapur Pusat">
+                            <div class="gallery-caption">
+                                <h5 class="fw-bold fs-6 mb-1">Persiapan di Dapur Pusat</h5>
                                 <p class="small mb-0">Proses memasak yang higienis</p>
                             </div>
                         </div>
                     </div>
                     <!-- Gallery Item 2 -->
                     <div class="col-md-4">
-                        <div
-                            class="gallery-item shadow-sm border border-light bg-light d-flex align-items-center justify-content-center text-secondary">
-                            <div class="text-center p-4">
-                                <i data-lucide="truck" style="width: 48px; height: 48px;"
-                                    class="mb-3 text-emerald opacity-50"></i>
-                                <h5 class="fw-bold fs-6">Armada Distribusi</h5>
+                        <div class="gallery-item shadow-sm border border-light">
+                            <img src="img/mbg2.jpg" alt="Armada Distribusi">
+                            <div class="gallery-caption">
+                                <h5 class="fw-bold fs-6 mb-1">Armada Distribusi</h5>
                                 <p class="small mb-0">Pengiriman tepat waktu</p>
                             </div>
                         </div>
                     </div>
                     <!-- Gallery Item 3 -->
                     <div class="col-md-4">
-                        <div
-                            class="gallery-item shadow-sm border border-light bg-light d-flex align-items-center justify-content-center text-secondary">
-                            <div class="text-center p-4">
-                                <i data-lucide="school" style="width: 48px; height: 48px;"
-                                    class="mb-3 text-emerald opacity-50"></i>
-                                <h5 class="fw-bold fs-6">Penerimaan di Sekolah</h5>
+                        <div class="gallery-item shadow-sm border border-light">
+                            <img src="img/mbg3.jpg" alt="Penerimaan di Sekolah">
+                            <div class="gallery-caption">
+                                <h5 class="fw-bold fs-6 mb-1">Penerimaan di Sekolah</h5>
                                 <p class="small mb-0">Siswa menerima paket makan siang</p>
                             </div>
                         </div>
                     </div>
                     <!-- Gallery Item 4 -->
                     <div class="col-md-4">
-                        <div
-                            class="gallery-item shadow-sm border border-light bg-light d-flex align-items-center justify-content-center text-secondary">
-                            <div class="text-center p-4">
-                                <i data-lucide="check-circle" style="width: 48px; height: 48px;"
-                                    class="mb-3 text-emerald opacity-50"></i>
-                                <h5 class="fw-bold fs-6">Validasi Kualitas</h5>
-                                <p class="small mb-0">Pengecekan standar gizi</p>
+                        <div class="gallery-item shadow-sm border border-light">
+                            <img src="img/audit.png" alt="Dashboard Audit">
+                            <div class="gallery-caption">
+                                <h5 class="fw-bold fs-6 mb-1">Dashboard Audit</h5>
+                                <p class="small mb-0">Monitoring validasi kualitas</p>
                             </div>
                         </div>
                     </div>
                     <!-- Gallery Item 5 -->
                     <div class="col-md-4">
-                        <div
-                            class="gallery-item shadow-sm border border-light bg-light d-flex align-items-center justify-content-center text-secondary">
-                            <div class="text-center p-4">
-                                <i data-lucide="users" style="width: 48px; height: 48px;"
-                                    class="mb-3 text-emerald opacity-50"></i>
-                                <h5 class="fw-bold fs-6">Tim Lapangan</h5>
-                                <p class="small mb-0">Koordinasi tim di lokasi</p>
+                        <div class="gallery-item shadow-sm border border-light">
+                            <img src="img/dapur.png" alt="Dashboard Dapur">
+                            <div class="gallery-caption">
+                                <h5 class="fw-bold fs-6 mb-1">Dashboard Dapur</h5>
+                                <p class="small mb-0">Manajemen operasional dapur</p>
                             </div>
                         </div>
                     </div>
                     <!-- Gallery Item 6 -->
                     <div class="col-md-4">
-                        <div
-                            class="gallery-item shadow-sm border border-light bg-light d-flex align-items-center justify-content-center text-secondary">
-                            <div class="text-center p-4">
-                                <i data-lucide="smile" style="width: 48px; height: 48px;"
-                                    class="mb-3 text-emerald opacity-50"></i>
-                                <h5 class="fw-bold fs-6">Senyum Siswa</h5>
-                                <p class="small mb-0">Dampak positif program</p>
+                        <div class="gallery-item shadow-sm border border-light">
+                            <img src="img/sekolah.png" alt="Dashboard Sekolah">
+                            <div class="gallery-caption">
+                                <h5 class="fw-bold fs-6 mb-1">Dashboard Sekolah</h5>
+                                <p class="small mb-0">Pemantauan distribusi sekolah</p>
                             </div>
                         </div>
                     </div>
