@@ -40,10 +40,26 @@
         %>
 
         <main class="container py-5 d-flex flex-column gap-4">
-            <div>
-                <h1 class="h2 fw-bold mb-1">Dashboard Audit</h1>
-                <p class="text-secondary mb-0">Monitoring kepatuhan dan
-                    kualitas pengiriman</p>
+            <div
+                class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                <div>
+                    <h1 class="h2 fw-bold mb-1">Dashboard Audit</h1>
+                    <p class="text-secondary mb-0">Monitoring kepatuhan dan
+                        kualitas pengiriman</p>
+                </div>
+                <a href="<%= request.getContextPath()%>/audit/management"
+                   class="btn btn-primary-custom d-inline-flex align-items-center shadow-lg px-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                         height="20" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         class="me-2">
+                    <path d="M3 21h18" />
+                    <path d="M5 21V7l8-4 8 4v14" />
+                    <path d="M17 21v-8H7v8" />
+                    </svg>
+                    Kelola Data Sekolah & Kendaraan
+                </a>
             </div>
 
 
@@ -210,7 +226,7 @@
                                     <p
                                         class="small text-secondary mb-0">
                                         Kirim:
-                                        <%= d.getWaktuKirim().format(DateTimeFormatter.ofPattern("HH:mm"))%>
+                                        <%=d.getWaktuKirim().format(DateTimeFormatter.ofPattern("HH:mm"))%>
                                     </p>
                                     <% }%>
                                 </td>
@@ -231,7 +247,7 @@
                                 <td class="px-4 py-3">
                                     <div>
                                         <p class="fw-medium mb-0">
-                                            <%= d.getStatusPengiriman()%>
+                                            <%=d.getStatusPengiriman()%>
                                         </p>
                                         <p
                                             class="small text-secondary mb-0">
@@ -245,15 +261,16 @@
                                     %>
                                     <div>
                                         <p class="fw-medium mb-0">
-                                            <%= d.getWaktuTerima().format(DateTimeFormatter.ofPattern("HH:mm"))%>
+                                            <%=d.getWaktuTerima().format(DateTimeFormatter.ofPattern("HH:mm"))%>
                                         </p>
                                         <p
                                             class="small text-secondary mb-0">
-                                            Qty: <%=d.getJumlahTerima()%>
+                                            Qty:
+                                            <%=d.getJumlahTerima()%>
                                         </p>
-                                        <p class="small fw-bold mb-0 <%= flags.hasBadQuality ? "                                                                        text - danger"
-                                                   : "text-success"%>">
-                                            <%= d.getKualitasMakanan()%>
+                                           <p class="small fw-bold mb-0 <%= flags.hasBadQuality ? "text - danger"
+                                                : "text-success"%>">
+                                            <%=d.getKualitasMakanan()%>
                                         </p>
                                     </div>
                                     <% } else { %>
@@ -292,7 +309,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            <% } // End For Loop
+                            <% } // End For Loop 
                             } else { // Handle empty list %>
                             <tr>
                                 <td colspan="6"

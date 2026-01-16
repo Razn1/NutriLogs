@@ -49,4 +49,37 @@ public class SchoolDAO {
         s.setJumlahSiswa(rs.getInt("jumlah_siswa"));
         return s;
     }
+
+    public void insert(School school) throws SQLException {
+        String sql = "INSERT INTO schools (id, nama, alamat, jumlah_siswa) VALUES (?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, school.getId());
+            pstmt.setString(2, school.getNama());
+            pstmt.setString(3, school.getAlamat());
+            pstmt.setInt(4, school.getJumlahSiswa());
+            pstmt.executeUpdate();
+        }
+    }
+
+    public void update(School school) throws SQLException {
+        String sql = "UPDATE schools SET nama = ?, alamat = ?, jumlah_siswa = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, school.getNama());
+            pstmt.setString(2, school.getAlamat());
+            pstmt.setInt(3, school.getJumlahSiswa());
+            pstmt.setString(4, school.getId());
+            pstmt.executeUpdate();
+        }
+    }
+
+    public void delete(String id) throws SQLException {
+        String sql = "DELETE FROM schools WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, id);
+            pstmt.executeUpdate();
+        }
+    }
 }
