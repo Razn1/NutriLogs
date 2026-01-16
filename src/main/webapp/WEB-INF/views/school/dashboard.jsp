@@ -3,6 +3,26 @@
 <%@ page import="model.Delivery" %>
 <%@ page import="model.enums.DeliveryStatus" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="model.User" %>
+<%@ page import="model.enums.UserRole" %>
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+<%@ page import="jakarta.servlet.http.HttpServletResponse" %>
+
+<%
+    HttpSession sessionUser = request.getSession(false);
+    if (sessionUser == null || sessionUser.getAttribute("user") == null) {
+        response.sendRedirect(request.getContextPath() + "/login");
+        return;
+    }
+
+    User user = (User) sessionUser.getAttribute("user");
+    if (user.getRole() != model.enums.UserRole.petugas_sekolah) {
+        response.sendError(HttpServletResponse.SC_FORBIDDEN,
+                "Anda tidak memiliki akses ke halaman ini");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="id">
 

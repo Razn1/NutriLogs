@@ -7,6 +7,26 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="model.User" %>
+<%@ page import="model.enums.UserRole" %>
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+<%@ page import="jakarta.servlet.http.HttpServletResponse" %>
+
+<%
+    HttpSession sessionUser = request.getSession(false);
+    if (sessionUser == null || sessionUser.getAttribute("user") == null) {
+        response.sendRedirect(request.getContextPath() + "/login");
+        return;
+    }
+
+    User user = (User) sessionUser.getAttribute("user");
+    if (user.getRole() != model.enums.UserRole.admin_audit) {
+        response.sendError(HttpServletResponse.SC_FORBIDDEN,
+                "Anda tidak memiliki akses ke halaman ini");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -58,7 +78,7 @@
                     <path d="M5 21V7l8-4 8 4v14" />
                     <path d="M17 21v-8H7v8" />
                     </svg>
-                    Kelola Data Sekolah & Kendaraan
+                    Kelola Data Sekolah, Kendaraan & User
                 </a>
             </div>
 

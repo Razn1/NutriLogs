@@ -43,7 +43,7 @@
 
                         <div class="mb-1">
                             <label for="password" class="form-label small fw-medium">Password</label>
-                            <input type="password" id="password" name="password" required class="form-control">
+                            <input type="password" id="password" name="password" required class="form-control" placeholder="********">
                         </div>
 
                         <button type="submit" class="btn btn-primary-custom w-100 py-2 mt-2 shadow-sm">
