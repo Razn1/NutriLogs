@@ -63,7 +63,8 @@
         <nav class="fixed-top w-100 glass border-bottom border-light" style="z-index: 1050;">
             <div class="max-w-7xl px-4 d-flex align-items-center justify-content-between" style="height: 80px;">
                 <div class="d-flex align-items-center gap-3">
-                    <a href="${pageContext.request.contextPath}/" class="d-flex align-items-center gap-3 text-decoration-none text-dark">
+                    <a href="${pageContext.request.contextPath}/"
+                        class="d-flex align-items-center gap-3 text-decoration-none text-dark">
                         <div class="bg-emerald rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0"
                             style="width: 40px; height: 40px;">
                             <i data-lucide="truck"></i>
@@ -189,9 +190,9 @@
                 class="max-w-7xl mx-auto d-flex flex-column flex-md-row justify-content-between align-items-center gap-4">
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        <div class="bg-emerald-600 rounded d-flex align-items-center justify-content-center text-white"
-                            style="width: 32px; height: 32px;">
-                            <i data-lucide="truck" style="width: 16px; height: 16px;"></i>
+                        <div class="bg-emerald rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0"
+                            style="width: 40px; height: 40px;">
+                            <i data-lucide="truck"></i>
                         </div>
                         <span class="fs-5 fw-bold">NutriLog</span>
                     </div>

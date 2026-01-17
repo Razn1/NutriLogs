@@ -172,7 +172,7 @@
                         <div class="position-relative mx-auto mb-3" style="width: 8rem; height: 8rem;">
                             <div
                                 class="position-absolute w-100 h-100 bg-white rounded-circle border border-2 border-emerald-500 d-flex align-items-center justify-content-center overflow-hidden">
-                                <img src="img/jibril.png" alt="Faisa Al Farrel" class="rounded-circle"
+                                <img src="img/jibril.png" alt="Jibril Ibrahim" class="rounded-circle"
                                 style="width: 8rem; height: 8rem;">
                             </div>
                         </div>
@@ -186,7 +186,7 @@
                         <div class="position-relative mx-auto mb-3" style="width: 8rem; height: 8rem;">
                             <div
                                 class="position-absolute w-100 h-100 bg-white rounded-circle border border-2 border-emerald-500 d-flex align-items-center justify-content-center overflow-hidden">
-                                <img src="img/tri.jpeg" alt="Faisa Al Farrel" class="rounded-circle"
+                                <img src="img/tri.jpeg" alt="Tri Nurjulyanti" class="rounded-circle"
                                 style="width: 8rem; height: 8rem;">
                             </div>
                         </div>
@@ -200,7 +200,7 @@
                         <div class="position-relative mx-auto mb-3" style="width: 8rem; height: 8rem;">
                             <div
                                 class="position-absolute w-100 h-100 bg-white rounded-circle border border-2 border-emerald-500 d-flex align-items-center justify-content-center overflow-hidden">
-                                <img src="img/faisa.jpeg" alt="Faisa Al Farrel" class="rounded-circle"
+                                <img src="img/fiadn.JPEG" alt="Fi'adn Fawzul Adzhim" class="rounded-circle"
                                 style="width: 8rem; height: 8rem;">
                             </div>
                         </div>
@@ -214,7 +214,7 @@
                         <div class="position-relative mx-auto mb-3" style="width: 8rem; height: 8rem;">
                             <div
                                 class="position-absolute w-100 h-100 bg-white rounded-circle border border-2 border-emerald-500 d-flex align-items-center justify-content-center overflow-hidden">
-                                <img src="img/azzam.jpeg" alt="Faisa Al Farrel" class="rounded-circle"
+                                <img src="img/azzam.jpeg" alt="Azzam Firdaus" class="rounded-circle"
                                 style="width: 8rem; height: 8rem;">
                             </div>
                         </div>
